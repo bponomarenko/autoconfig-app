@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
       // Validation error should be shown just once
       this.envService.onValidationError.unsubscribe();
     });
-    console.log('test');
   }
 
   ngOnInit() {
