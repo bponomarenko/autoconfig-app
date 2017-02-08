@@ -37,7 +37,7 @@ export class EnvironmentsComponent implements AfterContentInit {
     private notifications: NotificationsService) {
     this.user = this.userService.getUser();
 
-    this.userService.userChange.subscribe((user: User) => {
+    this.userService.onUserChange.subscribe((user: User) => {
       this.user = new User(user);
     });
   }

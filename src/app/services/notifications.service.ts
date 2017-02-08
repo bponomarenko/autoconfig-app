@@ -1,12 +1,11 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Notification, NotificationType } from '../types/notification';
 
-@Injectable()
 export class NotificationsService {
   private notifications: Notification[];
 
-  @Output() onNotificationsUpdate: EventEmitter<Notification[]>;
+  onNotificationsUpdate: EventEmitter<Notification[]>;
 
   constructor() {
     this.notifications = [];

@@ -34,19 +34,19 @@ export class HeaderComponent implements AfterContentInit {
       user: new User()
     };
 
-    this.userService.userChange.subscribe((user: User) => {
-      this.user = new User(user);
-    });
+    // this.userService.onUserChange.subscribe((user: User) => {
+    //   this.user = new User(user);
+    // });
   }
 
   ngAfterContentInit() {
-    this.dialog.onShow.subscribe(() => {
-      this.formData.user = new User(this.user);
-    });
+    // this.dialog.onShow.subscribe(() => {
+    //   this.formData.user = new User(this.user);
+    // });
 
-    this.dialog.onHidden.subscribe(() => {
-      this.form.reset();
-    });
+    // this.dialog.onHidden.subscribe(() => {
+    //   this.form.reset();
+    // });
   }
 
   get isUserModified(): boolean {

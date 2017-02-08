@@ -1,4 +1,4 @@
-import { EventEmitter, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 
 import { User } from '../types/user';
 
@@ -8,7 +8,7 @@ export class UserService {
   private user: User;
   private storage = localStorage;
 
-  @Output() userChange: EventEmitter<User>;
+  onUserChange: EventEmitter<User>;
 
   constructor() {
     const userString = this.storage.getItem(USER_KEY);
@@ -21,7 +21,7 @@ export class UserService {
     }
 
     this.user = new User(user);
-    this.userChange = new EventEmitter<User>();
+    this.onUserChange = new EventEmitter<User>();
   }
 
   getUser(): User {
@@ -31,6 +31,6 @@ export class UserService {
   setUser(user: User) {
     this.user = new User(user);
     this.storage.setItem(USER_KEY, JSON.stringify(this.user));
-    this.userChange.emit(this.user);
+    this.onUserChange.emit(this.user);
   }
 }

@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/toPromise';
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
 import { validate } from 'jsonschema';
 
@@ -14,7 +14,7 @@ const BASE_URL = 'https://autoconfig.backbase.com/api/';
 
 @Injectable()
 export class EnvironmentsService {
-  @Output() onValidationError: EventEmitter<string[]>;
+  onValidationError: EventEmitter<string[]>;
 
   constructor(private http: Http) {
     this.onValidationError = new EventEmitter<string[]>();
