@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "owner": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "email": { "type": "string" }
+        },
+        "required": ["name", "email"]
+      },
+      "public": { "type": "boolean" },
+      "expire_at": { "type": "string" },
+      "stack": { "type": "string" },
+      "config": {
+        "type": "object",
+        "properties": {
+          "keep": {
+            "type": "string",
+            "enum": ["yes", "no"]
+          },
+          "required": ["keep"]
+        }
+      }
+    },
+    "required": ["name", "owner", "stack", "expire_at", "config"]
+  }
+}

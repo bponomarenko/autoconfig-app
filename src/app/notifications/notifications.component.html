@@ -1,0 +1,9 @@
+<alert
+  class="d-block"
+  *ngFor="let notification of notifications; trackBy:notification?.id"
+  dismissible="true"
+  [type]="getAlertType(notification.type)"
+  [dismissOnTimeout]="getDismissTimeout(notification.type)"
+  (onClosed)="onNotificationClosed(notification.id)">
+  {{notification.message}}
+</alert>

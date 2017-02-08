@@ -1,0 +1,66 @@
+<nav class="navbar navbar-light bg-faded d-flex flex-row justify-content-start">
+  <span class="navbar-brand">
+    <img class="logo" src="assets/favicon.png" width="36" height="36" alt="Backbase" />
+    Environments
+  </span>
+  <span class="ml-auto pull-right">
+    <a
+      class="text-muted"
+      href="#"
+      (click)="credentialsModal.show()">({{user.email ? user.email : 'anonym'}})</a>
+    <button
+      class="btn btn-primary btn-sm"
+      title="Provision new environment"
+      (click)="addEnvironment()">
+      <i [acIcon]="'add'"></i>
+    </button>
+    <button
+      class="btn btn-primary btn-sm"
+      title="Refresh environments list"
+      (click)="refreshList()"
+      [disabled]="loading">
+      <i [acIcon]="'refresh'"></i>
+    </button>
+  </span>
+</nav>
+
+<div
+  class="modal fade"
+  bsModal
+  #credentialsModal="bs-modal"
+  [config]="{backdrop: 'static'}"
+  tabindex="-1"
+  role="dialog">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{user.email || user.password ? 'Modify' : 'Add'}} user credentials</h4>
+      </div>
+      <div class="modal-body">
+        <ac-credentials-form
+          #userForm
+          (isValid)="isUserFormValid = $event"
+          [(data)]="formData">
+        </ac-credentials-form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="credentialsModal.hide()">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="!isUserFormValid || !isUserModified"
+          (click)="saveCredentials()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ac-provision-dialog #provisionDialog></ac-provision-dialog>

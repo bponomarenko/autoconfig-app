@@ -1,0 +1,16 @@
+@import '~bootstrap/scss/_variables.scss';
+
+$spacing: 10px;
+
+.logo {
+  margin-right: $spacing;
+}
+
+.btn {
+  margin-left: $spacing;
+}
+
+nav {
+  padding-left: $list-group-item-padding-x;
+  padding-right: $list-group-item-padding-x;
+}
