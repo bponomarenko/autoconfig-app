@@ -10,4 +10,4 @@ before_script:
 
 script:
   - ng build -prod --aot false --progress false -bh /autoconfig-app/
-  - ngh --repo=https://GH_TOKEN@github.com/bponomarenko/autoconfig-app.git --name="Borys Ponomarenko" --email=bponomarenko@gmail.com
+  - ngh --repo=https://$GH_TOKEN@github.com/bponomarenko/autoconfig-app.git --name="Borys Ponomarenko" --email=bponomarenko@gmail.com
