@@ -1,4 +1,4 @@
-type YesNo = 'yes' | 'no';
+export type YesNo = 'yes' | 'no';
 
 export interface Environment {
   name: string;
@@ -11,9 +11,12 @@ export interface CreateEnvironmentOptions {
   username: string;
   password: string;
   data: {
-    async: boolean;
+    async: YesNo;
     version?: string;
     keep?: YesNo;
+    dbs?: YesNo;
+    enable_demo?: YesNo;
+    onebb_mock_mode?: YesNo;
   };
 }
 

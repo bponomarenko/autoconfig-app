@@ -3,7 +3,7 @@
     "baseUrl": "",
     "declaration": false,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": false,
     "lib": ["es6", "dom"],
     "mapRoot": "./",
     "module": "es6",

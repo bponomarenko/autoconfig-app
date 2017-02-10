@@ -1,10 +1,6 @@
-import {
-  Component,
-  AfterContentInit,
-  Input,
-  ViewChild
-} from '@angular/core';
+import { Component, AfterContentInit, OnDestroy, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Subscription } from 'rxjs/Rx';
 
 import { Environment } from '../types/environment';
 import { User } from '../types/user';
@@ -16,9 +12,9 @@ import { CredentialsFormComponent } from '../credentials-form/credentials-form.c
 @Component({
   selector: 'ac-environments',
   templateUrl: './environments.component.html',
-  styleUrls: ['./environments.component.css']
+  styleUrls: ['./environments.component.scss']
 })
-export class EnvironmentsComponent implements AfterContentInit {
+export class EnvironmentsComponent implements AfterContentInit, OnDestroy {
   private environmentToDelete: string;
   private deleting: boolean = false;
   private isDeleteFormShown: boolean = false;
@@ -26,18 +22,18 @@ export class EnvironmentsComponent implements AfterContentInit {
   private deleteErrorId: number;
   private formData: { user: User, save: boolean };
   private user: User;
+  private userChangeSubscription: Subscription;
 
-  @Input() environments: Environment[] = [];
+  @Input() environments: Environment[];
+  @Output() onDelete: EventEmitter<string>;
   @ViewChild('deleteModal') deleteModal: ModalDirective;
   @ViewChild('deleteForm') deleteForm: CredentialsFormComponent;
 
-  constructor(
-    private envService: EnvironmentsService,
-    private userService: UserService,
-    private notifications: NotificationsService) {
+  constructor(private envService: EnvironmentsService, private userService: UserService, private notifications: NotificationsService) {
     this.user = this.userService.getUser();
+    this.onDelete = new EventEmitter<string>();
 
-    this.userService.onUserChange.subscribe((user: User) => {
+    this.userChangeSubscription = this.userService.onUserChange.subscribe((user: User) => {
       this.user = new User(user);
     });
   }
@@ -48,7 +44,12 @@ export class EnvironmentsComponent implements AfterContentInit {
         this.deleteForm.reset();
       }
       this.isDeleteFormShown = false;
+      this._dismissDeleteError();
     });
+  }
+
+  ngOnDestroy() {
+    this.userChangeSubscription.unsubscribe();
   }
 
   showDeleteConfirmation(name: string) {
@@ -84,14 +85,18 @@ export class EnvironmentsComponent implements AfterContentInit {
   private _deleteEnvironment(user: User) {
     const envName: string = this.environmentToDelete;
 
+    this._dismissDeleteError();
+
+    const envToDelete = this.environments.find(env => env.name === envName);
+    // Fail delete action if user is not an owner of environment
+    if(envToDelete && envToDelete.owner.email !== user.email) {
+      this.deleteErrorId = this.notifications.addError(`You are not an owner of ${envName} environment and those you are not allowed to delete it.`);
+      return;
+    }
+
     this.deleting = true;
     // Disable dialog dismissal by keyboard
     this.deleteModal.config.keyboard = false;
-
-    if (this.deleteErrorId) {
-      this.notifications.dismiss(this.deleteErrorId);
-      this.deleteErrorId = null;
-    }
 
     return this.envService.remove({
         environmentName: envName,
@@ -100,7 +105,7 @@ export class EnvironmentsComponent implements AfterContentInit {
       })
       .then(() => {
         this.notifications.addSuccess(`Environment ${envName} have been successfuly deleted.`);
-        // TODO: Removed deleted environment from internal collection
+        this.onDelete.emit(envName);
         this.deleteModal.hide();
       })
       .catch(error => {
@@ -109,7 +114,14 @@ export class EnvironmentsComponent implements AfterContentInit {
       .then(() => {
         this.deleting = false;
         // Restore dialog dismissal by keyboard
-        this.deleteModal.config.keyboard = false;
+        this.deleteModal.config.keyboard = true;
       });
+  }
+
+  private _dismissDeleteError() {
+    if (this.deleteErrorId) {
+      this.notifications.dismiss(this.deleteErrorId);
+      this.deleteErrorId = null;
+    }
   }
 }

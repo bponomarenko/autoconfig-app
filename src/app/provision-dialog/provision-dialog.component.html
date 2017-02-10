@@ -48,6 +48,38 @@
               </div>
             </div>
           </div>
+
+          <div class="form-group row mb-0">
+            <div class="col-sm-9 offset-sm-3">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    name="dbs"
+                    [(ngModel)]="provisionData.dbs"
+                    [disabled]="provisioning">
+                  Include DBS
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mb-0">
+            <div class="col-sm-9 offset-sm-3">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    name="onebb_mock_mode"
+                    [(ngModel)]="provisionData.onebb_mock_mode"
+                    [disabled]="provisioning">
+                  Include mocked mode
+                </label>
+              </div>
+            </div>
+          </div>
         </form>
         <span *ngSwitchDefault>
           <p class="mb-3">This action requires user credentials:</p>

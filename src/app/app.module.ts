@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ModalModule } from 'ng2-bootstrap/modal';
-import { AlertModule } from 'ng2-bootstrap/alert';
+import { ModalModule, AlertModule, TooltipModule, DropdownModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -20,6 +19,7 @@ import { CredentialsFormComponent } from './credentials-form/credentials-form.co
 import { EnvironmentsComponent } from './environments/environments.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ProvisionDialogComponent } from './provision-dialog/provision-dialog.component';
+import { ExpiresPipe } from './pipes/expires.pipe';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,8 @@ import { ProvisionDialogComponent } from './provision-dialog/provision-dialog.co
     CredentialsFormComponent,
     EnvironmentsComponent,
     NotificationsComponent,
-    ProvisionDialogComponent
+    ProvisionDialogComponent,
+    ExpiresPipe
   ],
   imports: [
     BrowserModule,
@@ -39,7 +40,9 @@ import { ProvisionDialogComponent } from './provision-dialog/provision-dialog.co
     // Uncomment next line to use static mock data
     // InMemoryWebApiModule.forRoot(InMemoryEnvironmentsService),
     ModalModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    TooltipModule.forRoot(),
+    DropdownModule.forRoot()
   ],
   providers: [
     EnvironmentsService,

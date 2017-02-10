@@ -1,6 +1,5 @@
-@import '~bootstrap/scss/_variables.scss';
-
-$spacing: 10px;
+@import '~bootstrap/scss/variables';
+@import '../app.variables';
 
 .logo {
   margin-right: $spacing;

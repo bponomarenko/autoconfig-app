@@ -1,12 +1,10 @@
-import {
-  Component,
-  AfterContentInit,
-  ViewChild
-} from '@angular/core';
+import { Component, AfterContentInit, ViewChild, OnDestroy } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs/Rx';
 
 import { User } from '../types/user';
+import { YesNo } from '../types/environment';
 import { UserService } from '../services/user.service';
 import { EnvironmentsService } from '../services/environments.service';
 import { NotificationsService } from '../services/notifications.service';
@@ -15,14 +13,19 @@ import { CredentialsFormComponent } from '../credentials-form/credentials-form.c
 interface ProvisionFormData {
   stack?: string;
   async?: boolean;
+  dbs?: boolean;
+  onebb_mock_mode?: boolean;
 }
+
+const DEFAULT_FORM_DATA: ProvisionFormData = {
+  async: true
+};
 
 @Component({
   selector: 'ac-provision-dialog',
-  templateUrl: './provision-dialog.component.html',
-  styleUrls: ['./provision-dialog.component.css']
+  templateUrl: './provision-dialog.component.html'
 })
-export class ProvisionDialogComponent implements AfterContentInit {
+export class ProvisionDialogComponent implements AfterContentInit, OnDestroy {
   private provisioning: boolean = false;
   private loadingStacks: boolean = false;
   private isFormShown: boolean = false;
@@ -32,6 +35,7 @@ export class ProvisionDialogComponent implements AfterContentInit {
   private provisionData: ProvisionFormData = {};
   private stacks: string[];
   private provisionErrorId: number;
+  private userChangeSubscription: Subscription;
 
   @ViewChild('provisionModal') dialog: ModalDirective;
   @ViewChild('userForm') userForm: CredentialsFormComponent;
@@ -43,7 +47,7 @@ export class ProvisionDialogComponent implements AfterContentInit {
     private notifications: NotificationsService) {
     this.user = this.userService.getUser();
 
-    this.userService.onUserChange.subscribe((user: User) => {
+    this.userChangeSubscription = this.userService.onUserChange.subscribe((user: User) => {
       this.user = new User(user);
     });
   }
@@ -69,6 +73,10 @@ export class ProvisionDialogComponent implements AfterContentInit {
     });
   }
 
+  ngOnDestroy() {
+    this.userChangeSubscription.unsubscribe();
+  }
+
   get isProvisionDisabled(): boolean {
     return (this.isFormShown && !this.isFormValid) ||
       (this.provisionForm && !this.provisionForm.valid) ||
@@ -76,9 +84,7 @@ export class ProvisionDialogComponent implements AfterContentInit {
   }
 
   show() {
-    this.provisionData = {
-      async: true
-    };
+    this.provisionData = Object.assign({}, DEFAULT_FORM_DATA);
     this._selectFirstStack();
     this.dialog.show();
   }
@@ -110,10 +116,12 @@ export class ProvisionDialogComponent implements AfterContentInit {
 
   private _provisionEnvironment(user: User): Promise<null> {
     if(this.provisioning) {
-      return Promise.resolve();
+      return null;
     }
 
     this.provisioning = true;
+    // Disable dialog dismissal by keyboard
+    this.dialog.config.keyboard = false;
     this._dismissCreateError();
 
     return this.envService.create({
@@ -121,15 +129,19 @@ export class ProvisionDialogComponent implements AfterContentInit {
         username: user.email,
         password: user.password,
         data: {
-          async: this.provisionData.async
+          async: this._getYesNoValue(this.provisionData.async),
+          dbs: this._getYesNoValue(this.provisionData.dbs),
+          onebb_mock_mode: this._getYesNoValue(this.provisionData.onebb_mock_mode)
         }
       })
-      .then(() => {
-        // this.notifications.addSuccess(``)
-        this.provisioning = false;
+      .then(res => {
+        this.notifications.addSuccess(`${res.message} New environment name – ${res.environment_name}`);
+        this.dialog.hide();
       })
       .catch(error => {
         this.provisionErrorId = this.notifications.addError(`Unable to provision new environment. ${error.message}`);
+      })
+      .then(() => {
         this.provisioning = false;
       });
   }
@@ -151,6 +163,8 @@ export class ProvisionDialogComponent implements AfterContentInit {
       })
       .then(() => {
         this.loadingStacks = false;
+        // Restore dialog dismissal by keyboard
+        this.dialog.config.keyboard = true;
       });
   }
 
@@ -165,5 +179,9 @@ export class ProvisionDialogComponent implements AfterContentInit {
     if(this.provisionData) {
       this.provisionData.stack = (this.stacks && this.stacks[0]) || '';
     }
+  }
+
+  private _getYesNoValue(value: boolean): YesNo {
+    return value ? 'yes' : 'no';
   }
 }

@@ -1,12 +1,6 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  AfterContentInit,
-  ViewChild
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterContentInit, OnDestroy, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap/modal';
+import { Subscription } from 'rxjs/Rx';
 
 import { User } from '../types/user';
 import { UserService } from '../services/user.service';
@@ -18,9 +12,10 @@ import { ProvisionDialogComponent } from '../provision-dialog/provision-dialog.c
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements AfterContentInit {
+export class HeaderComponent implements AfterContentInit, OnDestroy {
   private user: User;
   private formData: { user: User };
+  private userChangeSubscription: Subscription;
 
   @Input() loading: boolean;
   @Output() refresh = new EventEmitter();
@@ -34,19 +29,23 @@ export class HeaderComponent implements AfterContentInit {
       user: new User()
     };
 
-    // this.userService.onUserChange.subscribe((user: User) => {
-    //   this.user = new User(user);
-    // });
+    this.userChangeSubscription = this.userService.onUserChange.subscribe((user: User) => {
+      this.user = new User(user);
+    });
   }
 
   ngAfterContentInit() {
-    // this.dialog.onShow.subscribe(() => {
-    //   this.formData.user = new User(this.user);
-    // });
+    this.dialog.onShow.subscribe(() => {
+      this.formData.user = new User(this.user);
+    });
 
-    // this.dialog.onHidden.subscribe(() => {
-    //   this.form.reset();
-    // });
+    this.dialog.onHidden.subscribe(() => {
+      this.form.reset();
+    });
+  }
+
+  ngOnDestroy() {
+    this.userChangeSubscription.unsubscribe();
   }
 
   get isUserModified(): boolean {

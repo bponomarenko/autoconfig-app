@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
       });
   }
 
-  onRemove(name: string) {
+  onEnvironmentRemoved(name: string) {
     this.environments = this.environments.filter((env: Environment) => env.name !== name);
   }
 }

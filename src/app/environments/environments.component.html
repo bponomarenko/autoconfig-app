@@ -4,33 +4,43 @@
     <!-- Environment row -->
     <div class="container-fluid px-0 environment-container">
       <div class="row">
-        <div class="col col-6 col-sm-4 col-md-5 text-truncate">
-          <h5 class="env-name" [title]="environment.name">{{environment.name}}</h5>
-          <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
-        </div>
-        <div class="col col-6 col-sm-5 col-md-5">
-          Expires at {{environment.expire_at | date: "MMM d, HH:MM:s"}}
-          <div>
-            <span class="badge badge-primary badge-pill" [title]="environment.stack">{{environment.stack}}</span>
-            <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
-            <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
+        <div class="col-md-10 col-sm-9">
+          <div class="row">
+            <div class="col col-sm-7">
+              <h5 class="env-name" [title]="environment.name">{{environment.name}}</h5>
+              <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
+            </div>
+            <div class="col col-sm-5">
+              <span tooltip="{{environment.expire_at | date: 'MMM d, HH:MM:ss'}}" placement="bottom">{{environment.expire_at | expires }}</span>
+              <div>
+                <span class="badge badge-primary badge-pill" [title]="environment.stack">{{environment.stack}}</span>
+                <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
+                <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col col-12 col-sm-3 col-md-2 offset-sm-0 row-buttons">
-          <button
-            class="btn btn-outline-danger btn-sm float-right"
+        <div class="col-md-2 col-sm-3 row-buttons">
+          <div class="btn-group" dropdown>
+            <a class="btn btn-outline-info btn-sm"
+              title="Navigate to environment"
+              role="button"
+              href="about:blank"
+              dropdownToggle>
+              <i [acIcon]="'open in browser'"></i>
+            </a>
+
+            <ul dropdownMenu class="dropdown-menu-right">
+              <li class="dropdown-header">Navigate to</li>
+              <li><a class="dropdown-item" target="__blank" href="http://{{ environment.name }}-editorial.backbase.dev:9080/portalserver/">Editorial</a></li>
+            </ul>
+          </div>
+
+          <button class="btn btn-outline-danger btn-sm"
             title="Delete"
             (click)="showDeleteConfirmation(environment.name)">
             <i [acIcon]="'delete forever'"></i>
           </button>
-          <a
-            href="http://{{ environment.name }}-editorial.backbase.dev:9080/portalserver/"
-            target="__blank"
-            class="btn btn-outline-info btn-sm float-right"
-            title="Navigate to environment"
-            role="button">
-            <i [acIcon]="'open in browser'"></i>
-          </a>
         </div>
       </div>
     </div>
@@ -57,7 +67,7 @@
           *ngIf="deleting"></div>
       </div>
       <div class="modal-body" [ngSwitch]="isDeleteFormShown">
-        <span *ngSwitchCase="false">Are you sure you want to delete <i>{{environmentToDelete}}</i>?</span>
+        <span *ngSwitchCase="false">Are you sure you want to delete environment <i>{{environmentToDelete}}</i>?</span>
         <span *ngSwitchDefault>
           <p class="mb-3">This action requires user credentials:</p>
           <ac-credentials-form

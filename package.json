@@ -5,10 +5,11 @@
   "angular-cli": {},
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run proxy & ng serve",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "e2e": "protractor"
+    "e2e": "protractor",
+    "proxy": "node server"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +26,7 @@
     "core-js": "^2.4.1",
     "jsonschema": "^1.1.1",
     "material-design-icons": "^3.0.1",
+    "moment": "^2.17.1",
     "ng2-bootstrap": "^1.3.0",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
@@ -35,6 +37,7 @@
     "@angular/compiler-cli": "^2.3.1",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
+    "angular-in-memory-web-api": "^0.2.4",
     "codelyzer": "~2.0.0-beta.1",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",

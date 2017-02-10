@@ -1,11 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  Output,
-  Input,
-  EventEmitter,
-  AfterContentInit
-} from '@angular/core';
+import { Component, ViewChild, Output, Input, EventEmitter, AfterContentInit } from '@angular/core';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 
 import { User } from '../types/user';
