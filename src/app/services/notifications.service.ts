@@ -1,15 +1,18 @@
 import { EventEmitter } from '@angular/core';
-
-import { Notification, NotificationType } from '../types/notification';
+import { Notification, NotificationType } from '../types';
 
 export class NotificationsService {
-  private notifications: Notification[];
+  private _notifications: Notification[];
 
   onNotificationsUpdate: EventEmitter<Notification[]>;
 
   constructor() {
-    this.notifications = [];
+    this._notifications = [];
     this.onNotificationsUpdate = new EventEmitter<Notification[]>();
+  }
+
+  get notifications() {
+    return this._notifications;
   }
 
   addError(message: string): number {
@@ -24,8 +27,8 @@ export class NotificationsService {
     return this._addNotification(NotificationType.WARNING, message);
   }
 
-  dismiss(notificationId: number) {
-    const index = this.notifications.findIndex(notification => notification.id === notificationId);
+  dismiss(id: number) {
+    const index = this._notifications.findIndex(notification => notification.id === id);
     if(index !== -1) {
       this.notifications.splice(index, 1);
       this._notify();
@@ -34,7 +37,7 @@ export class NotificationsService {
 
   private _addNotification(type: NotificationType, message: string): number {
     const notification = this._getNotification(type, message);
-    this.notifications.push(notification);
+    this._notifications.push(notification);
     this._notify();
     return notification.id;
   }

@@ -1,9 +1,6 @@
-<ac-header (refresh)="load()" [loading]="loading"></ac-header>
-
+<ac-header></ac-header>
 <ac-loader class="align-self-center" *ngIf="loading"></ac-loader>
-
 <div class="body" *ngIf="!loading">
-  <ac-environments [environments]="environments" (onDelete)="onEnvironmentRemoved($event)"></ac-environments>
+  <ac-environments></ac-environments>
 </div>
-
 <ac-notifications class="fixed-bottom"></ac-notifications>

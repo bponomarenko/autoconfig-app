@@ -9,8 +9,9 @@ export class IconDirective implements OnInit {
   constructor(private el: ElementRef, private renderer: Renderer) {}
 
   ngOnInit() {
-    this.renderer.setElementClass(this.el.nativeElement, 'material-icons', true);
-    this.renderer.setElementClass(this.el.nativeElement, 'align-middle', true);
-    this.renderer.createText(this.el.nativeElement, this.icon.replace(/\s/g, '_'))
+    const nativeEl = this.el.nativeElement;
+    this.renderer.setElementClass(nativeEl, 'material-icons', true);
+    this.renderer.setElementClass(nativeEl, 'align-middle', true);
+    this.renderer.createText(nativeEl, this.icon.replace(/\s/g, '_'))
   }
 }

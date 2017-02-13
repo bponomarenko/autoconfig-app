@@ -1,0 +1,38 @@
+<div
+  class="modal fade"
+  bsModal
+  #modal="bs-modal"
+  [config]="{backdrop: 'static'}"
+  tabindex="-1"
+  role="dialog">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">{{header}}</h4>
+      </div>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+          role="progressbar"
+          *ngIf="inProgress"></div>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+          class="btn btn-secondary"
+          [disabled]="inProgress"
+          (click)="cancelBtnAction ? cancelBtnAction() : modal.hide()">
+          {{cancelBtnText || 'Cancel'}}
+        </button>
+        <button type="button"
+          class="btn btn-primary"
+          [disabled]="actionBtnDisabled || inProgress"
+          (click)="actionBtnAction ? actionBtnAction() : null">
+          {{actionBtnText}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<form #createForm="ngForm">
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Stack:</label>
+    <div class="col-sm-9">
+      <select name="stack"
+        class="form-control"
+        required
+        (mousedown)="onSelectClick()"
+        [(ngModel)]="data.stack"
+        [disabled]="disabled">
+        <option value="" *ngIf="loading">Loading...</option>
+        <option *ngFor="let stack of stacks; trackBy: stack" value="{{stack}}">{{stack}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row mb-0">
+    <div class="col-sm-9 offset-sm-3">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input name="async"
+            type="checkbox"
+            class="form-check-input"
+            [(ngModel)]="data.async"
+            [disabled]="true">
+          Async provisioning
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-0">
+    <div class="col-sm-9 offset-sm-3">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input name="dbs"
+            type="checkbox"
+            class="form-check-input"
+            [(ngModel)]="data.dbs"
+            [disabled]="disabled">
+          Include DBS
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row mb-0">
+    <div class="col-sm-9 offset-sm-3">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input name="onebb_mock_mode"
+            type="checkbox"
+            class="form-check-input"
+            [(ngModel)]="data.onebb_mock_mode"
+            [disabled]="disabled">
+          Mocked mode
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

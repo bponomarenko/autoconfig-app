@@ -1,6 +1,10 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins/breakpoints';
-@import '../app.variables';
+@import '../../app.variables';
+
+.list-group-item {
+  border-radius: 0;
+}
 
 .environment-container {
   width: 100%;
@@ -8,10 +12,6 @@
 
 .env-name {
   white-space: normal;
-}
-
-.list-group-item {
-  border-radius: 0;
 }
 
 .row-buttons > .btn {

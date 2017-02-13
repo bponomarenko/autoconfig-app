@@ -2,54 +2,44 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { ModalModule, AlertModule, TooltipModule, DropdownModule } from 'ng2-bootstrap';
+import { ModalModule, TooltipModule, DropdownModule, AlertModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { LoaderComponent } from './loader/loader.component';
-
-import { UserService } from './services/user.service';
-import { EnvironmentsService } from './services/environments.service';
-// Uncomment next line to use static mock data
-// import { InMemoryEnvironmentsService }  from './services/in-memory.environments.service';
-import { NotificationsService } from './services/notifications.service';
-import { IconDirective } from './icon/icon.directive';
-import { CredentialsFormComponent } from './credentials-form/credentials-form.component';
-import { EnvironmentsComponent } from './environments/environments.component';
-import { NotificationsComponent } from './notifications/notifications.component';
-import { ProvisionDialogComponent } from './provision-dialog/provision-dialog.component';
+import { UserService, EnvironmentsService, NotificationsService } from './services';
+import { HeaderComponent, ModalComponent, UserFormComponent, LoaderComponent,
+  IconDirective, EnvironmentsComponent, CredentialsModalComponent, NotificationsComponent,
+  CreateFormComponent } from './components';
 import { ExpiresPipe } from './pipes/expires.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    ModalComponent,
+    UserFormComponent,
     LoaderComponent,
     IconDirective,
-    CredentialsFormComponent,
     EnvironmentsComponent,
+    ExpiresPipe,
+    CredentialsModalComponent,
     NotificationsComponent,
-    ProvisionDialogComponent,
-    ExpiresPipe
+    CreateFormComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    // Uncomment next line to use static mock data
-    // InMemoryWebApiModule.forRoot(InMemoryEnvironmentsService),
     ModalModule.forRoot(),
-    AlertModule.forRoot(),
     TooltipModule.forRoot(),
-    DropdownModule.forRoot()
+    DropdownModule.forRoot(),
+    AlertModule.forRoot()
   ],
   providers: [
-    EnvironmentsService,
     UserService,
+    EnvironmentsService,
     NotificationsService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [IconDirective]
 })
-export class AppModule{
-}
+export class AppModule { }

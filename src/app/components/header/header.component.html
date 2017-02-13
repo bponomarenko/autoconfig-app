@@ -1,0 +1,44 @@
+<nav class="navbar navbar-light bg-faded d-flex flex-row flex-wrap align-items-center justify-content-between">
+  <span class="navbar-brand">
+    <img class="logo" src="assets/favicon.png" width="36" height="36" alt="Backbase" />
+    Environments
+  </span>
+  <span class="navbar-text">
+    <a href="#"
+      class="text-muted"
+      (click)="$event.preventDefault(); credentialsDialog.show()">({{user?.email ? user.email : 'anonym'}})</a>
+    <button
+      class="btn btn-primary btn-sm"
+      title="Provision new environment"
+      (click)="createDialog.show()">
+      <i [acIcon]="'add'"></i>
+    </button>
+    <button
+      class="btn btn-primary btn-sm"
+      title="Reload environments list"
+      (click)="reloadEnvironments()"
+      [disabled]="loading">
+      <i [acIcon]="'refresh'"></i>
+    </button>
+  </span>
+</nav>
+
+<ac-modal #credentialsDialog
+  header="{{user?.hasSomeData() ? 'Modify' : 'Add'}} user credentials"
+  action-text="Save"
+  [action]="saveUserCredentials.bind(this)"
+  [action-disabled]="!credentialsForm?.isValid || !isUserModified">
+  <ac-user-form #credentialsForm [(data)]="userFormData"></ac-user-form>
+</ac-modal>
+
+<ac-credentials-modal #createDialog
+  header="Provision new environment"
+  [in-progress]="creating"
+  [action]="createEnvironment.bind(this)"
+  action-text="Provision"
+  [action-disabled]="!createForm?.isValid">
+  <ac-create-form #createForm
+    [(data)]="createFormData"
+    [disabled]="creating">
+  </ac-create-form>
+</ac-credentials-modal>

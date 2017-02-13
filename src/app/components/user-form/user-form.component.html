@@ -10,17 +10,13 @@
           [(ngModel)]="data.user.email"
           #email="ngModel"
           required
-          pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+          pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?"
           [ngClass]="getFormControlClasses('email')"
           [disabled]="disabled">
-        <div
-          class="form-control-feedback"
-          *ngIf="isShowError(getFormControl('email')) && getFormControl('email').errors.required">
+        <div class="form-control-feedback" [hidden]="!isShowError(email) || !email.errors.required">
           Email is required
         </div>
-        <div
-          class="form-control-feedback"
-          *ngIf="isShowError(getFormControl('email')) && getFormControl('email').errors.pattern">
+        <div class="form-control-feedback" [hidden]="!isShowError(email) || !email.errors.pattern">
           Email format is incorrect
         </div>
       </div>
@@ -37,13 +33,13 @@
           required
           [ngClass]="getFormControlClasses('password')"
           [disabled]="disabled">
-        <div class="form-control-feedback" *ngIf="isShowError(getFormControl('password'))">
+        <div class="form-control-feedback" [hidden]="!isShowError(password)">
           Password is required
         </div>
       </div>
     </div>
   </div>
-  <div class="form-group row mb-0" *ngIf="saveCheckbox">
+  <div class="form-group row mb-0" *ngIf="showSaveCheckbox">
     <div class="col-sm-9 offset-sm-3">
       <div class="form-check">
         <label class="form-check-label">

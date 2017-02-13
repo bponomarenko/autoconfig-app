@@ -47,53 +47,10 @@
   </li>
 </ul>
 
-<div
-  class="modal fade"
-  bsModal
-  #deleteModal="bs-modal"
-  [config]="{backdrop: 'static'}"
-  tabindex="-1"
-  role="dialog">
-
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title pull-left">Delete environment</h4>
-      </div>
-      <div class="progress">
-        <div
-          class="progress-bar progress-bar-striped progress-bar-animated bg-info"
-          role="progressbar"
-          *ngIf="deleting"></div>
-      </div>
-      <div class="modal-body" [ngSwitch]="isDeleteFormShown">
-        <span *ngSwitchCase="false">Are you sure you want to delete environment <i>{{environmentToDelete}}</i>?</span>
-        <span *ngSwitchDefault>
-          <p class="mb-3">This action requires user credentials:</p>
-          <ac-credentials-form
-            #deleteForm
-            [saveCheckbox]="true"
-            [(data)]="formData"
-            (isValid)="isDeleteFormValid = $event">
-          </ac-credentials-form>
-        </span>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          (click)="deleteModal.hide()"
-          [disabled]="deleting">
-          Cancel
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          [disabled]="isDeleteFormShown && !isDeleteFormValid || deleting"
-          (click)="isDeleteFormShown ? deleteEnvironmentAndSaveUser() : deleteEnvironment()">
-          Delete
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<ac-credentials-modal #deleteDialog
+  header="Delete environment"
+  action-text="Delete"
+  [action]="deleteEnvironment.bind(this)"
+  [in-progress]="deleting">
+  Are you sure you want to delete environment <i>{{environmentToDelete}}</i>?
+</ac-credentials-modal>

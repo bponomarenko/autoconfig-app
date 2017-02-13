@@ -1,15 +1,15 @@
 @import '~bootstrap/scss/variables';
-@import '../app.variables';
+@import '../../app.variables';
 
 .logo {
   margin-right: $spacing;
 }
 
-.btn {
-  margin-left: $spacing;
-}
-
 nav {
   padding-left: $list-group-item-padding-x;
   padding-right: $list-group-item-padding-x;
+}
+
+.btn {
+  margin-left: $spacing;
 }

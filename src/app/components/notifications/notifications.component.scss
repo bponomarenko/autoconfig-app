@@ -1,5 +1,7 @@
+@import '~bootstrap/scss/variables';
+
 :host {
-  z-index: 1050;
+  z-index: $zindex-modal;
 }
 
 alert {

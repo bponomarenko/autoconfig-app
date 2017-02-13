@@ -1,16 +1,14 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AlertComponent } from 'ng2-bootstrap/alert';
 import { Subscription } from 'rxjs/Rx';
-
-import { NotificationsService } from '../services/notifications.service';
-import { Notification, NotificationType } from '../types/notification';
+import { Notification, NotificationType } from '../../types';
+import { NotificationsService } from '../../services';
 
 const DISMISS_TIMEOUT = 5000;
 
 @Component({
   selector: 'ac-notifications',
   templateUrl: './notifications.component.html',
-  styleUrls: ['./notifications.component.css']
+  styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnDestroy {
   private notifications: Notification[];
@@ -18,7 +16,6 @@ export class NotificationsComponent implements OnDestroy {
 
   constructor(private service: NotificationsService) {
     this.notifications = [];
-
     this.notificationsSubscription = this.service.onNotificationsUpdate.subscribe(this._onNotificationsUpdate.bind(this));
   }
 
@@ -40,7 +37,7 @@ export class NotificationsComponent implements OnDestroy {
   }
 
   getDismissTimeout(type: NotificationType): number {
-    return type === NotificationType.INFO || type === NotificationType.SUCCESS ? DISMISS_TIMEOUT : undefined;
+    return type === NotificationType.SUCCESS ? DISMISS_TIMEOUT : undefined;
   }
 
   onNotificationClosed(id: number) {

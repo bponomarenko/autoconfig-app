@@ -1,59 +1,143 @@
 import 'rxjs/add/operator/toPromise';
-import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, RequestOptionsArgs, Headers } from '@angular/http';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Http, RequestOptionsArgs, Headers } from '@angular/http';
 import { validate } from 'jsonschema';
+import { Environment, User, CreateEnvironmentFormData } from '../types';
+import schemas from '../schemas';
 
-import { Environment, CreateEnvironmentOptions, RemoveEnvironmentOptions } from '../types/environment';
-import schemas from './schemas';
-
-const BASE_URL = 'http://localhost:3000/api/';
 const DEFAULT_ERROR_MESSAGE = 'Unexpected server error. Please report an issue to https://github.com/bponomarenko/autoconfig-app/issues.'
+const BASE_URL = 'http://localhost:3000/api/';
+// const BASE_URL = 'https://autoconfig.backbase.com/api/';
+
+interface DeleteEnvironmentParams {
+  user: User;
+  environmentName: string;
+}
+
+interface CreateEnvironmentParams {
+  user: User;
+  data: CreateEnvironmentFormData;
+}
+
+interface CreateEnvironmentResponse {
+  message: string;
+  environment_name: string;
+}
 
 @Injectable()
 export class EnvironmentsService {
+  private _environments: Environment[];
+  private _stacks: string[];
+  loadingStacks: boolean = false;
+  loadingEnvironments: boolean = false;
+  deletingEnvironment: boolean = false;
+  creatingEnvironment: boolean = false;
+  onLoad: EventEmitter<null>;
+  onLoadError: EventEmitter<Error>;
   onValidationError: EventEmitter<string[]>;
 
   constructor(private http: Http) {
+    this.onLoad = new EventEmitter<null>();
+    this.onLoadError = new EventEmitter<Error>();
     this.onValidationError = new EventEmitter<string[]>();
   }
 
-  getAll(): Promise<Environment[]> {
+  get environments(): Environment[] {
+    return this._environments;
+  }
+
+  get stacks(): string[] {
+    return this._stacks;
+  }
+
+  loadStacks(): Promise<string[]> {
+    if(this.loadingStacks) {
+      return null;
+    }
+
+    this.loadingStacks = true;
+
+    return this.http.get(`${BASE_URL}stacks/`)
+      .toPromise()
+      .then(response => {
+        this._stacks = response.json();
+        this.loadingStacks = false;
+        return this._stacks;
+      })
+      .then(this._validateResponse(schemas.StacksSchema))
+      .catch(error => {
+        this.loadingStacks = false;
+        this._throwParsedError(error);
+      });
+  }
+
+  loadEnvironments(): Promise<Environment[]> {
+    if(this.loadingEnvironments) {
+      return null;
+    }
+
+    this.onLoad.emit();
+    this.loadingEnvironments = true;
+
     return this.http.get(`${BASE_URL}environments/`)
       .toPromise()
-      .then(response => response.json() as Environment[])
-      // Uncomment next line when using static mock data
-      // .then((response: any) => response.data as Environment[])
+      .then(response => {
+        this._environments = response.json();
+        this.loadingEnvironments = false;
+        return this._environments;
+      })
       .then(this._validateResponse(schemas.EnvironmentsSchema))
-      .catch(this._transformErrorResponse);
+      .catch(error => {
+        this.loadingEnvironments = false;
+        this.onLoadError.emit(this._parseError(error));
+      });
   }
 
-  create(params: CreateEnvironmentOptions): Promise<null> {
-    const options = this._getRequestOptionsWithCredentials(params.username, params.password);
-    options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+  deleteEnvironment(params: DeleteEnvironmentParams): Promise<null> {
+    if(this.deletingEnvironment) {
+      return null;
+    }
 
-    return this.http.post(`${BASE_URL}stacks/${params.stackName}`, this._encodeBody(params.data), options)
-      .toPromise()
-      .then(response => response.json())
-      .then(this._validateResponse(schemas.ProvisionResponseSchema))
-      .catch(this._transformErrorResponse);
-  }
-
-  remove(params: RemoveEnvironmentOptions): Promise<null> {
-    const options = this._getRequestOptionsWithCredentials(params.username, params.password);
+    this.deletingEnvironment = true;
+    const options = this._getRequestOptionsWithCredentials(params.user);
 
     return this.http.delete(`${BASE_URL}environments/${params.environmentName}`, options)
       .toPromise()
-      .catch(this._transformErrorResponse);
+      .then(response => {
+        this.deletingEnvironment = false;
+        // Remove environment from the local collection
+        this._environments = this._environments.filter((env: Environment) => env.name !== params.environmentName);
+        return response;
+      })
+      .catch(error => {
+        this.deletingEnvironment = false;
+        this._throwParsedError(error);
+      });
   }
 
-  getStacks(): Promise<string[]> {
-    return this.http.get(`${BASE_URL}stacks/`)
+  createEnvironment(params: CreateEnvironmentParams): Promise<CreateEnvironmentResponse> {
+    if(this.creatingEnvironment) {
+      return null;
+    }
+
+    this.creatingEnvironment = true;
+    const options = this._getRequestOptionsWithCredentials(params.user);
+    options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.post(`${BASE_URL}stacks/${params.data.stack}`, this._encodeBody(params.data), options)
       .toPromise()
-      .then(response => response.json() as string[])
-      .catch(this._transformErrorResponse);
+      .then(response => {
+        this.creatingEnvironment = false;
+        return response.json();
+      })
+      .then(this._validateResponse(schemas.ProvisionResponseSchema))
+      .catch(error => {
+        this.creatingEnvironment = false;
+        this._throwParsedError(error);
+      });
   }
 
-  private _transformErrorResponse(error: any) {
+  private _parseError(error: any) {
     let message;
 
     if (error.headers && error.headers.get('Content-Type') === 'application/json') {
@@ -71,29 +155,20 @@ export class EnvironmentsService {
       }
     }
 
-    throw new Error(message || DEFAULT_ERROR_MESSAGE);
+    return new Error(message || DEFAULT_ERROR_MESSAGE);
   }
 
-  private _getRequestOptionsWithCredentials(username: string, password: string): RequestOptionsArgs {
-    const authString = window.btoa((<any>window).unescape(encodeURIComponent(`${username}:${password}`)));
+  private _throwParsedError(error: any) {
+    throw this._parseError(error);
+  }
+
+  private _getRequestOptionsWithCredentials(user: User): RequestOptionsArgs {
+    const authString = window.btoa((<any>window).unescape(encodeURIComponent(`${user.email}:${user.password}`)));
     return {
       headers: new Headers({
         'Authorization': `Basic ${authString}`
       }),
       withCredentials: true
-    };
-  }
-
-  private _validateResponse(schema: any) {
-    return (response: any) => {
-      // Validate response against JSON Schema
-      const validationResult = validate(response, schema);
-
-      if(validationResult.errors && validationResult.errors.length) {
-        this.onValidationError.emit(validationResult.errors.map((error: any) => error.stack));
-      }
-
-      return response;
     };
   }
 
@@ -104,5 +179,17 @@ export class EnvironmentsService {
         return res;
       }, [])
       .join('&');
+  }
+
+  private _validateResponse(schema: any) {
+    return (response: any) => {
+      // Validate response against JSON Schema
+      const validationResult = validate(response, schema);
+
+      if(validationResult.errors && validationResult.errors.length) {
+        this.onValidationError.emit(validationResult.errors.map((error: any) => error.stack));
+      }
+      return response;
+    };
   }
 }
