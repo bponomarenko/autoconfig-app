@@ -9,5 +9,5 @@ before_script:
   - npm i angular-cli-ghpages -g --silent
 
 script:
-  - ng build -prod --aot false --progress false -bh /autoconfig-app/
+  - npm run build:web
   - ngh --repo=https://$GH_TOKEN@github.com/bponomarenko/autoconfig-app.git --name="Borys Ponomarenko" --email=bponomarenko@gmail.com

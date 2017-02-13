@@ -1,15 +1,21 @@
 {
   "name": "autoconfig-app",
-  "version": "0.0.0",
+  "description": "UI for Autoconfig API",
+  "version": "0.1.0",
   "license": "MIT",
+  "author": {
+    "name": "Borys Ponomarenko",
+    "email": "bponomarenko@gmail.com"
+  },
   "angular-cli": {},
   "scripts": {
-    "ng": "ng",
     "start": "npm run proxy & ng serve",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "proxy": "node server"
+    "proxy": "node proxy",
+    "build:web": "ng build -prod --aot false -bh /autoconfig-app/",
+    "build:app": "ng build -prod --aot false -bh $PWD/dist/ -op dist-app",
+    "app": "electron ./desktop",
+    "pack": "build --dir",
+    "dist": "build"
   },
   "private": true,
   "dependencies": {
@@ -37,17 +43,29 @@
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "codelyzer": "~2.0.0-beta.1",
+    "electron": "^1.4.15",
+    "electron-builder": "^13.5.0",
+    "express": "^4.14.1",
+    "express-http-proxy": "^0.11.0",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
-    "karma-jasmine": "^1.0.2",
     "karma-coverage-istanbul-reporter": "^0.2.0",
+    "karma-jasmine": "^1.0.2",
     "protractor": "~5.1.0",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
-    "typescript": "~2.0.0",
-    "angular-in-memory-web-api": "^0.2.4"
-  }
+    "typescript": "~2.0.0"
+  },
+  "build": {
+    "appId": "autoconfig.app",
+    "files": ["dist-app/**/*"],
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg"
+    }
+  },
+  "productName": "Autoconfig API"
 }
