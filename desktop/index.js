@@ -1,8 +1,4 @@
-const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const { app, BrowserWindow } = require('electron')
 
 const path = require('path')
 const url = require('url')
@@ -13,7 +9,7 @@ let win
 
 function createWindow () {
   // Create the browser window.
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({ width: 800, height: 600 })
 
   // and load the index.html of the app.
   win.loadURL(url.format({
@@ -24,6 +20,9 @@ function createWindow () {
 
   // Open the DevTools.
   win.webContents.openDevTools()
+
+  console.log(win.webContents)
+  console.log(win.webPreferences)
 
   // Emitted when the window is closed.
   win.on('closed', function () {
@@ -38,6 +37,9 @@ function createWindow () {
     event.preventDefault()
   })
 }
+
+// Permanently enabe --ignore-certificate-errors switch
+app.commandLine.appendSwitch('ignore-certificate-errors');
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
