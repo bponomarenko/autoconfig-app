@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalComponent, UserFormComponent, CreateFormComponent } from '..';
-import { User, UserFormData, CreateEnvironmentFormData } from '../../types';
+import { User, UserFormData } from '../../types';
 import { UserService, EnvironmentsService, NotificationsService } from '../../services';
 
 @Component({
@@ -74,14 +74,31 @@ export class HeaderComponent {
 
     return this.envService.createEnvironment({
       user,
-      data: Object.assign({}, this.createFormData)
+      stack: this.createFormData.stack,
+      data: this._getNewEnvironmentData(this.createFormData)
     })
       .then(res => {
-        this.alerts.addSuccess(`${res.message} New environment name – ${res.environment_name}`);
         this.createDialog.hide();
+        this.alerts.addSuccess(`${res.message} New environment name – ${res.environment_name}`);
+        return res.environment_name;
       })
       .catch(error => {
         this.createErrorId = this.alerts.addError(`Unable to provision new environment. ${error.message || error}`);
+      })
+      .then((name: string) => {
+        if(!this.createErrorId) {
+          return this._loadNewEnvironment(name)
+        }
+      });
+  }
+
+  private _loadNewEnvironment(name: string) {
+    return this.envService.loadEnvironment(name)
+      .then(() => {
+        // TODO: scroll to new element and select it
+      })
+      .catch(error => {
+        this.alerts.addError(`Unable to load new environment ${name}. ${error.message || error}`);
       });
   }
 
@@ -90,5 +107,14 @@ export class HeaderComponent {
       this.alerts.dismiss(this.createErrorId);
       this.createErrorId = null;
     }
+  }
+
+  private _getNewEnvironmentData(formData: any): any {
+    return Object.keys(formData)
+      .filter((key: string) => typeof formData[key] === 'boolean')
+      .reduce((result, key: string) => {
+        result[key] = formData[key] ? 'yes' : 'no';
+        return result;
+      }, {});
   }
 }

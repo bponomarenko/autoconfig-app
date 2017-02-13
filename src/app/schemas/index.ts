@@ -1,9 +1,11 @@
-import EnvironmentsSchema from './environments.json';
-import StacksSchema from './stacks.json';
-import ProvisionResponseSchema from './provision_response.json';
+const EnvironmentsSchema = require('./environments.json');
+const EnvironmentSchema = require('./environment.json');
+const StacksSchema = require('./stacks.json');
+const ProvisionResponseSchema = require('./provision_response.json');
 
 export default {
   EnvironmentsSchema,
+  EnvironmentSchema,
   StacksSchema,
   ProvisionResponseSchema
 }

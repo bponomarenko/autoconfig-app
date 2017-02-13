@@ -2,12 +2,13 @@ import 'rxjs/add/operator/toPromise';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Headers } from '@angular/http';
 import { validate } from 'jsonschema';
-import { Environment, User, CreateEnvironmentFormData } from '../types';
+import { Environment, User } from '../types';
+import { environment as env } from '../../environments/environment';
 import schemas from '../schemas';
 
 const DEFAULT_ERROR_MESSAGE = 'Unexpected server error. Please report an issue to https://github.com/bponomarenko/autoconfig-app/issues.'
-const BASE_URL = 'http://localhost:3000/api/';
-// const BASE_URL = 'https://autoconfig.backbase.com/api/';
+
+type YesNo = 'yes' | 'no';
 
 interface DeleteEnvironmentParams {
   user: User;
@@ -16,7 +17,12 @@ interface DeleteEnvironmentParams {
 
 interface CreateEnvironmentParams {
   user: User;
-  data: CreateEnvironmentFormData;
+  stack: string;
+  data: {
+    dbs?: YesNo;
+    async?: YesNo;
+    onebb_mock_mode?: YesNo;
+  }
 }
 
 interface CreateEnvironmentResponse {
@@ -57,7 +63,7 @@ export class EnvironmentsService {
 
     this.loadingStacks = true;
 
-    return this.http.get(`${BASE_URL}stacks/`)
+    return this.http.get(`${env.apiUrl}stacks/`)
       .toPromise()
       .then(response => {
         this._stacks = response.json();
@@ -79,7 +85,7 @@ export class EnvironmentsService {
     this.onLoad.emit();
     this.loadingEnvironments = true;
 
-    return this.http.get(`${BASE_URL}environments/`)
+    return this.http.get(`${env.apiUrl}environments/`)
       .toPromise()
       .then(response => {
         this._environments = response.json();
@@ -93,6 +99,23 @@ export class EnvironmentsService {
       });
   }
 
+  loadEnvironment(name: string): Promise<Environment> {
+    return this.http.get(`${env.apiUrl}environments/${name}`)
+      .toPromise()
+      .then(response => {
+        const environment = response.json();
+        const index = this._environments.findIndex((env: Environment) => env.name === environment.name);
+        if (index === -1) {
+          this._environments.push(environment)
+        } else {
+          this._environments[index] = environment;
+        }
+        return environment;
+      })
+      .then(this._validateResponse(schemas.EnvironmentSchema))
+      .catch(error => this._throwParsedError(error));
+  }
+
   deleteEnvironment(params: DeleteEnvironmentParams): Promise<null> {
     if(this.deletingEnvironment) {
       return null;
@@ -101,7 +124,7 @@ export class EnvironmentsService {
     this.deletingEnvironment = true;
     const options = this._getRequestOptionsWithCredentials(params.user);
 
-    return this.http.delete(`${BASE_URL}environments/${params.environmentName}`, options)
+    return this.http.delete(`${env.apiUrl}environments/${params.environmentName}`, options)
       .toPromise()
       .then(response => {
         this.deletingEnvironment = false;
@@ -124,7 +147,7 @@ export class EnvironmentsService {
     const options = this._getRequestOptionsWithCredentials(params.user);
     options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(`${BASE_URL}stacks/${params.data.stack}`, this._encodeBody(params.data), options)
+    return this.http.post(`${env.apiUrl}stacks/${params.stack}`, this._encodeBody(params.data), options)
       .toPromise()
       .then(response => {
         this.creatingEnvironment = false;

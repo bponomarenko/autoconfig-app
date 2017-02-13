@@ -1,6 +1,7 @@
 <ul class="list-group">
   <li class="list-group-item"
-    *ngFor="let environment of environments; trackBy: environment?.name">
+    *ngFor="let environment of environments; trackBy: environment?.name"
+    [attr.data-name]="environment.name">
     <!-- Environment row -->
     <div class="container-fluid px-0 environment-container">
       <div class="row">
@@ -52,5 +53,5 @@
   action-text="Delete"
   [action]="deleteEnvironment.bind(this)"
   [in-progress]="deleting">
-  Are you sure you want to delete environment <i>{{environmentToDelete}}</i>?
+  Are you sure you want to delete environment <i>{{environmentNameToDelete}}</i>?
 </ac-credentials-modal>
