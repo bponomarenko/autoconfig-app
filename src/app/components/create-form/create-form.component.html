@@ -14,8 +14,30 @@
     </div>
   </div>
 
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">Version:</label>
+    <div class="col-sm-9">
+      <input name="version"
+        type="text"
+        class="form-control"
+        [(ngModel)]="data.version"
+        [disabled]="disabled">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-sm-3 col-form-label">TTL:</label>
+    <div class="col-sm-9">
+      <input name="ttl"
+        type="text"
+        class="form-control"
+        [(ngModel)]="data.ttl"
+        [disabled]="disabled">
+    </div>
+  </div>
+
   <div class="form-group row mb-0">
-    <div class="col-sm-9 offset-sm-3">
+    <div class="col-sm-6">
       <div class="form-check">
         <label class="form-check-label">
           <input name="async"
@@ -27,10 +49,8 @@
         </label>
       </div>
     </div>
-  </div>
 
-  <div class="form-group row mb-0">
-    <div class="col-sm-9 offset-sm-3">
+    <div class="col-sm-6">
       <div class="form-check">
         <label class="form-check-label">
           <input name="dbs"
@@ -42,10 +62,8 @@
         </label>
       </div>
     </div>
-  </div>
 
-  <div class="form-group row mb-0">
-    <div class="col-sm-9 offset-sm-3">
+    <div class="col-sm-6">
       <div class="form-check">
         <label class="form-check-label">
           <input name="onebb_mock_mode"
@@ -54,6 +72,32 @@
             [(ngModel)]="data.onebb_mock_mode"
             [disabled]="disabled">
           Mocked mode
+        </label>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input name="enable_demo"
+            type="checkbox"
+            class="form-check-input"
+            [(ngModel)]="data.enable_demo"
+            [disabled]="disabled">
+          Enable demo
+        </label>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-check">
+        <label class="form-check-label">
+          <input name="public_environment"
+            type="checkbox"
+            class="form-check-input"
+            [(ngModel)]="data.public_environment"
+            [disabled]="disabled">
+          Is public
         </label>
       </div>
     </div>

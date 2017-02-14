@@ -20,7 +20,7 @@ export class HeaderComponent {
 
   constructor(private userService: UserService, private envService: EnvironmentsService, private alerts: NotificationsService) {
     this.userFormData = { user: new User() };
-    this.createFormData = { stack: '' };
+    this.createFormData = {};
   }
 
   ngAfterContentInit() {
@@ -29,7 +29,12 @@ export class HeaderComponent {
     });
 
     this.createDialog.onShow.subscribe(() => {
-      this.createFormData = { stack: '', async: true };
+      this.createFormData = {
+        stack: '',
+        version: 'latest',
+        ttl: '4h',
+        async: true
+      };
     });
 
     this.userDialog.onHidden.subscribe(() => {
@@ -72,10 +77,13 @@ export class HeaderComponent {
   createEnvironment(user: User): Promise<null> {
     this._dismissCreateError();
 
+    const data = Object.assign({}, this.createFormData);
+    delete data.stack;
+
     return this.envService.createEnvironment({
       user,
       stack: this.createFormData.stack,
-      data: this._getNewEnvironmentData(this.createFormData)
+      data: this._getNewEnvironmentData(data)
     })
       .then(res => {
         this.createDialog.hide();
@@ -111,10 +119,14 @@ export class HeaderComponent {
 
   private _getNewEnvironmentData(formData: any): any {
     return Object.keys(formData)
-      .filter((key: string) => typeof formData[key] === 'boolean')
       .reduce((result, key: string) => {
-        result[key] = formData[key] ? 'yes' : 'no';
+        const value = formData[key];
+        result[key] = typeof value === 'boolean' ? this._getYesNo(value) : value;
         return result;
       }, {});
+  }
+
+  private _getYesNo(value: boolean): string {
+    return value ? 'yes' : 'no';
   }
 }
