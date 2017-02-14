@@ -13,15 +13,23 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 #### I can't open application because it's "from unidentified developer"
 
 This is default MacOS protection, which can be easily workarounded. To open application perform the following steps:
+
 1. Open Finder and navigate to /Applications (default location for Applications).
+
 2. Find the application in the foler.
+
 3. Right-click on the application.
+
 4. Select Open.
+
 5. You will see prompt warning the application is from an unidentified developer. Click Open to continue.
 
 Another way is to open application is from Terminal:
+
 1. Open Terminal application.
+
 2. Execute the following command to run Autoconfig app:
+
 ```bash
 /Applications/Autoconfig\ API.app/Contents/MacOS/Autoconfig\ API; exit;
 ```
@@ -34,7 +42,9 @@ Autoconfig API is only available from withing Company network. Make sure you are
 
 Run `ng start:web` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 P.S.`ng start:web` will do two things:
+
 1. Start local proxy on 3000 port to solve CORS restrictions in browser
+
 2. Start `ng serve`, which will start local dev server
 
 Run `ng start:app` for a dev Electron app. Application will be opened automatically.
