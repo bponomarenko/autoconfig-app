@@ -15,7 +15,7 @@ script:
   - npm run build:web -- -bh /autoconfig-app/
   - ngh --dir=dist/web --repo=https://$GH_TOKEN@github.com/bponomarenko/autoconfig-app.git --name="Borys Ponomarenko" --email=bponomarenko@gmail.com
   - npm run build:web4app
-  - npm run build:app -- -p always
+  - npm run build:app -- -p never
 
 branches:
   only:
