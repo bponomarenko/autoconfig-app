@@ -1,11 +1,8 @@
-
 language: node_js
+node_js: 6
 
-os:
-  - osx
-
-node_js:
-  - 7
+os: osx
+osx_image: xcode8.1
 
 before_script:
   - npm i @angular/cli -g --silent
