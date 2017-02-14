@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron')
+const electron = require('electron')
+const { app, BrowserWindow } = electron
 
 const path = require('path')
 const url = require('url')
@@ -29,6 +30,11 @@ function createWindow () {
   // Disable internal in-app navigation
   win.webContents.on('will-navigate', function(event) {
     event.preventDefault()
+  })
+
+  win.webContents.on('new-window', function(event, url) {
+    event.preventDefault()
+    electron.shell.openExternal(url)
   })
 }
 
