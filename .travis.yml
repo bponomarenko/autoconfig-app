@@ -1,8 +1,7 @@
 language: node_js
-node_js: 6
+node_js: 7
 
 os: osx
-osx_image: xcode8.1
 
 before_script:
   - npm i @angular/cli -g --silent
@@ -12,7 +11,7 @@ script:
   - npm run build:web -- -bh /autoconfig-app/
   - ngh --dir=dist/web --repo=https://$GH_TOKEN@github.com/bponomarenko/autoconfig-app.git --name="Borys Ponomarenko" --email=bponomarenko@gmail.com
   - npm run build:web4app
-  - npm run build:app -- -p never
+  - npm run build:app -- -p onTag
 
 branches:
   only:
