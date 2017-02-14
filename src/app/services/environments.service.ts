@@ -163,7 +163,7 @@ export class EnvironmentsService {
     if (error.headers && error.headers.get('Content-Type') === 'application/json') {
       // If response in JSON, try to parse it and get internal message
       const errorObj = error.json();
-      message = errorObj && errorObj.message;
+      message = errorObj && (errorObj.message || errorObj.error);
 
       if(typeof message === 'object') {
         message = Object.keys(message)
