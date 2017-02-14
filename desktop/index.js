@@ -17,9 +17,6 @@ function createWindow () {
   // Open the DevTools.
   // win.webContents.openDevTools()
 
-  console.log(win.webContents)
-  console.log(win.webPreferences)
-
   win.on('closed', function () {
     win = null
   })
