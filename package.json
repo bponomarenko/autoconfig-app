@@ -1,21 +1,21 @@
 {
   "name": "autoconfig-app",
   "description": "UI for Autoconfig API",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "author": {
     "name": "Borys Ponomarenko",
     "email": "bponomarenko@gmail.com"
   },
   "angular-cli": {},
+  "main": "desktop/index.js",
   "scripts": {
-    "start": "npm run proxy & ng serve",
+    "start:web": "npm run proxy && ng serve",
+    "start:app": "build:web4app && electron ./desktop",
     "proxy": "node proxy",
-    "build:web": "ng build -prod -e prod --aot false -bh /autoconfig-app/",
-    "build:app": "ng build -prod -e prod --aot false -bh $PWD/dist-app/ -op dist-app",
-    "app": "electron ./desktop",
-    "pack": "build --dir",
-    "dist": "build"
+    "build:web": "rm -rf dist/web && ng build -prod -e prod --aot false -bh /autoconfig-app/ -op dist/web",
+    "build:web4app": "rm -rf dist/web4app && ng build -prod -e prod --aot false -bh $PWD/dist/web4app/ -op dist/web4app",
+    "build:app": "rm -rf dist/app && build -m --x64"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +26,7 @@
     "@angular/http": "^2.4.0",
     "@angular/platform-browser": "^2.4.0",
     "@angular/platform-browser-dynamic": "^2.4.0",
+    "@angular/platform-server": "^2.4.7",
     "@angular/router": "^3.4.0",
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
@@ -62,11 +63,21 @@
   "build": {
     "appId": "autoconfig.app",
     "files": [
-      "dist-app/**/*"
+      "desktop/",
+      "dist/web4app",
+      "package.json"
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "resources/osx/icon.icns"
+    },
+    "dmg": {
+      "icon": "resources/osx/dmg-icon.icns"
+    },
+    "directories": {
+      "buildResources": "resources",
+      "output": "dist/app"
     }
   },
   "productName": "Autoconfig API"
