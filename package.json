@@ -10,8 +10,8 @@
   "angular-cli": {},
   "main": "desktop/index.js",
   "scripts": {
-    "start:web": "npm run proxy && ng serve",
-    "start:app": "build:web4app && electron ./desktop",
+    "start:web": "npm run proxy & ng serve",
+    "start:app": "npm run build:web4app && electron ./desktop",
     "proxy": "node proxy",
     "build:web": "rm -rf dist/web && ng build -prod -e prod --aot false -bh /autoconfig-app/ -op dist/web",
     "build:web4app": "rm -rf dist/web4app && ng build -prod -e prod --aot false -bh $PWD/dist/web4app/ -op dist/web4app",

@@ -1,10 +1,9 @@
 
 language: node_js
 
-os:
-  - osx
 osx_image:
-  - xcode8.2
+  - xcode8.1
+
 node_js:
   - 7
 
