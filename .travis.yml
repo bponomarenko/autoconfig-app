@@ -1,8 +1,12 @@
 
 language: node_js
 
-node_js: 7
-osx_image: xcode8.2
+os:
+  - osx
+osx_image:
+  - xcode8.2
+node_js:
+  - 7
 
 before_script:
   - npm i @angular/cli -g --silent
@@ -15,4 +19,5 @@ script:
   - npm run build:app -- -p always
 
 branches:
-  only: master
+  only:
+    - master
