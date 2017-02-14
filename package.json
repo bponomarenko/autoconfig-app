@@ -78,7 +78,8 @@
     "directories": {
       "buildResources": "resources",
       "output": "dist/app"
-    }
+    },
+    "publish": ["github"]
   },
   "productName": "Autoconfig API"
 }
