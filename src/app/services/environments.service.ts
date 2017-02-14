@@ -1,14 +1,12 @@
 import 'rxjs/add/operator/toPromise';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, Headers } from '@angular/http';
-import { validate } from 'jsonschema';
+import { Validator } from 'jsonschema';
 import { Environment, User } from '../types';
 import { environment as env } from '../../environments/environment';
 import schemas from '../schemas';
 
 const DEFAULT_ERROR_MESSAGE = 'Unexpected server error. Please report an issue to https://github.com/bponomarenko/autoconfig-app/issues.'
-
-type YesNo = 'yes' | 'no';
 
 interface DeleteEnvironmentParams {
   user: User;
@@ -18,11 +16,7 @@ interface DeleteEnvironmentParams {
 interface CreateEnvironmentParams {
   user: User;
   stack: string;
-  data: {
-    dbs?: YesNo;
-    async?: YesNo;
-    onebb_mock_mode?: YesNo;
-  }
+  data: any;
 }
 
 interface CreateEnvironmentResponse {
@@ -34,6 +28,7 @@ interface CreateEnvironmentResponse {
 export class EnvironmentsService {
   private _environments: Environment[];
   private _stacks: string[];
+  private _validator: Validator;
   loadingStacks: boolean = false;
   loadingEnvironments: boolean = false;
   deletingEnvironment: boolean = false;
@@ -46,6 +41,8 @@ export class EnvironmentsService {
     this.onLoad = new EventEmitter<null>();
     this.onLoadError = new EventEmitter<Error>();
     this.onValidationError = new EventEmitter<string[]>();
+    this._validator = new Validator();
+    this._validator.addSchema(schemas.EnvironmentSchema, '/Environment');
   }
 
   get environments(): Environment[] {
@@ -207,10 +204,15 @@ export class EnvironmentsService {
   private _validateResponse(schema: any) {
     return (response: any) => {
       // Validate response against JSON Schema
-      const validationResult = validate(response, schema);
+      try {
+        const validationResult = this._validator.validate(response, schema);
 
-      if(validationResult.errors && validationResult.errors.length) {
-        this.onValidationError.emit(validationResult.errors.map((error: any) => error.stack));
+        if(validationResult.errors && validationResult.errors.length) {
+          this.onValidationError.emit(validationResult.errors.map((error: any) => error.stack));
+        }
+      } catch(e) {
+        // Catch validation unhandled errors
+        this.onValidationError.emit([e.message]);
       }
       return response;
     };
