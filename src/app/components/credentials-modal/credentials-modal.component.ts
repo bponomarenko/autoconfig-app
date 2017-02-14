@@ -1,5 +1,5 @@
 import { Component, AfterContentInit, ViewChild, OnChanges } from '@angular/core';
-import { Subscription } from 'rxjs/RX';
+import { Subscription } from 'rxjs/Rx';
 import { ModalComponent, UserFormComponent } from '..';
 import { User } from '../../types';
 import { UserService } from '../../services';
