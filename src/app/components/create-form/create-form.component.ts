@@ -8,6 +8,7 @@ import { EnvironmentsService, NotificationsService } from '../../services';
 })
 export class CreateFormComponent implements AfterContentInit {
   private stackErrorId: number;
+  // private configuration: string;
 
   @Input() data: any;
   @Input() disabled: boolean;
@@ -17,7 +18,7 @@ export class CreateFormComponent implements AfterContentInit {
 
   ngAfterContentInit() {
     if(!this.data) {
-      this.data = {};
+      this.data = { };
     }
   }
 

@@ -2,7 +2,7 @@ import { Component, AfterContentInit, ViewChild, OnChanges } from '@angular/core
 import { Subscription } from 'rxjs/Rx';
 import { ModalComponent, UserFormComponent } from '..';
 import { User } from '../../types';
-import { UserService } from '../../services';
+import { ConfigurationService } from '../../services';
 
 @Component({
   selector: 'ac-credentials-modal',
@@ -16,7 +16,7 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
   private formChangeSubscription: Subscription;
   @ViewChild('userForm') userForm: UserFormComponent;
 
-  constructor(private userService: UserService) {
+  constructor(private confService: ConfigurationService) {
     super();
     this.formData = { user: new User() };
   }
@@ -55,7 +55,7 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
 
   private onActionBtnClick() {
     // Try to save with user or show user form
-    const user = this.userService.user;
+    const user = this.confService.user;
     if (!user || !user.hasAllData()) {
       this.showForm();
     } else {
@@ -68,7 +68,7 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
     Promise.resolve(this.actionBtnAction(user))
       .then(() => {
         if(this.isFormShown && this.formData.save) {
-          this.userService.user = user;
+          this.confService.user = user;
         }
       })
       // Ignore any potential issues as they should be processed in the caller

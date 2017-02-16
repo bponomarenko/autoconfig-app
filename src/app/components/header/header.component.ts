@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ModalComponent, UserFormComponent, CreateFormComponent } from '..';
 import { User, UserFormData } from '../../types';
-import { UserService, EnvironmentsService, NotificationsService } from '../../services';
+import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 
 @Component({
   selector: 'ac-header',
@@ -18,7 +18,7 @@ export class HeaderComponent {
   @ViewChild('credentialsForm') userForm: UserFormComponent;
   @ViewChild('createForm') createForm: CreateFormComponent;
 
-  constructor(private userService: UserService, private envService: EnvironmentsService, private alerts: NotificationsService) {
+  constructor(private confService: ConfigurationService, private envService: EnvironmentsService, private alerts: NotificationsService) {
     this.userFormData = { user: new User() };
     this.createFormData = {};
   }
@@ -50,7 +50,7 @@ export class HeaderComponent {
   }
 
   get user(): User {
-    return this.userService.user;
+    return this.confService.user;
   }
 
   get isUserModified(): boolean {
@@ -66,7 +66,7 @@ export class HeaderComponent {
   }
 
   saveUserCredentials() {
-    this.userService.user = this.userFormData.user;
+    this.confService.user = this.userFormData.user;
     this.userDialog.hide();
   }
 
