@@ -1,21 +1,30 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { EnvironmentsService, NotificationsService } from './services';
+import { EnvironmentsService, NotificationsService, ConfigurationService } from './services';
+import { ModalComponent } from './components';
 
 @Component({
   selector: 'ac-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private loadSubscription: Subscription;
   private loadErrorSubscription: Subscription;
   private validationErrorSubscription: Subscription;
   private loadErrorId: number;
 
-  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {
-    this._subscribeOnEvents();
-    this.envService.loadEnvironments();
+  @ViewChild('baseUrlDialog') baseUrlModal: ModalComponent;
+
+  constructor(
+    private envService: EnvironmentsService,
+    private alerts: NotificationsService,
+    private confService: ConfigurationService) {
+    this.subscribeOnEvents();
+
+    if(this.confService.baseUrl) {
+      this.envService.loadEnvironments();
+    }
   }
 
   ngOnInit() {
@@ -33,14 +42,26 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loadErrorSubscription.unsubscribe();
       this.loadErrorSubscription = null;
     }
-    this._clearValidationErrorSusbscription();
+    this.clearValidationErrorSusbscription();
+  }
+
+  ngAfterViewInit() {
+    if(!this.confService.baseUrl) {
+      this.baseUrlModal.show();
+    }
   }
 
   get loading(): boolean {
     return this.envService.loadingEnvironments;
   }
 
-  private _subscribeOnEvents() {
+  private saveBaseUrl(url: string) {
+    this.confService.baseUrl = url;
+    this.envService.loadEnvironments();
+    this.baseUrlModal.hide();
+  }
+
+  private subscribeOnEvents() {
     this.loadSubscription = this.envService.onLoad.subscribe(() => {
       if(this.loadErrorId) {
         this.alerts.dismiss(this.loadErrorId);
@@ -57,11 +78,11 @@ export class AppComponent implements OnInit, OnDestroy {
       errors.forEach(error => { console.warn(error) });
 
       // Validation error should be shown just once
-      this._clearValidationErrorSusbscription();
+      this.clearValidationErrorSusbscription();
     });
   }
 
-  private _clearValidationErrorSusbscription() {
+  private clearValidationErrorSusbscription() {
     if(this.validationErrorSubscription) {
       this.validationErrorSubscription.unsubscribe();
       this.validationErrorSubscription = null;

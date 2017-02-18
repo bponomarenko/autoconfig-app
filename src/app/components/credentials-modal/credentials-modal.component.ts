@@ -53,26 +53,23 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
     return this.inProgress || (this.isFormShown ? !this.isFormValid : this.actionBtnDisabled);
   }
 
-  private onActionBtnClick() {
+  private tryToDoAction() {
     // Try to save with user or show user form
     const user = this.confService.user;
     if (!user || !user.hasAllData()) {
       this.showForm();
     } else {
-      this.doAction(user);
+      this.doAction();
     }
   }
 
-  private doAction(actionUser?: User) {
-    const user = new User(actionUser || this.formData.user);
-    Promise.resolve(this.actionBtnAction(user))
-      .then(() => {
-        if(this.isFormShown && this.formData.save) {
-          this.confService.user = user;
-        }
-      })
-      // Ignore any potential issues as they should be processed in the caller
-      .catch(() => {});
+  private doAction() {
+    const user = new User(this.confService.user || this.formData.user);
+    this.onActionBtnClick(user);
+
+    if(this.isFormShown && this.formData.save) {
+      this.confService.user = user;
+    }
   }
 
   private showForm() {

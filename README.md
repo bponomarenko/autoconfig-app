@@ -13,7 +13,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `ng start:web` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 P.S.`ng start:web` will do two things:
 
-1. Start local proxy on 3000 port to solve CORS restrictions in browser
+1. Start local proxy on 3000 port to solve CORS restrictions in browser. For a proxy to work correctly, set `AUTOCONFIG_HOST` environment variable with Autoconfig API host as a value.
 2. Start `ng serve`, which will start local dev server
 
 Run `ng start:app` for a dev Electron app. Application will be opened automatically.

@@ -4,3 +4,34 @@
   <ac-environments></ac-environments>
 </div>
 <ac-notifications class="fixed-bottom"></ac-notifications>
+
+<ac-modal #baseUrlDialog
+  header="Autoconfig API URL"
+  disableCancel="false"
+  (action)="saveBaseUrl(urlForm.value.url)"
+  action-text="Save"
+  [action-disabled]="!urlForm.valid">
+  <p class="mb-3">Please provide URL for Autoconfig API:</p>
+  <form #urlForm="ngForm">
+    <div class="form-group row"
+      [ngClass]="{ 'has-success': urlForm.valid, 'has-danger': !urlForm.valid && !urlForm.pristine && urlForm.touched }">
+      <label class="col-sm-3 col-form-label">URL:</label>
+      <div class="col-sm-9">
+        <input type="url"
+          class="form-control"
+          name="url"
+          required
+          pattern="(http|https)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+          ngModel
+          #url="ngModel"
+          [ngClass]="{ 'form-control-success': urlForm.valid, 'form-control-danger': !urlForm.valid && !urlForm.pristine && urlForm.touched }">
+        <div class="form-control-feedback" [hidden]="urlForm.valid || urlForm.pristine || !urlForm.touched || !url.errors.required">
+          URL is required
+        </div>
+        <div class="form-control-feedback" [hidden]="urlForm.valid || urlForm.pristine || !urlForm.touched || !url.errors.pattern">
+          URL format is incorrect
+        </div>
+      </div>
+    </div>
+  </form>
+</ac-modal>

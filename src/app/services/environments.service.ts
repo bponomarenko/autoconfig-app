@@ -4,6 +4,7 @@ import { Http, RequestOptionsArgs, Headers } from '@angular/http';
 import { Validator } from 'jsonschema';
 import { Environment, User } from '../types';
 import { environment as env } from '../../environments/environment';
+import { ConfigurationService } from '.';
 import schemas from '../schemas';
 
 const DEFAULT_ERROR_MESSAGE = 'Unexpected server error. Please report an issue to https://github.com/bponomarenko/autoconfig-app/issues.'
@@ -37,7 +38,7 @@ export class EnvironmentsService {
   onLoadError: EventEmitter<Error>;
   onValidationError: EventEmitter<string[]>;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private confService: ConfigurationService) {
     this.onLoad = new EventEmitter<null>();
     this.onLoadError = new EventEmitter<Error>();
     this.onValidationError = new EventEmitter<string[]>();
@@ -53,6 +54,10 @@ export class EnvironmentsService {
     return this._stacks;
   }
 
+  get baseUrl(): string {
+    return env.apiUrl || this.confService.baseUrl;
+  }
+
   loadStacks(): Promise<string[]> {
     if(this.loadingStacks) {
       return null;
@@ -60,7 +65,7 @@ export class EnvironmentsService {
 
     this.loadingStacks = true;
 
-    return this.http.get(`${env.apiUrl}stacks/`)
+    return this.http.get(`${this.baseUrl}stacks/`)
       .toPromise()
       .then(response => {
         this._stacks = response.json();
@@ -82,7 +87,7 @@ export class EnvironmentsService {
     this.onLoad.emit();
     this.loadingEnvironments = true;
 
-    return this.http.get(`${env.apiUrl}environments/`)
+    return this.http.get(`${this.baseUrl}environments/`)
       .toPromise()
       .then(response => {
         this._environments = response.json();
@@ -97,7 +102,7 @@ export class EnvironmentsService {
   }
 
   loadEnvironment(name: string): Promise<Environment> {
-    return this.http.get(`${env.apiUrl}environments/${name}`)
+    return this.http.get(`${this.baseUrl}environments/${name}`)
       .toPromise()
       .then(response => {
         const environment = response.json();
@@ -121,7 +126,7 @@ export class EnvironmentsService {
     this.deletingEnvironment = true;
     const options = this._getRequestOptionsWithCredentials(params.user);
 
-    return this.http.delete(`${env.apiUrl}environments/${params.environmentName}`, options)
+    return this.http.delete(`${this.baseUrl}environments/${params.environmentName}`, options)
       .toPromise()
       .then(response => {
         this.deletingEnvironment = false;
@@ -144,7 +149,7 @@ export class EnvironmentsService {
     const options = this._getRequestOptionsWithCredentials(params.user);
     options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(`${env.apiUrl}stacks/${params.stack}`, this._encodeBody(params.data), options)
+    return this.http.post(`${this.baseUrl}stacks/${params.stack}`, this._encodeBody(params.data), options)
       .toPromise()
       .then(response => {
         this.creatingEnvironment = false;

@@ -51,7 +51,7 @@
 <ac-credentials-modal #deleteDialog
   header="Delete environment"
   action-text="Delete"
-  [action]="deleteEnvironment.bind(this)"
+  (action)="deleteEnvironment($event)"
   [in-progress]="deleting">
   Are you sure you want to delete environment <i>{{environmentNameToDelete}}</i>?
 </ac-credentials-modal>

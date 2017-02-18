@@ -26,7 +26,7 @@
 <ac-modal #credentialsDialog
   header="{{user?.hasSomeData() ? 'Modify' : 'Add'}} user credentials"
   action-text="Save"
-  [action]="saveUserCredentials.bind(this)"
+  (action)="saveUserCredentials()"
   [action-disabled]="!credentialsForm?.isValid || !isUserModified">
   <ac-user-form #credentialsForm [(data)]="userFormData"></ac-user-form>
 </ac-modal>
@@ -34,7 +34,7 @@
 <ac-credentials-modal #createDialog
   header="Provision new environment"
   [in-progress]="creating"
-  [action]="createEnvironment.bind(this)"
+  (action)="createEnvironment($event)"
   action-text="Provision"
   [action-disabled]="!createForm?.isValid">
   <ac-create-form #createForm

@@ -1,8 +1,8 @@
-import { EventEmitter } from '@angular/core';
 import { User } from '../types';
 
 interface Configuration {
   user: User;
+  baseUrl?: string;
 }
 
 const DATA_KEY = 'autoconfig_configuration';
@@ -11,21 +11,26 @@ export class ConfigurationService {
   private _configuration: Configuration;
   private storage = localStorage;
 
-  onUserChange: EventEmitter<User>;
-
-  constructor() {
-    this.onUserChange = new EventEmitter<User>();
-  }
-
   get user(): User {
     return this.configuration.user;
   }
 
   set user(user: User) {
-    if(!this._configuration.user.isEqualTo(user)) {
+    if(!this.configuration.user.isEqualTo(user)) {
       this._configuration.user = new User(user);
       this._saveConfiguration();
-      this.onUserChange.emit(this._configuration.user);
+    }
+  }
+
+  get baseUrl(): string {
+    return this.configuration.baseUrl;
+  }
+
+  set baseUrl(url: string) {
+    const newUrl = url.endsWith('/') ? url : url + '/';
+    if(this.configuration.baseUrl !== newUrl) {
+      this._configuration.baseUrl = newUrl;
+      this._saveConfiguration();
     }
   }
 
@@ -38,9 +43,9 @@ export class ConfigurationService {
         data = JSON.parse(dataString);
       } catch(e) {}
 
-      this._configuration = {
+      this._configuration = Object.assign({}, data, {
         user: new User(data.user)
-      };
+      });
     }
     return this._configuration;
   }

@@ -1,11 +1,13 @@
-var proxy = require('express-http-proxy');
-var app = require('express')();
+const proxy = require('express-http-proxy');
+const app = require('express')();
+const url = require('url');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-var ORIGIN = 'http://localhost:4200';
+const ORIGIN = 'http://localhost:4200';
+const host = url.parse(process.env.AUTOCONFIG_HOST).host;
 
-app.all('/api/*', proxy('autoconfig.backbase.com', {
+app.all('/api/*', proxy(host, {
   https: true,
   preserveHostHdr: true,
   intercept: function(rsp, data, req, res, callback) {

@@ -1,23 +1,35 @@
-import { Component, ViewChild, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, Input, Output, EventEmitter, OnChanges, AfterViewInit, SimpleChanges } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap';
 
 @Component({
   selector: 'ac-modal',
   templateUrl: './modal.component.html'
 })
-export class ModalComponent implements OnChanges {
+export class ModalComponent implements AfterViewInit, OnChanges {
   @Input() header: string;
+  @Input() disableCancel: boolean = false;
   @Input('in-progress') inProgress: boolean = false;
-  @Input('action') actionBtnAction: Function;
   @Input('action-text') actionBtnText: string;
   @Input('action-disabled') actionBtnDisabled: boolean;
-  @Input('cancel') cancelBtnAction: Function;
   @Input('cancel-text') cancelBtnText: string;
+  @Output('action') onAction: EventEmitter<any>;
+  @Output('cancel') onCancel: EventEmitter<any>;
   @ViewChild('modal') modal: ModalDirective;
+
+  constructor() {
+    this.onAction = new EventEmitter<any>();
+    this.onCancel = new EventEmitter<any>();
+  }
+
+  ngAfterViewInit() {
+    if(this.disableCancel && this.modal.config) {
+      this.modal.config.keyboard = false;
+    }
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     const progressChange = changes['inProgress'];
-    if(progressChange && this.modal.config) {
+    if(progressChange && this.modal.config && !this.disableCancel) {
       // Disable dialog dismissal by keyboard while dialog in progress, re-enable afterwards
       this.modal.config.keyboard = !progressChange.currentValue;
     }
@@ -37,5 +49,13 @@ export class ModalComponent implements OnChanges {
 
   hide() {
     this.modal.hide();
+  }
+
+  protected onActionBtnClick(data?: any) {
+    this.onAction.emit(data);
+  }
+
+  protected onCancelBtnClick() {
+    this.onCancel.emit();
   }
 }
