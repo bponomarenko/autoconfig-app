@@ -67,6 +67,10 @@ Another way is to open application is from Terminal:
 
 Autoconfig API is only available from withing Company network. Make sure you are connected with VPN or physically in the office.
 
+#### Where is my credentials are stored?
+
+All configurations (including credentials) are stored locally in LocalStorage. So private data is not exposed to external servers anyhow.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
