@@ -40,7 +40,7 @@ To use project with mocked data, follow inline comments in `src/app/app.module.t
 2. Select release version, preferably _latest_, and download _Autoconfig.API-[VERSION].dmg_ in the Downloads section.
 3. Open dmg image. Installation screen will be open.
 4. Drag-n-drop App to Applications folder.
-5. Done. But check Q&A session for potential issues you might have running the app.
+5. Done. Check [Additional Information](#additional-information) section for more details.
 
 ## Additional Information
 

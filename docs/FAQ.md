@@ -1,5 +1,9 @@
 # FAQ
 
+- [I can't open application because it's "from unidentified developer"](#i-cant-open-application-because-its-from-unidentified-developer)
+- [Application is loaded, but I don't see any data](#application-is-loaded-but-i-dont-see-any-data)
+- [Where is my credentials are stored?](#where-is-my-credentials-are-stored)
+
 If you didn't found an answer on your question here, please open an issue.
 
 ## I can't open application because it's "from unidentified developer"
