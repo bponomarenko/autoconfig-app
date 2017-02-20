@@ -117,7 +117,7 @@
         type="text"
         class="form-control w-100"
         required
-        [ngModel]="confName"
+        [ngModel]="confName | decode"
         maxlength="100"
         [disabled]="disabled">
     </div>

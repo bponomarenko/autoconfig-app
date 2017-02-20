@@ -24,7 +24,7 @@
       <ul class="dropdown-menu-right" dropdownMenu role="menu" *ngIf="provisionConfigNames.length">
         <li class="dropdown-header">Provision from configuration</li>
         <li *ngFor="let config of provisionConfigNames; trackBy: config">
-          <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config}}</a>
+          <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config | decode}}</a>
         </li>
       </ul>
     </div>

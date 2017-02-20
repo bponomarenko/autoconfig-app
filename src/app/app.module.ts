@@ -10,6 +10,7 @@ import { HeaderComponent, ModalComponent, UserFormComponent, LoaderComponent,
   IconDirective, EnvironmentsComponent, CredentialsModalComponent, NotificationsComponent,
   CreateFormComponent } from './components';
 import { ExpiresPipe } from './pipes/expires.pipe';
+import { DecodePipe } from './pipes/decode.pipe';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { ExpiresPipe } from './pipes/expires.pipe';
     ExpiresPipe,
     CredentialsModalComponent,
     NotificationsComponent,
-    CreateFormComponent
+    CreateFormComponent,
+    DecodePipe
   ],
   imports: [
     BrowserModule,
