@@ -1,5 +1,6 @@
 const electron = require('electron')
-const { app, BrowserWindow } = electron
+const { app, BrowserWindow, Menu } = electron
+const menuTemplate = require('./menu');
 
 const path = require('path')
 const url = require('url')
@@ -36,6 +37,19 @@ function createWindow () {
     event.preventDefault()
     electron.shell.openExternal(url)
   })
+
+  win.webContents.on('context-menu', (event) => {
+    event.preventDefault()
+
+    // Open context menu with Edit section of Application Menu
+    Menu.getApplicationMenu()
+      .items.filter(item => item.label === 'Edit')[0]
+      .submenu
+      .popup(win);
+  }, false)
+
+  // Init application menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 }
 
 // Permanently enabe --ignore-certificate-errors switch
