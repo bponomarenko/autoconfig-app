@@ -55,7 +55,7 @@ export class EnvironmentsService {
   }
 
   get baseUrl(): string {
-    return env.apiUrl || this.confService.baseUrl;
+    return this.confService.baseUrl;
   }
 
   loadStacks(): Promise<string[]> {
