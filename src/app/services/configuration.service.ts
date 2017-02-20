@@ -3,6 +3,11 @@ import { User } from '../types';
 interface Configuration {
   user: User;
   baseUrl?: string;
+  provision: ProvisionConfiguration;
+}
+
+interface ProvisionConfiguration {
+  [key: string]: any;
 }
 
 const DATA_KEY = 'autoconfig_configuration';
@@ -18,7 +23,7 @@ export class ConfigurationService {
   set user(user: User) {
     if(!this.configuration.user.isEqualTo(user)) {
       this._configuration.user = new User(user);
-      this._saveConfiguration();
+      this.saveConfiguration();
     }
   }
 
@@ -30,8 +35,20 @@ export class ConfigurationService {
     const newUrl = url.endsWith('/') ? url : url + '/';
     if(this.configuration.baseUrl !== newUrl) {
       this._configuration.baseUrl = newUrl;
-      this._saveConfiguration();
+      this.saveConfiguration();
     }
+  }
+
+  get provisionConfigurations(): ProvisionConfiguration {
+    return this.configuration.provision;
+  }
+
+  addProvisionConfiguration(name: string, config: any) {
+    if(!this.configuration.provision) {
+      this._configuration.provision = {};
+    }
+    this._configuration.provision[encodeURIComponent(name)] = Object.assign({}, config);
+    this.saveConfiguration();
   }
 
   private get configuration(): Configuration {
@@ -50,7 +67,7 @@ export class ConfigurationService {
     return this._configuration;
   }
 
-  private _saveConfiguration() {
+  private saveConfiguration() {
     this.storage.setItem(DATA_KEY, JSON.stringify(this._configuration));
   }
 }

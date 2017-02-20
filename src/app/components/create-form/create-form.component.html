@@ -9,7 +9,8 @@
         [(ngModel)]="data.stack"
         [disabled]="disabled">
         <option value="" *ngIf="loading">Loading...</option>
-        <option *ngFor="let stack of stacks; trackBy: stack" value="{{stack}}">{{stack}}</option>
+        <option [ngValue]="data.stack" *ngIf="data.stack && (!stacks || !stacks.length)">{{data.stack}}</option>
+        <option *ngFor="let stack of stacks; trackBy: stack" [ngValue]="stack">{{stack}}</option>
       </select>
     </div>
   </div>
@@ -104,22 +105,28 @@
   </div>
 </form>
 
-<!-- <hr>
+<hr>
 
-<form>
-  <div class="form-group row">
-    <label class="col-sm-3 col-form-label">Configuration name:</label>
-    <div class="col-sm-9">
-      <div class="input-group">
-        <input name="configuration"
-          type="text"
-          class="form-control"
-          [(ngModel)]="configuration"
-          [disabled]="disabled">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="button">Save</button>
-        </span>
-      </div>
+<p class="mb-3">You can save your provisioning configuration:</p>
+<form class="form-inline"
+  #confForm="ngForm"
+  (submit)="saveConfiguration()">
+  <div class="form-group row w-100">
+    <div class="col-sm-10">
+      <input name="configuration"
+        type="text"
+        class="form-control w-100"
+        required
+        [ngModel]="confName"
+        maxlength="100"
+        [disabled]="disabled">
+    </div>
+    <div class="col-sm-2">
+      <button class="btn btn-secondary"
+      type="submit"
+      [disabled]="!createForm.valid || !confForm.valid || disabled">
+      Save
+    </button>
     </div>
   </div>
-</form> -->
+</form>

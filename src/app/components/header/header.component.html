@@ -7,12 +7,28 @@
     <a href="#"
       class="text-muted"
       (click)="$event.preventDefault(); credentialsDialog.show()">({{user?.email ? user.email : 'anonym'}})</a>
-    <button
-      class="btn btn-primary btn-sm"
-      title="Provision new environment"
-      (click)="createDialog.show()">
-      <i [acIcon]="'add'"></i>
-    </button>
+
+    <div class="btn-group" dropdown>
+      <button
+        class="btn btn-primary btn-sm"
+        title="Provision new environment"
+        (click)="createDialog.show()">
+        <i [acIcon]="'add'"></i>
+      </button>
+      <button type="button"
+        class="btn btn-primary btn-sm dropdown-toggle-split"
+        dropdownToggle
+        *ngIf="provisionConfigNames.length">
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu-right" dropdownMenu role="menu" *ngIf="provisionConfigNames.length">
+        <li class="dropdown-header">Provision from configuration</li>
+        <li *ngFor="let config of provisionConfigNames; trackBy: config">
+          <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config}}</a>
+        </li>
+      </ul>
+    </div>
+
     <button
       class="btn btn-primary btn-sm"
       title="Reload environments list"
@@ -39,6 +55,7 @@
   [action-disabled]="!createForm?.isValid">
   <ac-create-form #createForm
     [(data)]="createFormData"
+    [configuration-name]="configurationName"
     [disabled]="creating">
   </ac-create-form>
 </ac-credentials-modal>

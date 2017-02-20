@@ -1,6 +1,6 @@
 import { Component, AfterContentInit, Input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { EnvironmentsService, NotificationsService } from '../../services';
+import { EnvironmentsService, NotificationsService, ConfigurationService } from '../../services';
 
 @Component({
   selector: 'ac-create-form',
@@ -8,13 +8,17 @@ import { EnvironmentsService, NotificationsService } from '../../services';
 })
 export class CreateFormComponent implements AfterContentInit {
   private stackErrorId: number;
-  // private configuration: string;
 
   @Input() data: any;
   @Input() disabled: boolean;
+  @Input('configuration-name') confName: string;
   @ViewChild('createForm') form: NgForm;
+  @ViewChild('confForm') configurationForm: NgForm;
 
-  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {}
+  constructor(
+    private envService: EnvironmentsService,
+    private alerts: NotificationsService,
+    private confService: ConfigurationService) {}
 
   ngAfterContentInit() {
     if(!this.data) {
@@ -36,7 +40,8 @@ export class CreateFormComponent implements AfterContentInit {
 
   reset() {
     this.form.reset();
-    this._dismissStacksError();
+    this.configurationForm.reset();
+    this.dismissStacksError();
   }
 
   onSelectClick() {
@@ -44,7 +49,7 @@ export class CreateFormComponent implements AfterContentInit {
       return;
     }
 
-    this._dismissStacksError();
+    this.dismissStacksError();
 
     this.envService.loadStacks()
       .catch(error => {
@@ -52,7 +57,15 @@ export class CreateFormComponent implements AfterContentInit {
       });
   }
 
-  private _dismissStacksError() {
+  private saveConfiguration() {
+    const confName = this.configurationForm.value.configuration;
+    const conf = this.form.value;
+
+    this.confService.addProvisionConfiguration(confName, conf);
+    this.alerts.addSuccess(`Provisioning configuration "${confName}" was saved.`);
+  }
+
+  private dismissStacksError() {
     if (this.stackErrorId) {
       this.alerts.dismiss(this.stackErrorId);
       this.stackErrorId = null;
