@@ -61,7 +61,7 @@ export class ConfigurationService {
       } catch(e) {}
 
       this._configuration = Object.assign({}, data, {
-        user: new User(data.user)
+        user: new User(data && data.user)
       });
     }
     return this._configuration;
