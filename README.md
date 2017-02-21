@@ -1,6 +1,7 @@
 # AutoconfigApp
 
-[![Build Status](https://travis-ci.org/bponomarenko/autoconfig-app.svg?branch=master)](https://travis-ci.org/bponomarenko/autoconfig-app)
+[![Build Status][build-img]][build-link]
+[![GitHub issues][issues-img]][issues-link]
 
 This is UI for Autoconfig REST API. Written in Angular. Available as web site or Electron application.
 
@@ -46,3 +47,8 @@ To use project with mocked data, follow inline comments in `src/app/app.module.t
 
 * [FAQ](docs/FAQ.md)
 * [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md)
+
+[build-img]: https://travis-ci.org/bponomarenko/autoconfig-app.svg?branch=master
+[build-link]: https://travis-ci.org/bponomarenko/autoconfig-app
+[issues-img]: https://img.shields.io/github/issues/bponomarenko/autoconfig-app.svg
+[issues-link]: https://github.com/bponomarenko/autoconfig-app/issues
