@@ -6,7 +6,13 @@ nav {
   padding-right: $list-group-item-padding-x;
 }
 
+header {
+  padding: $list-group-item-padding-y $list-group-item-padding-x;
+  min-height: $header-height;
+  background-color: #f1f1f1;
+}
+
 .btn,
 .btn-group {
-  margin-left: $spacing;
+  margin-left: $spacing * 2;
 }

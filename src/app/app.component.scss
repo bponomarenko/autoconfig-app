@@ -9,6 +9,8 @@
   flex-shrink: 0;
   background-color: #2e3136;
   color: #818386;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   .nav-link {
     &, &:focus, &:hover {

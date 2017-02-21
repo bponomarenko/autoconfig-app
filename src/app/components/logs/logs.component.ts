@@ -12,7 +12,7 @@ export class LogsComponent implements OnDestroy {
 
   constructor(private route: ActivatedRoute) {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-      console.log(params['name'])
+      // Display logs based on the name || first item
     });
   }
 

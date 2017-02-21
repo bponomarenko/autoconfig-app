@@ -1,39 +1,37 @@
-<nav class="navbar navbar-light bg-faded d-flex flex-row flex-wrap align-items-center justify-content-between">
-  <span class="navbar-text ml-auto">
-    <a href="#"
-      class="text-muted"
-      (click)="$event.preventDefault(); credentialsDialog.show()">({{user?.email ? user.email : 'anonym'}})</a>
+<header class="d-flex flex-wrap align-items-center justify-content-end">
+  <a href="#"
+    class="text-muted"
+    (click)="$event.preventDefault(); credentialsDialog.show()">({{user?.email ? user.email : 'anonym'}})</a>
 
-    <div class="btn-group" dropdown>
-      <button
-        class="btn btn-primary btn-sm"
-        title="Provision new environment"
-        (click)="createDialog.show()">
-        <i [acIcon]="'add'"></i>
-      </button>
-      <button type="button"
-        class="btn btn-primary btn-sm dropdown-toggle-split"
-        dropdownToggle
-        *ngIf="provisionConfigNames.length">
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu-right" dropdownMenu role="menu" *ngIf="provisionConfigNames.length">
-        <li class="dropdown-header">Provision from configuration</li>
-        <li *ngFor="let config of provisionConfigNames; trackBy: config">
-          <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config | decode}}</a>
-        </li>
-      </ul>
-    </div>
-
+  <div class="btn-group" dropdown>
     <button
       class="btn btn-primary btn-sm"
-      title="Reload environments list"
-      (click)="reloadEnvironments()"
-      [disabled]="loading">
-      <i [acIcon]="'refresh'"></i>
+      title="Provision new environment"
+      (click)="createDialog.show()">
+      <i [acIcon]="'add'"></i>
     </button>
-  </span>
-</nav>
+    <button type="button"
+      class="btn btn-primary btn-sm dropdown-toggle-split"
+      dropdownToggle
+      *ngIf="provisionConfigNames.length">
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu-right" dropdownMenu role="menu" *ngIf="provisionConfigNames.length">
+      <li class="dropdown-header">Provision from configuration</li>
+      <li *ngFor="let config of provisionConfigNames; trackBy: config">
+        <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config | decode}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <button
+    class="btn btn-primary btn-sm"
+    title="Reload environments list"
+    (click)="reloadEnvironments()"
+    [disabled]="loading">
+    <i [acIcon]="'refresh'"></i>
+  </button>
+</header>
 
 <ac-modal #credentialsDialog
   header="{{user?.hasSomeData() ? 'Modify' : 'Add'}} user credentials"
