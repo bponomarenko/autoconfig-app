@@ -4,11 +4,11 @@ import { User, UserFormData } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 
 @Component({
-  selector: 'ac-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  selector: 'ac-env-header',
+  templateUrl: './env-header.component.html',
+  styleUrls: ['./env-header.component.scss']
 })
-export class HeaderComponent {
+export class EnvironmentsHeaderComponent {
   private userFormData: UserFormData;
   private createFormData: any;
   private createErrorId: number;

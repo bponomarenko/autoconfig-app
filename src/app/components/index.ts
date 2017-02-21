@@ -1,4 +1,4 @@
-export * from './header/header.component';
+export * from './env-header/env-header.component';
 export * from './modal/modal.component';
 export * from './user-form/user-form.component';
 export * from './create-form/create-form.component';

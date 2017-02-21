@@ -6,7 +6,7 @@ import { ModalModule, TooltipModule, DropdownModule, AlertModule } from 'ng2-boo
 
 import { AppComponent } from './app.component';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from './services';
-import { HeaderComponent, ModalComponent, UserFormComponent, LoaderComponent,
+import { EnvironmentsHeaderComponent, ModalComponent, UserFormComponent, LoaderComponent,
   IconDirective, EnvironmentsComponent, CredentialsModalComponent, NotificationsComponent,
   CreateFormComponent, LogsComponent } from './components';
 import { ExpiresPipe } from './pipes/expires.pipe';
@@ -16,7 +16,7 @@ import { RoutingModule } from './app.routing';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
+    EnvironmentsHeaderComponent,
     ModalComponent,
     UserFormComponent,
     LoaderComponent,
