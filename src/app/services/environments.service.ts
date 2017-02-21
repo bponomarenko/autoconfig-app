@@ -54,8 +54,8 @@ export class EnvironmentsService {
     return this._stacks;
   }
 
-  get baseUrl(): string {
-    return this.confService.baseUrl;
+  private get baseUrl(): string {
+    return env.apiUrl || this.confService.baseUrl;
   }
 
   loadStacks(): Promise<string[]> {
