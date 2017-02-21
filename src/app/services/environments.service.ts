@@ -67,8 +67,9 @@ export class EnvironmentsService {
 
     return this.http.get(`${this.baseUrl}stacks/`)
       .toPromise()
-      .then(response => {
-        this._stacks = response.json();
+      .then(this._transformResponse)
+      .then(stacks => {
+        this._stacks = stacks;
         this.loadingStacks = false;
         return this._stacks;
       })
@@ -89,8 +90,9 @@ export class EnvironmentsService {
 
     return this.http.get(`${this.baseUrl}environments/`)
       .toPromise()
-      .then(response => {
-        this._environments = response.json();
+      .then(this._transformResponse)
+      .then(environments => {
+        this._environments = environments;
         this.loadingEnvironments = false;
         return this._environments;
       })
@@ -104,8 +106,8 @@ export class EnvironmentsService {
   loadEnvironment(name: string): Promise<Environment> {
     return this.http.get(`${this.baseUrl}environments/${name}`)
       .toPromise()
-      .then(response => {
-        const environment = response.json();
+      .then(this._transformResponse)
+      .then(environment => {
         const index = this._environments.findIndex((env: Environment) => env.name === environment.name);
         if (index === -1) {
           this._environments.push(environment)
@@ -151,9 +153,10 @@ export class EnvironmentsService {
 
     return this.http.post(`${this.baseUrl}stacks/${params.stack}`, this._encodeBody(params.data), options)
       .toPromise()
+      .then(this._transformResponse)
       .then(response => {
         this.creatingEnvironment = false;
-        return response.json();
+        return response;
       })
       .then(this._validateResponse(schemas.ProvisionResponseSchema))
       .catch(error => {
@@ -204,6 +207,11 @@ export class EnvironmentsService {
         return res;
       }, [])
       .join('&');
+  }
+
+  private _transformResponse(response: any) {
+    const data = response.json();
+    return env.mocks ? data.data : data;
   }
 
   private _validateResponse(schema: any) {

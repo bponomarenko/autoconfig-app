@@ -12,7 +12,9 @@ export class ExpiresPipe implements PipeTransform {
 
     // Dates are in UTC format, but not properly formated
     // Make them UTC explicitly
-    value = value + 'Z';
+    if(!value.endsWith('Z')) {
+      value = value + 'Z';
+    }
 
     const date = moment(value);
     return date.isAfter() ? `Expires ${date.fromNow()}` : 'Expires now';

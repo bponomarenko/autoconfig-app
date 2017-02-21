@@ -26,6 +26,7 @@
     padding: 8px;
     font-size: 1.1rem;
     white-space: nowrap;
+    height: $header-height;
 
     &.active {
       background-color: #282b30;

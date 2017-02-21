@@ -10,6 +10,7 @@
   "angular-cli": {},
   "scripts": {
     "start:web": "npm run proxy & ng serve",
+    "start:mocks": "ng serve -e mocks",
     "start:app": "electron ./desktop",
     "start:all": "npm run build:web4app && npm run start:app",
     "proxy": "node proxy",
@@ -44,6 +45,7 @@
     "@angular/compiler-cli": "^2.4.0",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
+    "angular-in-memory-web-api": "^0.2.4",
     "codelyzer": "~2.0.0-beta.1",
     "electron": "^1.4.15",
     "electron-builder": "^13.5.0",
@@ -73,7 +75,9 @@
       "buildResources": "resources",
       "output": "dist/app"
     },
-    "publish": ["github"]
+    "publish": [
+      "github"
+    ]
   },
   "productName": "Autoconfig API"
 }
