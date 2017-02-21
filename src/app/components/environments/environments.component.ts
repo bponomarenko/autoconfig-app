@@ -13,7 +13,8 @@ export class EnvironmentsComponent implements AfterContentInit {
 
   @ViewChild('deleteDialog') deleteDialog;
 
-  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {}
+  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {
+  }
 
   ngAfterContentInit() {
     this.deleteDialog.onHidden.subscribe(() => this._dismissDeleteError());
@@ -21,6 +22,10 @@ export class EnvironmentsComponent implements AfterContentInit {
 
   get environments(): Environment[] {
     return this.envService.environments;
+  }
+
+  get loading(): boolean {
+    return this.envService.loadingEnvironments;
   }
 
   get deleting(): boolean {

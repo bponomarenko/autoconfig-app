@@ -7,3 +7,4 @@ export * from './icon/icon.directive';
 export * from './environments/environments.component';
 export * from './credentials-modal/credentials-modal.component';
 export * from './notifications/notifications.component';
+export * from './logs/logs.component';

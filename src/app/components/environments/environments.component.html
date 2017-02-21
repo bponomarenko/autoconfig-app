@@ -1,52 +1,57 @@
-<ul class="list-group">
-  <li class="list-group-item"
-    *ngFor="let environment of environments; trackBy: environment?.name"
-    [attr.data-name]="environment.name">
-    <!-- Environment row -->
-    <div class="container-fluid px-0 environment-container">
-      <div class="row">
-        <div class="col-md-10 col-sm-9">
-          <div class="row">
-            <div class="col col-sm-7">
-              <h5 class="env-name" [title]="environment.name">{{environment.name}}</h5>
-              <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
-            </div>
-            <div class="col col-sm-5">
-              <span tooltip="{{environment.expire_at | date: 'MMM d, HH:MM:ss'}}" placement="bottom">{{environment.expire_at | expires }}</span>
-              <div>
-                <span class="badge badge-primary badge-pill" [title]="environment.stack">{{environment.stack}}</span>
-                <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
-                <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
+<ac-header></ac-header>
+
+<ac-loader class="align-self-center" *ngIf="loading"></ac-loader>
+
+<div class="list-wrapper">
+  <ul class="list-group" *ngIf="!loading">
+    <li class="list-group-item"
+      *ngFor="let environment of environments; trackBy: environment?.name">
+      <!-- Environment row -->
+      <div class="container-fluid px-0 environment-container">
+        <div class="row">
+          <div class="col-md-9 col-sm-9">
+            <div class="row">
+              <div class="col col-sm-7">
+                <h5 class="env-name" [title]="environment.name">{{environment.name}}</h5>
+                <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
+              </div>
+              <div class="col col-sm-5">
+                <span tooltip="{{environment.expire_at | date: 'MMM d, HH:MM:ss'}}" placement="bottom">{{environment.expire_at | expires }}</span>
+                <div>
+                  <span class="badge badge-primary badge-pill" [title]="environment.stack">{{environment.stack}}</span>
+                  <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
+                  <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-2 col-sm-3 row-buttons">
-          <div class="btn-group" dropdown>
-            <a class="btn btn-outline-info btn-sm"
-              title="Navigate to environment"
-              role="button"
-              href="about:blank"
-              dropdownToggle>
-              <i [acIcon]="'open in browser'"></i>
-            </a>
+          <div class="col-md-3 col-sm-3 row-buttons">
+            <div class="btn-group" dropdown>
+              <a class="btn btn-outline-info btn-sm"
+                title="Navigate to environment"
+                role="button"
+                href="about:blank"
+                dropdownToggle>
+                <i [acIcon]="'open in browser'"></i>
+              </a>
 
-            <ul dropdownMenu class="dropdown-menu-right">
-              <li class="dropdown-header">Navigate to</li>
-              <li><a class="dropdown-item" target="__blank" href="http://{{ environment.name }}-editorial.backbase.dev:9080/portalserver/cxp-manager">Editorial</a></li>
-            </ul>
+              <ul dropdownMenu class="dropdown-menu-right">
+                <li class="dropdown-header">Navigate to</li>
+                <li><a class="dropdown-item" [routerLink]="['logs', environment.name]">View Logs</a></li>
+              </ul>
+            </div>
+
+            <button class="btn btn-outline-danger btn-sm"
+              title="Delete"
+              (click)="showDeleteConfirmation(environment.name)">
+              <i [acIcon]="'delete forever'"></i>
+            </button>
           </div>
-
-          <button class="btn btn-outline-danger btn-sm"
-            title="Delete"
-            (click)="showDeleteConfirmation(environment.name)">
-            <i [acIcon]="'delete forever'"></i>
-          </button>
         </div>
       </div>
-    </div>
-  </li>
-</ul>
+    </li>
+  </ul>
+</div>
 
 <ac-credentials-modal #deleteDialog
   header="Delete environment"

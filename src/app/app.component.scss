@@ -1,21 +1,61 @@
-:host {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-}
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import './app.variables';
 
-ac-header {
+.sidebar {
+  position: relative;
+  transition: width 0.5s ease;
+  width: 200px;
   flex-shrink: 0;
+  background-color: #2e3136;
+  color: #818386;
+
+  .nav-link {
+    &, &:focus, &:hover {
+     color: #818386;
+    }
+
+    .material-icons {
+      position: relative;
+      left: -6px;
+    }
+  }
+
+  .nav-item {
+    transition: background-color 0.5s ease;
+    padding: 8px;
+    font-size: 1.1rem;
+    white-space: nowrap;
+
+    &.active {
+      background-color: #282b30;
+
+      .nav-link {
+        &, &:focus, &:hover {
+         color: #fff;
+        }
+      }
+    }
+
+    &:hover {
+      background-color: #282b30;
+    }
+  }
 }
 
-ac-loader {
-  margin-top: 20px;
+.app-version {
+  text-align: center;
+  font-size: .8em;
+  position: absolute;
+  bottom: $spacing;
 }
 
-.body{
+main {
   flex-grow: 1;
-  overflow: auto;
-  min-height: 2em;
+}
+
+@include media-breakpoint-down(sm) {
+  .sidebar {
+    width: 68px;
+  }
 }

@@ -1,8 +1,5 @@
 <nav class="navbar navbar-light bg-faded d-flex flex-row flex-wrap align-items-center justify-content-between">
-  <span class="navbar-brand">
-    Environments
-  </span>
-  <span class="navbar-text">
+  <span class="navbar-text ml-auto">
     <a href="#"
       class="text-muted"
       (click)="$event.preventDefault(); credentialsDialog.show()">({{user?.email ? user.email : 'anonym'}})</a>

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular
 import { Subscription } from 'rxjs/Rx';
 import { EnvironmentsService, NotificationsService, ConfigurationService } from './services';
 import { ModalComponent } from './components';
+import { AppSettings } from './app.settings';
 
 @Component({
   selector: 'ac-root',
@@ -21,10 +22,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private alerts: NotificationsService,
     private confService: ConfigurationService) {
     this.subscribeOnEvents();
-
-    if(this.confService.baseUrl) {
-      this.envService.loadEnvironments();
-    }
   }
 
   ngOnInit() {
@@ -48,11 +45,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     if(!this.confService.baseUrl) {
       this.baseUrlModal.show();
+    } else {
+      this.envService.loadEnvironments();
     }
   }
 
-  get loading(): boolean {
-    return this.envService.loadingEnvironments;
+  get version(): string {
+    return AppSettings.VERSION;
   }
 
   private saveBaseUrl(url: string) {
