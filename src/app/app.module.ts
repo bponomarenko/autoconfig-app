@@ -8,9 +8,10 @@ import { AppComponent } from './app.component';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from './services';
 import { HeaderComponent, ModalComponent, UserFormComponent, LoaderComponent,
   IconDirective, EnvironmentsComponent, CredentialsModalComponent, NotificationsComponent,
-  CreateFormComponent } from './components';
+  CreateFormComponent, LogsComponent } from './components';
 import { ExpiresPipe } from './pipes/expires.pipe';
 import { DecodePipe } from './pipes/decode.pipe';
+import { RoutingModule } from './app.routing';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DecodePipe } from './pipes/decode.pipe';
     CredentialsModalComponent,
     NotificationsComponent,
     CreateFormComponent,
-    DecodePipe
+    DecodePipe,
+    LogsComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,8 @@ import { DecodePipe } from './pipes/decode.pipe';
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
     DropdownModule.forRoot(),
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    RoutingModule
   ],
   providers: [
     ConfigurationService,
