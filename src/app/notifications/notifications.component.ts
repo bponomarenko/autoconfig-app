@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { Notification, NotificationType } from '../../types';
-import { NotificationsService } from '../../services';
+import { Notification, NotificationType } from '../types';
+import { NotificationsService } from '../services';
 
 const DISMISS_TIMEOUT = 5000;
 

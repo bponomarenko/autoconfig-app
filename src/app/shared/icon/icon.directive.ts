@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit, Renderer, Input, HostBinding } from '@angular/core';
+import { Directive, ElementRef, OnInit, Renderer, Input } from '@angular/core';
 
 @Directive({
   selector: '[acIcon]'

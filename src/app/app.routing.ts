@@ -1,12 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
-import { EnvironmentsComponent, LogsComponent } from './components';
+
+import { EnvironmentsComponent } from './environments/environments.component';
 
 const ROUTES: Routes = [
   { path: '', component: EnvironmentsComponent, pathMatch: 'full' },
-  { path: 'logs', children: [
-    { path: '', component: LogsComponent, pathMatch: 'full' },
-    { path: ':name', component: LogsComponent }
-  ] }
+  { path: 'logs', loadChildren: 'app/logs/logs.module#LogsModule' }
 ];
 
-export const RoutingModule =  RouterModule.forRoot(ROUTES);
+export const RoutingModule = RouterModule.forRoot(ROUTES);

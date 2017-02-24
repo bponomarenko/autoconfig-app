@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
+
 import { EnvironmentsService, NotificationsService, ConfigurationService } from './services';
-import { ModalComponent } from './components';
+import { ModalComponent } from './shared/modal/modal.component';
 import { AppSettings } from './app.settings';
 
 @Component({

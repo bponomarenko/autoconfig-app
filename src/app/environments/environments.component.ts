@@ -1,6 +1,6 @@
 import { Component, ViewChild, AfterContentInit } from '@angular/core';
-import { EnvironmentsService, NotificationsService } from '../../services';
-import { User, Environment } from '../../types';
+import { EnvironmentsService, NotificationsService } from '../services';
+import { User, Environment } from '../types';
 
 @Component({
   selector: 'ac-environments',
@@ -13,8 +13,7 @@ export class EnvironmentsComponent implements AfterContentInit {
 
   @ViewChild('deleteDialog') deleteDialog;
 
-  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {
-  }
+  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {}
 
   ngAfterContentInit() {
     this.deleteDialog.onHidden.subscribe(() => this._dismissDeleteError());

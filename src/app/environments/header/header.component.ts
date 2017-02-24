@@ -1,14 +1,24 @@
 import { Component, ViewChild } from '@angular/core';
-import { ModalComponent, UserFormComponent, CreateFormComponent } from '..';
+
+import { ModalComponent} from '../../shared/modal/modal.component';
+import { UserFormComponent } from '../../shared/user-form/user-form.component';
+import { CreateFormComponent } from '../create-form/create-form.component';
 import { User, UserFormData } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 
+const DEFAULT_FORM_DATA = {
+  stack: '',
+  version: 'latest',
+  ttl: '4h',
+  async: true
+};
+
 @Component({
-  selector: 'ac-env-header',
-  templateUrl: './env-header.component.html',
-  styleUrls: ['./env-header.component.scss']
+  selector: 'ac-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss']
 })
-export class EnvironmentsHeaderComponent {
+export class HeaderComponent {
   private userFormData: UserFormData;
   private createFormData: any;
   private createErrorId: number;
@@ -20,7 +30,11 @@ export class EnvironmentsHeaderComponent {
   @ViewChild('credentialsForm') userForm: UserFormComponent;
   @ViewChild('createForm') createForm: CreateFormComponent;
 
-  constructor(private confService: ConfigurationService, private envService: EnvironmentsService, private alerts: NotificationsService) {
+  constructor(
+    private confService: ConfigurationService,
+    private envService: EnvironmentsService,
+    private alerts: NotificationsService) {
+
     this.userFormData = { user: new User() };
     this.createFormData = {};
   }
@@ -31,12 +45,7 @@ export class EnvironmentsHeaderComponent {
     });
 
     this.createDialog.onShow.subscribe(() => {
-      this.createFormData = Object.assign({
-        stack: '',
-        version: 'latest',
-        ttl: '4h',
-        async: true
-      }, this.environmentConfiguration);
+      this.createFormData = Object.assign(DEFAULT_FORM_DATA, this.environmentConfiguration);
     });
 
     this.userDialog.onHidden.subscribe(() => {

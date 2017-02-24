@@ -1,7 +1,9 @@
 import { Component, AfterContentInit, ViewChild, OnChanges } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-import { ModalComponent, UserFormComponent } from '..';
-import { User } from '../../types';
+
+import { ModalComponent } from '../modal/modal.component';
+import { UserFormComponent } from '../user-form/user-form.component';
+import { User, UserFormData } from '../../types';
 import { ConfigurationService } from '../../services';
 
 @Component({
@@ -11,7 +13,7 @@ import { ConfigurationService } from '../../services';
 export class CredentialsModalComponent extends ModalComponent implements AfterContentInit, OnChanges {
   private isFormShown: boolean = false;
   private isFormValid: boolean = false;
-  private formData: { user: User, save?: boolean };
+  private formData: UserFormData;
 
   private formChangeSubscription: Subscription;
   @ViewChild('userForm') userForm: UserFormComponent;
