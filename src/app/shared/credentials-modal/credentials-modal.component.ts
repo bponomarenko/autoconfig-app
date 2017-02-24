@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, ViewChild, OnChanges } from '@angular/core';
+import { Component, AfterContentInit, ViewChild, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 import { ModalComponent } from '../modal/modal.component';
@@ -10,12 +10,13 @@ import { ConfigurationService } from '../../services';
   selector: 'ac-credentials-modal',
   templateUrl: './credentials-modal.component.html'
 })
-export class CredentialsModalComponent extends ModalComponent implements AfterContentInit, OnChanges {
+export class CredentialsModalComponent extends ModalComponent implements AfterContentInit {
   private isFormShown: boolean = false;
   private isFormValid: boolean = false;
   private formData: UserFormData;
-
   private formChangeSubscription: Subscription;
+
+  @Input('credentials-only') isCredentialsOnly: boolean;
   @ViewChild('userForm') userForm: UserFormComponent;
 
   constructor(private confService: ConfigurationService) {
@@ -31,24 +32,20 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
       }
       this.hideForm();
     });
-  }
 
-  ngOnChanges(changes: any) {
-    // Since #userForm is used with combination of *ngIf directive,
-    // this.userForm property will not always will be set to form instance.
-    // Thus, we have to check for form instance presence in order to subscribe to "isValid" status changes.
-    if(this.userForm && !this.formChangeSubscription) {
+    this.modal.onShow.subscribe(() => {
+      if(this.isCredentialsOnly) {
+        this.showForm();
+      }
+    });
+
+    this.modal.onShown.subscribe(() => {
       this.isFormValid = this.userForm.isValid;
 
       this.formChangeSubscription = this.userForm.isValidChange.subscribe((valid: boolean) => {
         this.isFormValid = valid;
       });
-    } else if (!this.userForm && this.formChangeSubscription) {
-      // When form instance destroyed, unsbuscribe formChanges subscription and invalidate the form
-      this.formChangeSubscription.unsubscribe();
-      this.formChangeSubscription = null;
-      this.isFormValid = false;
-    }
+    })
   }
 
   get isActionBtnDisabled() {
@@ -66,7 +63,7 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
   }
 
   private doAction() {
-    const user = new User(this.confService.user || this.formData.user);
+    const user = new User(this.formData.user || this.confService.user);
     this.onActionBtnClick(user);
 
     if(this.isFormShown && this.formData.save) {
@@ -79,6 +76,11 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
   }
 
   private hideForm() {
+    if(this.formChangeSubscription) {
+      this.formChangeSubscription.unsubscribe();
+      this.formChangeSubscription = null;
+      this.isFormValid = false;
+    }
     this.isFormShown = false;
   }
 }

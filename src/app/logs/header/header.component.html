@@ -1,0 +1,9 @@
+<header class="d-flex flex-wrap align-items-center justify-content-end">
+  <button
+    class="btn btn-primary btn-sm"
+    title="Reload environment logs"
+    (click)="loadLogs()"
+    [disabled]="disabled || !envName">
+    <i [acIcon]="'refresh'"></i>
+  </button>
+</header>

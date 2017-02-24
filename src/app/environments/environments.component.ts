@@ -10,13 +10,14 @@ import { User, Environment } from '../types';
 export class EnvironmentsComponent implements AfterContentInit {
   private environmentNameToDelete: string;
   private deleteErrorId: number;
+  private deleting: boolean = false;
 
   @ViewChild('deleteDialog') deleteDialog;
 
   constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {}
 
   ngAfterContentInit() {
-    this.deleteDialog.onHidden.subscribe(() => this._dismissDeleteError());
+    this.deleteDialog.onHidden.subscribe(() => this.dismissDeleteError());
   }
 
   get environments(): Environment[] {
@@ -27,17 +28,18 @@ export class EnvironmentsComponent implements AfterContentInit {
     return this.envService.loadingEnvironments;
   }
 
-  get deleting(): boolean {
-    return this.envService.deletingEnvironment;
-  }
-
   showDeleteConfirmation(name: string) {
     this.environmentNameToDelete = name;
     this.deleteDialog.show();
   }
 
   deleteEnvironment(user: User): Promise<null> {
-    this._dismissDeleteError();
+    if(this.deleting) {
+      return null;
+    }
+
+    this.deleting = true;
+    this.dismissDeleteError();
 
     const environmentName = this.environmentNameToDelete;
     const envToDelete = this.environments.find(env => env.name === environmentName);
@@ -51,13 +53,15 @@ export class EnvironmentsComponent implements AfterContentInit {
       .then(() => {
         this.alerts.addSuccess(`Environment ${environmentName} have been successfuly deleted.`);
         this.deleteDialog.hide();
+        this.deleting = false;
       })
       .catch(error => {
         this.deleteErrorId = this.alerts.addError(`Unable to delete environment ${environmentName}. ${error.message || error}`);
+        this.deleting = false;
       });
   }
 
-  private _dismissDeleteError() {
+  private dismissDeleteError() {
     if (this.deleteErrorId) {
       this.alerts.dismiss(this.deleteErrorId);
       this.deleteErrorId = null;

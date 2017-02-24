@@ -10,6 +10,7 @@ $border-width: 6px;
   width: $loader-size;
   height: $loader-size;
   animation: spin 1s linear infinite;
+  margin-top: 20px;
 }
 
 @keyframes spin {

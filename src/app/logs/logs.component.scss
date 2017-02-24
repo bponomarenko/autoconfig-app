@@ -1,0 +1,22 @@
+@import '~bootstrap/scss/variables';
+
+:host {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+ac-header {
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.logs {
+  font-size: $font-size-sm;
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-family: monospace;
+  padding: $list-group-item-padding-y $list-group-item-padding-x;
+}

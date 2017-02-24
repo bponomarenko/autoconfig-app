@@ -1,5 +1,5 @@
-<div class="d-flex flex-row align-items-stretch h-100">
-  <nav class="sidebar">
+<div class="w-100 h-100">
+  <nav class="sidebar h-100">
     <ul class="nav flex-column">
       <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a class="nav-link" [routerLink]="['']">
@@ -16,7 +16,7 @@
     </ul>
     <div class="app-version w-100">{{version}}</div>
   </nav>
-  <main>
+  <main class="h-100">
     <router-outlet></router-outlet>
   </main>
 </div>

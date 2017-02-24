@@ -10,7 +10,7 @@ export class ModalComponent implements AfterViewInit, OnChanges {
   @Input() disableCancel: boolean = false;
   @Input('in-progress') inProgress: boolean = false;
   @Input('action-text') actionBtnText: string;
-  @Input('action-disabled') actionBtnDisabled: boolean;
+  @Input('action-disabled') actionBtnDisabled: boolean = false;
   @Input('cancel-text') cancelBtnText: string;
   @Output('action') onAction: EventEmitter<any>;
   @Output('cancel') onCancel: EventEmitter<any>;
@@ -41,6 +41,10 @@ export class ModalComponent implements AfterViewInit, OnChanges {
 
   get onShow(): EventEmitter<ModalDirective> {
     return this.modal.onShow;
+  }
+
+  get onShown(): EventEmitter<ModalDirective> {
+    return this.modal.onShown;
   }
 
   show() {
