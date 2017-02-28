@@ -38,7 +38,6 @@ export class EnvironmentsComponent implements AfterContentInit {
       return null;
     }
 
-    this.deleting = true;
     this.dismissDeleteError();
 
     const environmentName = this.environmentNameToDelete;
@@ -48,6 +47,8 @@ export class EnvironmentsComponent implements AfterContentInit {
       this.deleteErrorId = this.alerts.addError(`You are not an owner of ${environmentName} environment and those you are not allowed to delete it.`);
       return null;
     }
+
+    this.deleting = true;
 
     return this.envService.deleteEnvironment({ user, environmentName })
       .then(() => {
