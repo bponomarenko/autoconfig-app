@@ -2,10 +2,11 @@ import { Component, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { EnvironmentsService, ConfigurationService, NotificationsService } from '../services';
+import { EnvironmentsService, ConfigurationService, NotificationsService, SessionService } from '../services';
 import { CredentialsModalComponent } from '../shared/credentials-modal/credentials-modal.component';
 import { User } from '../types';
 
+// Page size in character number
 const PAGE_SIZE = 5000;
 
 @Component({
@@ -28,10 +29,11 @@ export class LogsComponent implements AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private envService: EnvironmentsService,
     private confService: ConfigurationService,
-    private alerts: NotificationsService) {
+    private alerts: NotificationsService,
+    private session: SessionService) {
 
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
-      this.envName = params['name'] || null;
+      this.envName = params['name'] || this.session.logsEnvironmentName;
     });
   }
 
@@ -75,10 +77,16 @@ export class LogsComponent implements AfterViewInit, OnDestroy {
 
         this.userDialog.hide();
         this.loadingLogs = false;
+
+        // Store environment name to the session
+        this.session.logsEnvironmentName = this.envName;
       })
       .catch(error => {
         this.errorId = this.alerts.addError(`Unable to load ${this.envName} logs. ${error.message || error}`);
         this.loadingLogs = false;
+
+        // Remove environment name from session if error
+        this.session.logsEnvironmentName = null;
       });
   }
 
@@ -94,6 +102,7 @@ export class LogsComponent implements AfterViewInit, OnDestroy {
   }
 
   private updateLog(page: number) {
+    // Simple "load more" functionality from local cache
     this.log += this.fullLog.substr(page * PAGE_SIZE, PAGE_SIZE);
   }
 

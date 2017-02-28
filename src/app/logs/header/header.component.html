@@ -1,4 +1,15 @@
 <header class="d-flex flex-wrap align-items-center justify-content-end">
+  <select name="environment"
+    class="mr-auto form-control"
+    (mousedown)="onSelectClick()"
+    [ngModel]="envName"
+    (ngModelChange)="onChange($event)"
+    [disabled]="disabled">
+    <option value="" *ngIf="loadingEnv">Loading...</option>
+    <option [ngValue]="envName" *ngIf="envName && !environments.length">{{envName}}</option>
+    <option *ngFor="let env of environments; trackBy: env" [ngValue]="env">{{env}}</option>
+  </select>
+
   <button
     class="btn btn-primary btn-sm"
     title="Reload environment logs"

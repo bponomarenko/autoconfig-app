@@ -1,14 +1,13 @@
-<ac-header [environment-name]="envName"
+<ac-header [(environment-name)]="envName"
   [disabled]="loadingLogs"
   (reload)="loadLogs()">
 </ac-header>
 
 <ac-loader class="align-self-center" *ngIf="loadingLogs"></ac-loader>
 
-<div class="logs w-100" *ngIf="!loadingLogs">
-  {{log}}<span *ngIf="hasMore">...</span>
-
-  <a href="#" (click)="$event.preventDefault(); nextPage()" *ngIf="hasMore">Load more</a>
+<div class="logs w-100" *ngIf="!loadingLogs && log">
+  {{log}}<span *ngIf="hasMore">&hellip;</span>
+<a href="#" (click)="$event.preventDefault(); nextPage()" *ngIf="hasMore">Load more</a>
 </div>
 
 <ac-credentials-modal #userDialog

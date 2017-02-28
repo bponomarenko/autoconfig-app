@@ -19,4 +19,6 @@ ac-header {
   overflow-y: auto;
   font-family: monospace;
   padding: $list-group-item-padding-y $list-group-item-padding-x;
+  text-overflow: ellipsis;
+  white-space: pre-wrap
 }

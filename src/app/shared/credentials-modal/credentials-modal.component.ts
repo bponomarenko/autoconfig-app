@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, ViewChild, Input } from '@angular/core';
+import { Component, AfterContentInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 import { ModalComponent } from '../modal/modal.component';
@@ -19,7 +19,7 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
   @Input('credentials-only') isCredentialsOnly: boolean;
   @ViewChild('userForm') userForm: UserFormComponent;
 
-  constructor(private confService: ConfigurationService) {
+  constructor(private confService: ConfigurationService, private chRef: ChangeDetectorRef) {
     super();
     this.formData = { user: new User() };
   }
@@ -38,14 +38,6 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
         this.showForm();
       }
     });
-
-    this.modal.onShown.subscribe(() => {
-      this.isFormValid = this.userForm.isValid;
-
-      this.formChangeSubscription = this.userForm.isValidChange.subscribe((valid: boolean) => {
-        this.isFormValid = valid;
-      });
-    })
   }
 
   get isActionBtnDisabled() {
@@ -73,6 +65,14 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
 
   private showForm() {
     this.isFormShown = true;
+    this.chRef.detectChanges();
+
+    // Subscribe to user form event only when form is shown
+    this.isFormValid = this.userForm.isValid;
+
+    this.formChangeSubscription = this.userForm.isValidChange.subscribe((valid: boolean) => {
+      this.isFormValid = valid;
+    });
   }
 
   private hideForm() {
