@@ -57,7 +57,7 @@ export class LogsComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    if(!user && !this.confService.user) {
+    if((!user || !user.hasAllData()) && (!this.confService.user || !this.confService.user.hasAllData())) {
       this.showCredentialsDialog();
       return;
     }

@@ -10,6 +10,10 @@ export class SessionService {
   }
 
   set logsEnvironmentName(environmentName: string) {
-    this.session.setItem(Key.LOGS_ENVIRONMENT, environmentName);
+    if(environmentName) {
+      this.session.setItem(Key.LOGS_ENVIRONMENT, environmentName);
+    } else {
+      this.session.removeItem(Key.LOGS_ENVIRONMENT);
+    }
   }
 }

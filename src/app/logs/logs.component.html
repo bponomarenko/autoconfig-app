@@ -13,6 +13,6 @@
 <ac-credentials-modal #userDialog
   header="Enter user credentials"
   credentials-only="true"
-  action-text="Save"
-  (action)="loadLogs($event)">
+  action-text="Load logs"
+  (action)="userDialog.hide(); loadLogs($event)">
 </ac-credentials-modal>
