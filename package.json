@@ -64,6 +64,10 @@
       "dist/web4app",
       "package.json"
     ],
+    "win": {
+      "target": "portable",
+      "icon": "resources/win/icon.ico"
+    },
     "linux": {
       "category": "Utility",
       "icon": "resources/linux"
