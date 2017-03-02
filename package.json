@@ -9,6 +9,7 @@
   },
   "angular-cli": {},
   "scripts": {
+    "build": "build",
     "start:web": "npm run proxy & ng serve",
     "start:mocks": "ng serve -e mocks",
     "start:app": "electron ./desktop",
@@ -63,6 +64,10 @@
       "dist/web4app",
       "package.json"
     ],
+    "linux": {
+      "category": "Utility",
+      "icon": "resources/linux"
+    },
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": "dmg",
