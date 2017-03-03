@@ -31,14 +31,18 @@ export class UserFormComponent implements AfterContentInit {
     return this.form.valid;
   }
 
-  reset() {
-    this.form.reset();
+  get isPristine(): boolean {
+    return this.form.pristine;
+  }
+
+  reset(data?: UserFormData) {
+    this.form.reset(data);
   }
 
   private getFormGroupClasses(controlName: string) {
     const control = this.getFormControl(controlName);
     return {
-      'has-success': control && control.value && control.valid,
+      'has-success': this.isShowSuccess(control),
       'has-danger': this.isShowError(control),
       'mb-0': controlName === 'password' && !this.showSaveCheckbox
     };
@@ -47,7 +51,7 @@ export class UserFormComponent implements AfterContentInit {
   private getFormControlClasses(controlName: string) {
     const control = this.getFormControl(controlName);
       return {
-      'form-control-success': control && control.value && control.valid,
+      'form-control-success': this.isShowSuccess(control),
       'form-control-danger': this.isShowError(control)
     };
   }
@@ -59,5 +63,9 @@ export class UserFormComponent implements AfterContentInit {
 
   private isShowError(control: FormControl): boolean {
     return control && (control.value && control.pristine || control.touched) && control.invalid;
+  }
+
+  private isShowSuccess(control: FormControl): boolean {
+    return control && control.value && control.valid && !control.pristine;
   }
 }
