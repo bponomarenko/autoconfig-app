@@ -1,15 +1,17 @@
 language: node_js
-node_js: 7
 
 matrix:
   include:
     - os: osx
       env: TARGET_OS=osx
+      node_js: 7
     - os: linux
       env: TARGET_OS=linux
+      node_js: 7
     - os: osx
       osx_image: xcode8.1
       env: TARGET_OS=win
+      node_js: 7
 
 before_script: ./scripts/install.sh
 
