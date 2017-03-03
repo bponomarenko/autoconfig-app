@@ -78,7 +78,7 @@ export class HeaderComponent {
   }
 
   get provisionConfigNames(): string[] {
-    return Object.keys(this.confService.provisionConfigurations || {});
+    return Object.keys(this.confService.provisionConfigurations);
   }
 
   saveUserCredentials() {

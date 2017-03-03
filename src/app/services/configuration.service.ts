@@ -40,7 +40,12 @@ export class ConfigurationService {
   }
 
   get provisionConfigurations(): ProvisionConfiguration {
-    return this.configuration.provision;
+    const conf = {};
+    Object.keys(this.configuration.provision || {})
+      .forEach((key: string) => {
+        conf[decodeURIComponent(key)] = this.configuration.provision && this.configuration.provision[key];
+      });
+    return conf;
   }
 
   addProvisionConfiguration(name: string, config: any) {
@@ -49,6 +54,10 @@ export class ConfigurationService {
     }
     this._configuration.provision[encodeURIComponent(name)] = Object.assign({}, config);
     this.saveConfiguration();
+  }
+
+  deleteProvisionConfiguration(name: string) {
+
   }
 
   private get configuration(): Configuration {
