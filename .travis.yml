@@ -8,8 +8,9 @@ matrix:
     - os: linux
       env: TARGET_OS=linux
       node_js: 7
-    - os: osx
-      osx_image: xcode8.1
+    - os: linux
+      dist: trusty
+      sudo: required
       env: TARGET_OS=win
       node_js: 7
 
