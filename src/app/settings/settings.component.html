@@ -1,0 +1,83 @@
+<div class="container mt-4 mb-4 settings-container">
+
+  <div class="row">
+    <div class="col-12 mb-3">
+      <h4>User credentials</h4>
+    </div>
+    <div class="col-12 mb-3">
+      <ac-user-form #userForm [data]="userData"></ac-user-form>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary float-right"
+        [disabled]="!userForm.isValid || userForm.isPristine"
+        (click)="saveUser()">
+        Save
+      </button>
+    </div>
+  </div>
+
+  <hr class="m-5">
+
+  <div class="row">
+    <div class="col-12 mb-3">
+      <h4>Navigation URLs</h4>
+    </div>
+    <div class="col-12">
+      <form class="form-inline w-100 flex-nowrap"
+        #urlForm="ngForm"
+        (ngSubmit)="addURL(urlForm.value)">
+        <input type="text"
+          class="form-control mr-2 url-name-input"
+          placeholder="Name"
+          required
+          name="urlName"
+          ngModel>
+        <input type="text"
+          class="form-control mr-2 url-input"
+          placeholder="URL"
+          required
+          name="navigationUrl"
+          ngModel>
+        <button class="btn btn-primary" type="submit" [disabled]="urlForm.invalid">Add</button>
+      </form>
+      <small class="form-text text-muted mb-3">Inside URL input you can use &#123;environmentName&#125; placeholder, which will be replaced with actual environment name.<br>For example <code>https://google.com/#q=&#123;environmentName&#125;</code></small>
+
+      <div class="list-group">
+        <div class="list-group-item justify-content-between"
+          *ngFor="let url of urls; trackBy: url?.name">
+          <div class="w-100 d-flex justify-content-between">
+            {{url.name}}
+            <button type="button" class="close" title="Delete navigation URL"
+              (click)="deleteURL(url.name)">
+              <span>&times;</span>
+            </button>
+          </div>
+          <small class="text-muted">{{url.value}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="m-5">
+
+  <div class="row">
+    <div class="col-12 mb-3">
+      <h4>Provisioning configurations</h4>
+    </div>
+    <div class="col-12">
+      <div class="text-muted" *ngIf="!configurations.length">No configurations</div>
+      <div class="list-group">
+        <div class="list-group-item justify-content-between"
+          *ngFor="let conf of configurations; trackBy: conf">
+          {{conf}}
+          <button type="button" class="close" title="Delete configuration"
+            (click)="deleteConfiguration(conf)">
+            <span>&times;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+

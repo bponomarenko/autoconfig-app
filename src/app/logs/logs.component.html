@@ -3,7 +3,7 @@
   (reload)="loadLogs()">
 </ac-header>
 
-<ac-loader class="align-self-center" *ngIf="loadingLogs"></ac-loader>
+<ac-loader class="align-self-center mt-5" *ngIf="loadingLogs"></ac-loader>
 
 <div class="logs w-100" *ngIf="!loadingLogs && log">
   {{log}}<span *ngIf="hasMore">&hellip;</span>

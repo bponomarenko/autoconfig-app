@@ -1,5 +1,6 @@
 import { Component, ViewChild, AfterContentInit } from '@angular/core';
-import { EnvironmentsService, NotificationsService } from '../services';
+
+import { EnvironmentsService, NotificationsService, ConfigurationService } from '../services';
 import { User, Environment } from '../types';
 
 @Component({
@@ -14,18 +15,25 @@ export class EnvironmentsComponent implements AfterContentInit {
 
   @ViewChild('deleteDialog') deleteDialog;
 
-  constructor(private envService: EnvironmentsService, private alerts: NotificationsService) {}
+  constructor(
+    private envService: EnvironmentsService,
+    private alerts: NotificationsService,
+    private configuration: ConfigurationService) {}
 
   ngAfterContentInit() {
     this.deleteDialog.onHidden.subscribe(() => this.dismissDeleteError());
   }
 
-  get environments(): Environment[] {
+  private get environments(): Environment[] {
     return this.envService.environments;
   }
 
-  get loading(): boolean {
+  private get loading(): boolean {
     return this.envService.loadingEnvironments;
+  }
+
+  private get urls() {
+    return this.configuration.navigationUrls;
   }
 
   showDeleteConfirmation(name: string) {

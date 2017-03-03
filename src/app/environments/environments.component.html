@@ -1,6 +1,6 @@
 <ac-header></ac-header>
 
-<ac-loader class="align-self-center" *ngIf="loading"></ac-loader>
+<ac-loader class="align-self-center mt-5" *ngIf="loading"></ac-loader>
 
 <div class="list-wrapper">
   <ul class="list-group" *ngIf="!loading">
@@ -37,6 +37,14 @@
 
               <ul dropdownMenu class="dropdown-menu-right">
                 <li class="dropdown-header">Navigate to</li>
+                <li *ngFor="let url of urls; trackBy: url?.name">
+                  <a target="__blank"
+                    class="dropdown-item"
+                    [href]="url.value.replace('{environmentName}', environment.name)">
+                  {{url.name}}
+                </a>
+                </li>
+                <div class="dropdown-divider" *ngIf="urls.length"></div>
                 <li><a class="dropdown-item" [routerLink]="['logs', environment.name]">View Logs</a></li>
               </ul>
             </div>

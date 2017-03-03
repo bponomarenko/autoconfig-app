@@ -4,10 +4,16 @@ interface Configuration {
   user: User;
   baseUrl?: string;
   provision: ProvisionConfiguration;
+  urls: NavigationURL[];
 }
 
 interface ProvisionConfiguration {
   [key: string]: any;
+}
+
+interface NavigationURL {
+  name: string;
+  value: string;
 }
 
 const DATA_KEY = 'autoconfig_configuration';
@@ -48,6 +54,10 @@ export class ConfigurationService {
     return conf;
   }
 
+  get navigationUrls(): NavigationURL[] {
+    return this.configuration.urls || [];
+  }
+
   addProvisionConfiguration(name: string, config: any) {
     if(!this.configuration.provision) {
       this._configuration.provision = {};
@@ -57,7 +67,33 @@ export class ConfigurationService {
   }
 
   deleteProvisionConfiguration(name: string) {
+    name = encodeURIComponent(name);
+    if(this.configuration.provision && this.configuration.provision[name]) {
+      delete this._configuration.provision[name];
+      this.saveConfiguration();
+    }
+  }
 
+  addNavigationUrl(name: string, url: string) {
+    if(!this.configuration.urls) {
+      this._configuration.urls = [];
+    }
+
+    const urlObj = this._configuration.urls.find((urlItem: NavigationURL) => urlItem.name === name);
+    if(urlObj) {
+      urlObj.value = url;
+    } else {
+      this._configuration.urls.push({ name, value: url });
+    }
+    this.saveConfiguration();
+  }
+
+  deleteNavigationUrl(name: string) {
+    const index = this.navigationUrls.findIndex((url: NavigationURL) => url.name === name);
+    if(index !== -1) {
+      this._configuration.urls.splice(index, 1);
+      this.saveConfiguration();
+    }
   }
 
   private get configuration(): Configuration {
