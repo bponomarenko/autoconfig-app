@@ -7,6 +7,20 @@ os:
 
 osx_image: xcode8.1
 
+env:
+  - TARGET_OS=osx
+  - TARGET_OS=linux
+  - TARGET_OS=win
+
+matrix:
+  include:
+    - os: osx
+      env: TARGET_OS=osx
+    - os: linux
+      env: TARGET_OS=linux
+    - os: osx
+      env: TARGET_OS=win
+
 before_script: ./scripts/install.sh
 
 script: ./scripts/build.sh
