@@ -1,16 +1,13 @@
 language: node_js
 node_js: 7
 
-os: osx
+os:
+  - osx
+  - linux
+
 osx_image: xcode8.1
 
-before_script:
-  - npm i @angular/cli -g --silent
-  - npm i angular-cli-ghpages -g --silent
-  - brew update
-  - brew install wine --without-x11
-  - brew install mono
-  - brew install gnu-tar graphicsmagick xz
+before_script: ./scripts/install.sh
 
 script: ./scripts/build.sh
 
