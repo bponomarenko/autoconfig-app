@@ -9,11 +9,8 @@ if [[ $TARGET_OS == 'win' ]]; then
   # brew install wine --without-x11
   # brew install mono
 
-  sudo dpkg --configure -a
-  sudo apt-get -f install
-
-  sudo add-apt-repository ppa:ubuntu-wine/ppa -y
   sudo dpkg --add-architecture i386
+  sudo add-apt-repository ppa:ubuntu-wine/ppa -y
   sudo apt-get update
   sudo apt-get install --no-install-recommends -y wine1.8
 
