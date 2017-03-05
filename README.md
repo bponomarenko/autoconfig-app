@@ -5,6 +5,7 @@
 
 This is UI for Autoconfig REST API. Written in Angular. Available as web site or Electron application.
 
+[Download latest version](https://github.com/bponomarenko/autoconfig-app/releases/latest)
 [Project page](https://bponomarenko.github.io/autoconfig-app/)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.31.
@@ -33,7 +34,7 @@ Run `npm run build:app` to build the Electron aplication with prebuilt web appli
 
 ## Mocks
 
-To use project with mocked data, follow inline comments in `src/app/app.module.ts` and `src/app/services/environments.service.ts` to uncomment this functionality.
+To start project with mocked data, run the following command in terminal `npm run start:mocks`
 
 ## Installation instructions
 
