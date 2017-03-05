@@ -65,7 +65,7 @@
       "package.json"
     ],
     "win": {
-      "target": "portable",
+      "target": ["portable"],
       "icon": "resources/win/icon.ico"
     },
     "linux": {
@@ -74,7 +74,7 @@
     },
     "mac": {
       "category": "public.app-category.developer-tools",
-      "target": "dmg",
+      "target": ["dmg"],
       "icon": "resources/osx/icon.icns"
     },
     "dmg": {
