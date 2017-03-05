@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { ModalComponent} from '../../shared/modal/modal.component';
-import { UserFormComponent } from '../../shared/user-form/user-form.component';
 import { CreateFormComponent } from '../create-form/create-form.component';
-import { User, UserFormData } from '../../types';
+import { User } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 
 const DEFAULT_FORM_DATA = {
@@ -19,15 +18,12 @@ const DEFAULT_FORM_DATA = {
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  private userFormData: UserFormData;
   private createFormData: any;
   private createErrorId: number;
   private environmentConfiguration: any;
   private configurationName: any;
 
-  @ViewChild('credentialsDialog') userDialog: ModalComponent;
   @ViewChild('createDialog') createDialog: ModalComponent;
-  @ViewChild('credentialsForm') userForm: UserFormComponent;
   @ViewChild('createForm') createForm: CreateFormComponent;
 
   constructor(
@@ -35,21 +31,12 @@ export class HeaderComponent {
     private envService: EnvironmentsService,
     private alerts: NotificationsService) {
 
-    this.userFormData = { user: new User() };
     this.createFormData = {};
   }
 
   ngAfterContentInit() {
-    this.userDialog.onShow.subscribe(() => {
-      this.userFormData.user = new User(this.user);
-    });
-
     this.createDialog.onShow.subscribe(() => {
       this.createFormData = Object.assign(DEFAULT_FORM_DATA, this.environmentConfiguration);
-    });
-
-    this.userDialog.onHidden.subscribe(() => {
-      this.userForm.reset();
     });
 
     this.createDialog.onHidden.subscribe(() => {
@@ -59,14 +46,6 @@ export class HeaderComponent {
       this.dismissCreateError();
       this.environmentConfiguration = this.configurationName = null;
     });
-  }
-
-  get user(): User {
-    return this.confService.user;
-  }
-
-  get isUserModified(): boolean {
-    return !this.user.isEqualTo(this.userFormData.user);
   }
 
   get loading(): boolean {
@@ -79,11 +58,6 @@ export class HeaderComponent {
 
   get provisionConfigNames(): string[] {
     return Object.keys(this.confService.provisionConfigurations);
-  }
-
-  saveUserCredentials() {
-    this.confService.user = this.userFormData.user;
-    this.userDialog.hide();
   }
 
   reloadEnvironments() {
