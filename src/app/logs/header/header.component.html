@@ -1,5 +1,5 @@
-<header class="d-flex flex-wrap align-items-center form-inline">
-  Environment:&nbsp;
+<header class="d-flex flex-nowrap align-items-center form-inline">
+  <span class="hidden-xs-down mr-2">Environment:</span>
   <select name="environment"
     class="mr-auto form-control"
     (mousedown)="onSelectClick()"
@@ -7,12 +7,12 @@
     (ngModelChange)="onChange($event)"
     [disabled]="disabled">
     <option value="" disabled *ngIf="loadingEnv">Loading...</option>
-    <option [ngValue]="envName" *ngIf="envName && !environments.length">{{envName}}</option>
-    <option *ngFor="let env of environments; trackBy: env" [ngValue]="env">{{env}}</option>
+    <option [value]="envName" *ngIf="envName && !environments.length">{{envName}}</option>
+    <option *ngFor="let env of environments; trackBy: env" [value]="env">{{env}}</option>
   </select>
 
   <button
-    class="btn btn-primary btn-sm"
+    class="btn btn-primary btn-sm ml-2"
     title="Reload environment logs"
     (click)="loadLogs()"
     [disabled]="disabled || !envName">

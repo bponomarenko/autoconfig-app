@@ -5,9 +5,9 @@
 
 <ac-loader class="align-self-center mt-5" *ngIf="loadingLogs"></ac-loader>
 
+<span class="text-muted mr-auto ml-auto mt-5" *ngIf="!envName && !loadingLogs">To display logs, select environment first</span>
 <div class="logs w-100" *ngIf="!loadingLogs && log">
-  {{log}}<span *ngIf="hasMore">&hellip;</span>
-<a href="#" (click)="$event.preventDefault(); nextPage()" *ngIf="hasMore">Load more</a>
+  {{log}}<span *ngIf="hasMore">&hellip;</span><a href="#" (click)="$event.preventDefault(); nextPage()" *ngIf="hasMore">Load more</a>
 </div>
 
 <ac-credentials-modal #userDialog
