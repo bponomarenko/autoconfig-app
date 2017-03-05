@@ -47,7 +47,7 @@ To start project with mocked data, run the following command in terminal `npm ru
 
 ## Additional Information
 
-* [FAQ](docs/FAQ.md)
+* [FAQ](https://github.com/bponomarenko/autoconfig-app/wiki/FAQ)
 * [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md)
 
 [build-img]: https://travis-ci.org/bponomarenko/autoconfig-app.svg?branch=master
