@@ -55,7 +55,9 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
   }
 
   private doAction() {
-    const user = new User(this.formData.user || this.confService.user);
+    let user = this.formData.user && this.formData.user.hasAllData() ? this.formData.user : this.confService.user;
+    user = new User(user);
+
     this.onActionBtnClick(user);
 
     if(this.isFormShown && this.formData.save) {
