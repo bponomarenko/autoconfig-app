@@ -22,5 +22,5 @@ fi
 
 # Build for Windows
 if [[ $TARGET_OS == 'win' ]]; then
-  /dev/null npm run build -- -w -p onTagOrDraft
+  npm run build -- -w -p onTagOrDraft | /dev/null
 fi
