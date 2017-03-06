@@ -36,7 +36,7 @@ export class HeaderComponent {
 
   ngAfterContentInit() {
     this.createDialog.onShow.subscribe(() => {
-      this.createFormData = Object.assign(DEFAULT_FORM_DATA, this.environmentConfiguration);
+      this.createFormData = Object.assign({}, DEFAULT_FORM_DATA, this.environmentConfiguration);
     });
 
     this.createDialog.onHidden.subscribe(() => {
