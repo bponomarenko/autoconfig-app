@@ -22,6 +22,6 @@ fi
 
 # Build for Windows
 if [[ $TARGET_OS == 'win' ]]; then
+  # Use direct syntax to avoid EPIPE errors
   ./node_modules/.bin/build -w -p onTagOrDraft
-  # npm run build -- -w -p onTagOrDraft
 fi
