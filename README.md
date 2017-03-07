@@ -7,9 +7,19 @@ This is UI for Autoconfig REST API. Written in Angular. Available as web site or
 
 [Download latest version](https://github.com/bponomarenko/autoconfig-app/releases/latest)
 
-[Project page](https://bponomarenko.github.io/autoconfig-app/)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.31.
+
+## Installation instructions (for OSX)
+
+1. Go to [Releases page](https://github.com/bponomarenko/autoconfig-app/releases)
+2. Select release version, preferably _latest_, and download _autoconfig-app-[VERSION].dmg_ from the Downloads section.
+3. Open dmg image. Installation screen will be open.
+4. Drag-n-drop App to Applications folder.
+5. Navigate to Applications folder in Finder.
+6. Find _Autoconfig API_ application. Right click on application and select Open.
+7. Confirmation dialog will be shown. Click Open button again on configuration dialog.
+
+Steps 5-7 should be done just once, when application is opened for the first time. Check [Additional Information](#additional-information) section for more details.
 
 ## Development server
 
@@ -36,14 +46,6 @@ Run `npm run build:app` to build the Electron aplication with prebuilt web appli
 ## Mocks
 
 To start project with mocked data, run the following command in terminal `npm run start:mocks`
-
-## Installation instructions
-
-1. Go to [Releases page](https://github.com/bponomarenko/autoconfig-app/releases)
-2. Select release version, preferably _latest_, and download _Autoconfig.API-[VERSION].dmg_ in the Downloads section.
-3. Open dmg image. Installation screen will be open.
-4. Drag-n-drop App to Applications folder.
-5. Done. Check [Additional Information](#additional-information) section for more details.
 
 ## Additional Information
 
