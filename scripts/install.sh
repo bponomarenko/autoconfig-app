@@ -6,10 +6,6 @@ npm i angular-cli-ghpages -g --silent
 
 if [[ $TARGET_OS == 'win' ]]; then
   sudo dpkg --add-architecture i386
-
-
-  sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-  sudo apt-get update
   sudo apt-get install libstdc++6
 
   # Install wine
