@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Notification, NotificationType } from '../types';
 import { NotificationsService } from '../services';
 
-const DISMISS_TIMEOUT = 5000;
+const DISMISS_TIMEOUT = 3000;
 
 @Component({
   selector: 'ac-notifications',

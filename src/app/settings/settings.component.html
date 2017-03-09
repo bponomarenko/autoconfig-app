@@ -17,7 +17,6 @@
   </div>
 
   <hr class="m-5">
-
   <div class="row">
     <div class="col-12 mb-3">
       <h4>Navigation URLs</h4>
@@ -59,7 +58,6 @@
   </div>
 
   <hr class="m-5">
-
   <div class="row">
     <div class="col-12 mb-3">
       <h4>Provisioning configurations</h4>
@@ -75,6 +73,47 @@
             <span>&times;</span>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="m-5">
+  <div class="row">
+    <div class="col-12 mb-3">
+      <h4>Base API URL</h4>
+    </div>
+    <div class="col-12">
+      <form class="form-inline w-100 flex-nowrap"
+        #baseUrlForm="ngForm"
+        (ngSubmit)="saveBaseURL(baseUrlForm.value.baseUrl)"
+        [ngClass]="{
+          'has-success': baseUrlForm.valid && !baseUrlForm.pristine,
+          'has-danger': !baseUrlForm.valid && !baseUrlForm.pristine && baseUrlForm.touched
+        }">
+        <input type="text"
+          class="form-control mr-2 url-input"
+          placeholder="Base URL"
+          name="baseUrl"
+          [ngModel]="initialBaseUrl"
+          required
+          pattern="(http|https)?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)"
+          #baseUrl="ngModel"
+          [ngClass]="{
+            'form-control-success': baseUrlForm.valid && !baseUrlForm.pristine,
+            'form-control-danger': !baseUrlForm.valid && !baseUrlForm.pristine && baseUrlForm.touched
+          }">
+        <button class="btn btn-primary" type="submit"
+          [disabled]="baseUrlForm.invalid || baseUrlForm.pristine">
+          Save
+        </button>
+      </form>
+      <div class="form-control-feedback text-danger"
+        [hidden]="baseUrlForm.valid || baseUrlForm.pristine || !baseUrlForm.touched || !baseUrl.errors.required">
+        URL is required
+      </div>
+      <div class="form-control-feedback text-danger"
+        [hidden]="baseUrlForm.valid || baseUrlForm.pristine || !baseUrlForm.touched || !baseUrl.errors.pattern">
+        URL format is incorrect
       </div>
     </div>
   </div>

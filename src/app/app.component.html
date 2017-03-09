@@ -36,7 +36,7 @@
   action-text="Save"
   [action-disabled]="!urlForm.valid">
   <p class="mb-3">Please provide URL for Autoconfig API:</p>
-  <form #urlForm="ngForm">
+  <form #urlForm="ngForm" (ngSubmit)="saveBaseUrl(urlForm.value.url)">
     <div class="form-group row"
       [ngClass]="{ 'has-success': urlForm.valid, 'has-danger': !urlForm.valid && !urlForm.pristine && urlForm.touched }">
       <label class="col-sm-3 col-form-label">URL:</label>

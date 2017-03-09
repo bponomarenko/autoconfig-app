@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   @ViewChild('userForm') userForm: UserFormComponent;
   @ViewChild('urlForm') urlForm: NgForm;
+  @ViewChild('baseUrlForm') baseUrlForm: NgForm;
 
   constructor(private configuration: ConfigurationService, private alerts: NotificationsService) {
   }
@@ -41,6 +42,16 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   private get urls() {
     return this.configuration.navigationUrls;
+  }
+
+  private get initialBaseUrl(): string {
+    return this.configuration.baseUrl;
+  }
+
+  private saveBaseURL(url: string) {
+    this.configuration.baseUrl = url;
+    this.baseUrlForm.reset();
+    this.settingsAlertId = this.alerts.addSuccess('Base API URL was saved.');
   }
 
   private saveUser() {
