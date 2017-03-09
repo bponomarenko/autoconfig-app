@@ -8,7 +8,7 @@ if [[ $TARGET_OS == 'win' ]]; then
   # LD_LIBRARY_PATH=/usr/local/lib64/:$LD_LIBRARY_PATH
   # export LD_LIBRARY_PATH
 
-  # sudo dpkg --add-architecture i386
+  sudo dpkg --add-architecture i386
   # sudo apt-add-repository ppa:ubuntu-toolchain-r/test -y
   # sudo apt-get update
   # sudo apt-get install gcc-4.9 g++-4.9 libstdc++6
