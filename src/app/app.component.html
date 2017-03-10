@@ -32,7 +32,7 @@
 <ac-modal #baseUrlDialog
   header="Autoconfig API URL"
   disableCancel="false"
-  (action)="saveBaseUrl(urlForm.value.url)"
+  (action)="urlForm.ngSubmit.emit()"
   action-text="Save"
   [action-disabled]="!urlForm.valid">
   <p class="mb-3">Please provide URL for Autoconfig API:</p>
