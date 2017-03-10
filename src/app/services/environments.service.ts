@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/toPromise';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Headers } from '@angular/http';
+import { Http, RequestOptionsArgs, Headers, Response } from '@angular/http';
 import { Validator } from 'jsonschema';
 import { Environment, User } from '../types';
 import { environment as env } from '../../environments/environment';
@@ -129,6 +129,7 @@ export class EnvironmentsService {
 
     return this.http.delete(`${this.baseUrl}environments/${params.environmentName}`, options)
       .toPromise()
+      .then()
       .then(response => {
         // Remove environment from the local collection
         this._environments = this._environments.filter((env: Environment) => env.name !== params.environmentName);
@@ -176,7 +177,7 @@ export class EnvironmentsService {
       });
   }
 
-  private parseError(error: any) {
+  private parseError(error: Response) {
     let message;
 
     if (error.headers && error.headers.get('Content-Type') === 'application/json') {
@@ -194,10 +195,10 @@ export class EnvironmentsService {
       }
     }
 
-    return new Error(message || DEFAULT_ERROR_MESSAGE);
+    return new Error(`[${error.statusText}] ${message || DEFAULT_ERROR_MESSAGE}`);
   }
 
-  private throwParsedError(error: any) {
+  private throwParsedError(error: Response) {
     throw this.parseError(error);
   }
 
