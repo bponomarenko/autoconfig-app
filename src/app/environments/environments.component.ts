@@ -49,13 +49,6 @@ export class EnvironmentsComponent implements AfterContentInit {
     this.dismissDeleteError();
 
     const environmentName = this.environmentNameToDelete;
-    const envToDelete = this.environments.find(env => env.name === environmentName);
-    // Fail delete action if user is not an owner of environment
-    if(envToDelete && envToDelete.owner.email !== user.email) {
-      this.deleteErrorId = this.alerts.addError(`You are not an owner of ${environmentName} environment and those you are not allowed to delete it.`);
-      return null;
-    }
-
     this.deleting = true;
 
     return this.envService.deleteEnvironment({ user, environmentName })
