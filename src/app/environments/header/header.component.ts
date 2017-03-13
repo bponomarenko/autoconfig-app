@@ -9,7 +9,8 @@ const DEFAULT_FORM_DATA = {
   stack: '',
   version: 'latest',
   ttl: '4h',
-  async: true
+  async: true,
+  enable_demo: false
 };
 
 @Component({
