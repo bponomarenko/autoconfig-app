@@ -33,6 +33,7 @@
   header="Provision new environment"
   [in-progress]="creating"
   (action)="createEnvironment($event)"
+  (cancel)="createDialog.hide()"
   action-text="Provision"
   [action-disabled]="!createForm?.isValid">
   <ac-create-form #createForm
