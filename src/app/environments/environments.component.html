@@ -65,6 +65,7 @@
   header="Delete environment"
   action-text="Delete"
   (action)="deleteEnvironment($event)"
+  (cancel)="deleteDialog.hide()"
   [in-progress]="deleting">
   Are you sure you want to delete environment <i>{{environmentNameToDelete}}</i>?
 </ac-credentials-modal>

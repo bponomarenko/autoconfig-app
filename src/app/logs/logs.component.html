@@ -14,5 +14,6 @@
   header="Enter user credentials"
   credentials-only="true"
   action-text="Load logs"
-  (action)="userDialog.hide(); loadLogs($event)">
+  (action)="userDialog.hide(); loadLogs($event)"
+  (cancel)="userDialog.hide()">
 </ac-credentials-modal>

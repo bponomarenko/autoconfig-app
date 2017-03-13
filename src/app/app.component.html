@@ -31,7 +31,7 @@
 
 <ac-modal #baseUrlDialog
   header="Autoconfig API URL"
-  disableCancel="false"
+  disableCancel="true"
   (action)="urlForm.ngSubmit.emit()"
   action-text="Save"
   [action-disabled]="!urlForm.valid">

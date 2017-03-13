@@ -24,7 +24,7 @@
           class="btn btn-secondary"
           *ngIf="!disableCancel"
           [disabled]="inProgress"
-          (click)="cancelBtnAction ? cancelBtnAction() : modal.hide()">
+          (click)="onCancelBtnClick()">
           {{cancelBtnText || 'Cancel'}}
         </button>
         <button type="button"

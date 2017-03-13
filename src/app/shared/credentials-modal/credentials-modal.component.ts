@@ -44,6 +44,14 @@ export class CredentialsModalComponent extends ModalComponent implements AfterCo
     return this.inProgress || (this.isFormShown ? !this.isFormValid : this.actionBtnDisabled);
   }
 
+  protected onCancelBtnClick() {
+    if(this.isFormShown) {
+      this.hideForm();
+    } else {
+      super.onCancelBtnClick();
+    }
+  }
+
   private tryToDoAction() {
     // Try to save with user or show user form
     const user = this.confService.user;
