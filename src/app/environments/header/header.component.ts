@@ -5,14 +5,6 @@ import { CreateFormComponent } from '../create-form/create-form.component';
 import { User } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 
-const DEFAULT_FORM_DATA = {
-  stack: '',
-  version: 'latest',
-  ttl: '4h',
-  async: true,
-  enable_demo: false
-};
-
 @Component({
   selector: 'ac-header',
   templateUrl: './header.component.html',
@@ -37,7 +29,7 @@ export class HeaderComponent {
 
   ngAfterContentInit() {
     this.createDialog.onShow.subscribe(() => {
-      this.createFormData = Object.assign({}, DEFAULT_FORM_DATA, this.environmentConfiguration);
+      this.createFormData = Object.assign({}, this.environmentConfiguration);
     });
 
     this.createDialog.onHidden.subscribe(() => {
@@ -47,6 +39,8 @@ export class HeaderComponent {
       this.dismissCreateError();
       this.environmentConfiguration = this.configurationName = null;
     });
+
+    setTimeout(() => this.createDialog.show(), 1000);
   }
 
   get loading(): boolean {
@@ -65,17 +59,16 @@ export class HeaderComponent {
     this.envService.loadEnvironments();
   }
 
-  createEnvironment(user: User): Promise<null> {
+  createEnvironment(user: User, data: any): Promise<null> {
     this.dismissCreateError();
 
-    const data = Object.assign({}, this.createFormData);
+    const stack = data.stack;
     delete data.stack;
 
-    return this.envService.createEnvironment({
-      user,
-      stack: this.createFormData.stack,
-      data: this.getNewEnvironmentData(data)
-    })
+    // Use only async provisioning
+    data.async = 'yes';
+
+    return this.envService.createEnvironment({user, stack, data})
       .then(res => {
         this.createDialog.hide();
         this.alerts.addSuccess(`${res.message} New environment name – ${res.environment_name}`);
@@ -111,18 +104,5 @@ export class HeaderComponent {
       this.alerts.dismiss(this.createErrorId);
       this.createErrorId = null;
     }
-  }
-
-  private getNewEnvironmentData(formData: any): any {
-    return Object.keys(formData)
-      .reduce((result, key: string) => {
-        const value = formData[key];
-        result[key] = typeof value === 'boolean' ? this.getYesNo(value) : value;
-        return result;
-      }, {});
-  }
-
-  private getYesNo(value: boolean): string {
-    return value ? 'yes' : 'no';
   }
 }

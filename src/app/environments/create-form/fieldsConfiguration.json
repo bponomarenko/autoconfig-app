@@ -10,27 +10,34 @@
     "name": "version",
     "label": "Version",
     "description": "Choose CXP version",
-    "value": "latest",
+    "value": "",
     "dependencies": ["stack"],
     "values": [
-      { "value": "5.5.0.6", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.0.7", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.1", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.3", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.4", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.5", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.5.1", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.6", "condition": "stack.includes('5.5')" },
-      { "value": "5.5.1.7-SNAPSHOT", "condition": "stack.includes('5.5')" },
-      { "value": "5.6.0.0", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.1.0", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.2.0", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.3.0", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.4-SNAPSHOT", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.4-RC01", "condition": "stack.includes('5.6')" },
-      { "value": "5.6.4-RC02", "condition": "stack.includes('5.6')" },
+      { "value": "5.5.0.6", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.0.7", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.1", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.3", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.4", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.5", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.5.1", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.6", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.5.1.7-SNAPSHOT", "condition": "{stack}.includes('5.5')" },
+      { "value": "5.6.0.0", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.1.0", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.2.0", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.3.0", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.4-SNAPSHOT", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.4-RC01", "condition": "{stack}.includes('5.6')" },
+      { "value": "5.6.4-RC02", "condition": "{stack}.includes('5.6')" },
       { "value": "latest" }
     ]
+  },
+  {
+    "name": "ttl",
+    "label": "TTL",
+    "description": "Specify TTL in the form 'Nd' for days or 'Nh' for hours, where N > 0",
+    "value": "4h",
+    "text": true
   },
   {
     "name": "dbs",
@@ -49,19 +56,267 @@
     "value": "",
     "dependencies": ["stack", "version"],
     "values": [
-      { "value": "0.11.14", "condition": "stack === 'lp-cxp-5.5' && version === '5.5.1.6'" },
-      { "value": "0.12.8", "condition": "stack === 'lp-cxp-5.5' && version === '5.5.1.6'" },
-      { "value": "0.13.1", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
-      { "value": "0.13.2-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
-      { "value": "0.13.2", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
-      { "value": "0.14-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
-      { "value": "0.14.0-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
-      { "value": "0.14.0", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
-      { "value": "0.14.1-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
-      { "value": "0.14.1", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" },
-      { "value": "0.14.2", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" },
-      { "value": "0.14.3", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.3.0'" },
-      { "value": "1.0.3", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" }
+      { "value": "0.11.14", "condition": "{stack} === 'lp-cxp-5.5' && {version} === '5.5.1.6'" },
+      { "value": "0.12.8", "condition": "{stack} === 'lp-cxp-5.5' && {version} === '5.5.1.6'" },
+      { "value": "0.13.1", "condition": "{stack} === 'lp-cxp-5.6' && ({version} === '5.6.0.0' || {version} === '5.6.1.0')" },
+      { "value": "0.13.2-SNAPSHOT", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.1.0'" },
+      { "value": "0.13.2", "condition": "{stack} === 'lp-cxp-5.6' && ({version} === '5.6.0.0' || {version} === '5.6.1.0')" },
+      { "value": "0.14-SNAPSHOT", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.1.0'" },
+      { "value": "0.14.0-SNAPSHOT", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.1.0'" },
+      { "value": "0.14.0", "condition": "{stack} === 'lp-cxp-5.6' && ({version} === '5.6.0.0' || {version} === '5.6.1.0')" },
+      { "value": "0.14.1-SNAPSHOT", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.1.0'" },
+      { "value": "0.14.1", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.2.0'" },
+      { "value": "0.14.2", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.2.0'" },
+      { "value": "0.14.3", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.3.0'" },
+      { "value": "1.0.3", "condition": "{stack} === 'lp-cxp-5.6' && {version} === '5.6.2.0'" }
+    ]
+  },
+  {
+    "name": "server",
+    "label": "Server",
+    "value": "tomcat",
+    "dependencies": ["stack"],
+    "values": [
+      { "value": "tomcat" },
+      { "value": "jboss", "condition": "!{stack}.includes('lp') && !{stack}.includes('cxp6')" },
+      { "value": "websphere", "condition": "!{stack}.includes('cxp6')" },
+      { "value": "wslc", "condition": "!{stack}.includes('lp') && !{stack}.includes('cxp6')" },
+      { "value": "weblogic", "condition": "!{stack}.includes('lp') && !{stack}.includes('cxp6')" }
+    ]
+  },
+  {
+    "name": "db",
+    "label": "DBMS",
+    "value": "tomcat",
+    "dependencies": ["server"],
+    "values": [
+      { "value": "mysql", "condition": "{server} === 'tomcat' || {server} === 'jboss'" },
+      { "value": "db2", "condition": "{server} === 'websphere' || {server} === 'wslc' || {server} === 'tomcat' || {server} === 'jboss'" },
+      { "value": "mssql", "condition": "{server} === 'jboss'" },
+      { "value": "mysql-ndb", "condition": "{server} === 'tomcat' || {server} === 'jboss'" },
+      { "value": "oracle" }
+    ]
+  },
+  {
+    "name": "tomcat_version",
+    "label": "Tomcat Version",
+    "value": "7.0.70",
+    "dependencies": ["server"],
+    "values": [
+      { "value": "7.0.59", "condition": "{server} === 'tomcat'" },
+      { "value": "7.0.70", "condition": "{server} === 'tomcat'" },
+      { "value": "7.0.73", "condition": "{server} === 'tomcat'" },
+      { "value": "8.0.38", "condition": "{server} === 'tomcat'" }
+    ]
+  },
+  {
+    "name": "websphere_version",
+    "label": "WebSphere Version",
+    "value": "85",
+    "dependencies": ["server"],
+    "values": [
+      { "value": "70", "condition": "{server} === 'websphere'" },
+      { "value": "80", "condition": "{server} === 'websphere'" },
+      { "value": "85", "condition": "{server} === 'websphere'" }
+    ]
+  },
+  {
+    "name": "websphere_patch",
+    "label": "WebSphere Patch",
+    "value": "",
+    "dependencies": ["websphere_version"],
+    "values": [
+      { "value": "2", "condition": "{websphere_version} === '85'" },
+      { "value": "8", "condition": "{websphere_version} === '85'" },
+      { "value": "9", "condition": "{websphere_version} === '85'" }
+    ]
+  },
+  {
+    "name": "java",
+    "label": "Java Version",
+    "value": "8",
+    "dependencies": ["server", "websphere_patch"],
+    "values": [
+      { "value": "6", "condition": "!!{server}" },
+      { "value": "7", "condition": "{server} === 'tomcat' || {server} === 'weblogic' || {server} === 'wslc' || {server} === 'jboss' || ({server} === 'websphere' && {websphere_patch} === '9')" },
+      { "value": "8", "condition": "{server} === 'tomcat' || {server} === 'weblogic' || {server} === 'wslc'" }
+    ]
+  },
+  {
+    "name": "mssql_version",
+    "label": "MSSQL Version",
+    "value": "",
+    "dependencies": ["db"],
+    "values": [
+      { "value": "2008", "condition": "{db} === 'mssql'" },
+      { "value": "2012", "condition": "{db} === 'mssql'" }
+    ]
+  },
+  {
+    "name": "db2_version",
+    "label": "DB2 Version",
+    "value": "105",
+    "dependencies": ["db"],
+    "values": [
+      { "value": "97", "condition": "{db} === 'db2'" },
+      { "value": "105", "condition": "{db} === 'db2'" }
+    ]
+  },
+  {
+    "name": "oracle_version",
+    "label": "Oracle Version",
+    "value": "",
+    "dependencies": ["db"],
+    "values": [
+      { "value": "11g", "condition": "{db} === 'oracle'" },
+      { "value": "12c", "condition": "{db} === 'oracle'" }
+    ]
+  },
+  {
+    "name": "universal_collection",
+    "label": "Universal Collection",
+    "description": "Please choose whether to import Universal Collection to Enterprise Catalog",
+    "value": "",
+    "dependencies": ["stack"],
+    "values": [
+      { "value": "yes", "condition": "{stack}.includes('5.6')" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "openldap",
+    "label": "OpenLDAP",
+    "description": "Install OpenLDAP service and use for authentication in portal",
+    "value": "no",
+    "dependencies": ["stack", "dbs"],
+    "values": [
+      { "value": "yes", "condition": "{stack}.includes('5.6') || {dbs} === 'yes'" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "portal_manager_on",
+    "label": "Portal Manager",
+    "description": "Please choose whether Portal Manager will be installed on all servers or only on editorial",
+    "value": "",
+    "values": [
+      { "value": "ESL" },
+      { "value": "editorial" }
+    ]
+  },
+  {
+    "name": "monitoring",
+    "label": "Monitoring",
+    "description": "Uncheck this box if you don't need JavaMelody to be installed",
+    "value": "",
+    "values": [
+      { "value": "yes" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "http_or_https",
+    "label": "HTTP or HTTPS",
+    "description": "Choose whether to use https or only http",
+    "value": "",
+    "values": [
+      { "value": "http" },
+      { "value": "https" }
+    ]
+  },
+  {
+    "name": "enable_demo",
+    "label": "Enable demo",
+    "description": "Enable Launchpad demo for older versions, when LP version is less than 0.14.2",
+    "value": "",
+    "dependencies": ["stack", "lp_version"],
+    "values": [
+      { "value": "yes", "condition": "{stack}.includes('lp') && (!{lp_version}.includes('14') || ({lp_version} === '0.14-SNAPSHOT' || {lp_version} === '0.14.1-SNAPSHOT' || {lp_version} === '0.14.0' || {lp_version} === '0.14.1'))" },
+      { "value": "no"}
+    ]
+  },
+  {
+    "name": "tracking",
+    "label": "Tracking",
+    "value": "",
+    "values": [
+      { "value": "no"},
+      { "value": "db"},
+      { "value": "cookie"}
+    ]
+  },
+  {
+    "name": "selenium_grid",
+    "label": "Selenium grid",
+    "value": "no",
+    "values": [
+      { "value": "yes"},
+      { "value": "no"}
+    ]
+  },
+  {
+    "name": "import_database",
+    "label": "Import DB",
+    "description": "Import database",
+    "value": "",
+    "dependencies": ["stack"],
+    "values": [
+      { "value": "yes", "condition": "{stack}.includes('performance')" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "import_number",
+    "label": "Import number",
+    "description": "Used only for perfomance stack and if import_database is activated",
+    "value": "0",
+    "dependencies": ["import_database"],
+    "text": true,
+    "condition": "{import_database} === 'yes'"
+  },
+  {
+    "name": "newrelic_environment_name",
+    "label": "Newrelic name",
+    "value": "",
+    "text": true
+  },
+  {
+    "name": "onebb_mock_mode",
+    "label": "Mock mode",
+    "description": "Mock mode for one backbase (dbs should also be selected)",
+    "value": "no",
+    "values": [
+      { "value": "yes" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "exportimport_profile",
+    "label": "Import/Export",
+    "description": "Import/Export profile",
+    "value": "",
+    "values": [
+      { "value": "ps-exportimport-cs" },
+      { "value": "ps-exportimport-fs" }
+    ]
+  },
+  {
+    "name": "public_environment",
+    "label": "Is public",
+    "value": "no",
+    "values": [
+      { "value": "yes" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "proxy",
+    "label": "Proxy",
+    "description": "Choose if you want nginx to be installed and you environment will be reacheable from port 80",
+    "value": "no",
+    "values": [
+      { "value": "yes" },
+      { "value": "no" }
     ]
   }
 ]

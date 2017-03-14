@@ -1,15 +1,18 @@
 <form #createForm="ngForm" class="row">
-  <div class="col-12 mb-3"
+  <div class="col-12"
     *ngFor="let field of configuration.fields; let i = index; trackBy: field?.name"
     [ngClass]="{
+      'mb-3': !field.isCheckbox,
       'col-lg-6': !field.isCheckbox,
       'col-lg-3': field.isCheckbox,
       'col-sm-6': field.isCheckbox
-    }">
+    }"
+    [hidden]="!field.isEnabled && field.isCheckbox">
     <div class="row" *ngIf="!field.isCheckbox">
-      <label class="col-form-label col-sm-3">{{field.label}}:</label>
-      <div class="col-sm-9">
+      <label class="col-form-label col-sm-5">{{field.label}}:</label>
+      <div class="col-sm-7">
         <select class="form-control"
+          *ngIf="!field.isText"
           [name]="field.name"
           [(ngModel)]="field.value"
           [disabled]="disabled">
@@ -18,6 +21,12 @@
             {{fieldValue}}
           </option>
         </select>
+
+        <input class="form-control"
+          *ngIf="field.isText"
+          [name]="field.name"
+          [(ngModel)]="field.value"
+          [disabled]="disabled">
       </div>
     </div>
 
@@ -36,28 +45,22 @@
   </div>
 </form>
 
-<hr class="mt-0">
+<hr>
 
 <p class="mb-3">You can save your provisioning configuration:</p>
-<form class="form-inline"
+<form class="d-flex"
   #confForm="ngForm"
   (submit)="saveConfiguration()">
-  <div class="form-group row w-100">
-    <div class="col-sm-10">
-      <input name="configuration"
-        type="text"
-        class="form-control w-100"
-        required
-        [ngModel]="confName"
-        maxlength="100"
-        [disabled]="disabled">
-    </div>
-    <div class="col-sm-2">
-      <button class="btn btn-secondary"
+    <input name="configuration"
+      type="text"
+      class="form-control mr-3"
+      required
+      [ngModel]="confName"
+      maxlength="100"
+      [disabled]="disabled">
+    <button class="btn btn-success"
       type="submit"
       [disabled]="!createForm.valid || !confForm.valid">
       Save
     </button>
-    </div>
-  </div>
 </form>

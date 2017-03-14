@@ -4,22 +4,29 @@ import { FieldConfiguration } from './field-configuration';
 
 export class FieldsConfiguration {
   private _fields: FieldConfiguration[] = [];
+  private _filteredFields: FieldConfiguration[];
   private _fieldDependents = {};
+  private _filterTimeout;
+  private _processingFields: string[] = [];
 
   constructor(config: Array<any>) {
-    this._fields = config.map(conf => new FieldConfiguration(conf, this));
+    config.forEach(conf => {
+      this._fields.push(new FieldConfiguration(conf, this));
+      this._fieldDependents[conf.name] = [];
+    });
 
-    this._fields.forEach(fieldConfig => { this._fieldDependents[fieldConfig.name] = [] });
     this._fields.forEach(fieldConfig => {
       fieldConfig.onChange.subscribe(() => this.onFieldValueChange(fieldConfig.name));
       fieldConfig.dependencies.forEach(dependency => {
         this._fieldDependents[dependency].push(fieldConfig.name);
       });
     });
+
+    this.delayFilterUpdate();
   }
 
   get fields(): FieldConfiguration[] {
-    return this._fields.filter(field => field.isAvailable);
+    return this._filteredFields;
   }
 
   getField(name: string) {
@@ -41,6 +48,30 @@ export class FieldsConfiguration {
   }
 
   private onFieldValueChange(fieldName: string) {
-    this._fieldDependents[fieldName].forEach(dependent => this.getField(dependent).filterValues());
+    if(!this._processingFields.includes(fieldName)) {
+      this._processingFields.push(fieldName);
+      this._fieldDependents[fieldName].forEach(dependent => this.getField(dependent).updateProperties());
+      this.delayFilterUpdate();
+    }
+  }
+
+  private delayFilterUpdate() {
+    if(this._filterTimeout) {
+      clearTimeout(this._filterTimeout);
+    }
+    this._filterTimeout = setTimeout(() => this.filterFields(), 50);
+  }
+
+  private filterFields() {
+    this._processingFields = [];
+    this._filteredFields = this._fields
+      .filter(field => field.isAvailable)
+      .sort((f1, f2) => {
+        if((f1.isCheckbox && f2.isCheckbox) || (!f1.isCheckbox && !f2.isCheckbox)) {
+          return this._fields.indexOf(f1) - this._fields.indexOf(f2);
+        } else {
+          return f1.isCheckbox ? 1 : -1;
+        }
+      });
   }
 }

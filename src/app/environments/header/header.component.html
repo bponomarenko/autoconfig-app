@@ -32,7 +32,8 @@
 <ac-credentials-modal #createDialog
   header="Provision new environment"
   [in-progress]="creating"
-  (action)="createEnvironment($event)"
+  large="true"
+  (action)="createEnvironment($event, createForm.value)"
   (cancel)="createDialog.hide()"
   action-text="Provision"
   [action-disabled]="!createForm?.isValid">
