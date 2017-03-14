@@ -9,7 +9,11 @@
     }"
     [hidden]="!field.isEnabled && field.isCheckbox">
     <div class="row" *ngIf="!field.isCheckbox">
-      <label class="col-form-label col-sm-5">{{field.label}}:</label>
+      <label class="col-form-label col-sm-5"
+        [tooltip]="field.description"
+        placement="bottom">
+        {{field.label}}:
+      </label>
       <div class="col-sm-7">
         <select class="form-control"
           *ngIf="!field.isText"
@@ -32,7 +36,9 @@
 
     <div *ngIf="field.isCheckbox">
       <div class="form-check">
-        <label class="form-check-label">
+        <label class="form-check-label"
+          [tooltip]="field.description"
+          placement="bottom">
           <ac-checkbox class="form-check-input"
             [name]="field.name"
             [(ngModel)]="field.value"

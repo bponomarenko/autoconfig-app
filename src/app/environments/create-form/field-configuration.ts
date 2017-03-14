@@ -41,6 +41,10 @@ export class FieldConfiguration {
     return this._config.label;
   }
 
+   get description(): string {
+    return this._config.description;
+  }
+
   get values(): string[] {
     return this._filteredValues;
   }
