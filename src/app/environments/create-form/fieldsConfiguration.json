@@ -1,0 +1,67 @@
+[
+  {
+    "name": "stack",
+    "label": "Stack",
+    "description": "Choose the stack you'd like to provision",
+    "value": "cxp-5.6",
+    "values": []
+  },
+  {
+    "name": "version",
+    "label": "Version",
+    "description": "Choose CXP version",
+    "value": "latest",
+    "dependencies": ["stack"],
+    "values": [
+      { "value": "5.5.0.6", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.0.7", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.1", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.3", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.4", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.5", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.5.1", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.6", "condition": "stack.includes('5.5')" },
+      { "value": "5.5.1.7-SNAPSHOT", "condition": "stack.includes('5.5')" },
+      { "value": "5.6.0.0", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.1.0", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.2.0", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.3.0", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.4-SNAPSHOT", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.4-RC01", "condition": "stack.includes('5.6')" },
+      { "value": "5.6.4-RC02", "condition": "stack.includes('5.6')" },
+      { "value": "latest" }
+    ]
+  },
+  {
+    "name": "dbs",
+    "label": "Include DBS",
+    "description": "Select this checkbox if you want to have Banking Services deployed",
+    "value": "no",
+    "values": [
+      { "value": "yes" },
+      { "value": "no" }
+    ]
+  },
+  {
+    "name": "lp_version",
+    "label": "LP Version",
+    "description": "Launchpad version to be used",
+    "value": "",
+    "dependencies": ["stack", "version"],
+    "values": [
+      { "value": "0.11.14", "condition": "stack === 'lp-cxp-5.5' && version === '5.5.1.6'" },
+      { "value": "0.12.8", "condition": "stack === 'lp-cxp-5.5' && version === '5.5.1.6'" },
+      { "value": "0.13.1", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
+      { "value": "0.13.2-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
+      { "value": "0.13.2", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
+      { "value": "0.14-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
+      { "value": "0.14.0-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
+      { "value": "0.14.0", "condition": "stack === 'lp-cxp-5.6' && (version === '5.6.0.0' || version === '5.6.1.0')" },
+      { "value": "0.14.1-SNAPSHOT", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.1.0'" },
+      { "value": "0.14.1", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" },
+      { "value": "0.14.2", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" },
+      { "value": "0.14.3", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.3.0'" },
+      { "value": "1.0.3", "condition": "stack === 'lp-cxp-5.6' && version === '5.6.2.0'" }
+    ]
+  }
+]

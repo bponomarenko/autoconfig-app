@@ -1,14 +1,17 @@
-import { Component, AfterContentInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, SimpleChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { EnvironmentsService, NotificationsService, ConfigurationService } from '../../services';
+import { FieldsConfiguration } from './fields-configuration';
+
+const fieldsConfiguration = require('./fieldsConfiguration.json');
 
 @Component({
   selector: 'ac-create-form',
   templateUrl: './create-form.component.html'
 })
-export class CreateFormComponent implements AfterContentInit {
-  private stackErrorId: number;
+export class CreateFormComponent implements OnInit, OnChanges {
+  private configuration: FieldsConfiguration;
 
   @Input() data: any;
   @Input() disabled: boolean;
@@ -21,9 +24,14 @@ export class CreateFormComponent implements AfterContentInit {
     private alerts: NotificationsService,
     private confService: ConfigurationService) {}
 
-  ngAfterContentInit() {
-    if(!this.data) {
-      this.data = { };
+  ngOnInit() {
+    this.loadStacks();
+    this.resetConfiguration();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.configuration && changes['data']) {
+      this.configuration.setData(changes['data'].currentValue);
     }
   }
 
@@ -31,45 +39,37 @@ export class CreateFormComponent implements AfterContentInit {
     return this.form.valid;
   }
 
-  get stacks(): string[] {
-    return this.envService.stacks;
-  }
-
-  get loading(): boolean {
-    return this.envService.loadingStacks;
+  get value(): any {
+    return this.form.value;
   }
 
   reset() {
     this.form.reset();
     this.configurationForm.reset();
-    this.dismissStacksError();
+    this.resetConfiguration();
   }
 
-  onSelectClick() {
-    if(this.stacks) {
-      return;
-    }
-
-    this.dismissStacksError();
-
+  private loadStacks() {
     this.envService.loadStacks()
+      .then(stacks => {
+        const values = stacks.map(value => ({ value }));
+        fieldsConfiguration.find(field => field.name === 'stack').values = values;
+        this.configuration.getField('stack').setValues(values);
+      })
       .catch(error => {
-        this.stackErrorId = this.alerts.addError(`Unable to load environment stacks. ${error.message || error}`);
+        this.alerts.addError(`Unable to load environment stacks. ${error.message || error}`);
       });
   }
 
   private saveConfiguration() {
     const confName = this.configurationForm.value.configuration;
-    const conf = this.form.value;
+    const conf = this.value;
 
     this.confService.addProvisionConfiguration(confName, conf);
     this.alerts.addSuccess(`Provisioning configuration "${confName}" was saved.`);
   }
 
-  private dismissStacksError() {
-    if (this.stackErrorId) {
-      this.alerts.dismiss(this.stackErrorId);
-      this.stackErrorId = null;
-    }
+  private resetConfiguration() {
+    this.configuration = new FieldsConfiguration(fieldsConfiguration);
   }
 }
