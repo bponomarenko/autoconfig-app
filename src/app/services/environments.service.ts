@@ -73,7 +73,7 @@ export class EnvironmentsService {
       .toPromise()
       .then(this.transformResponse)
       .then(stacks => {
-        this._stacks = stacks;
+        this._stacks = stacks.sort();
         this.loadingStacks = false;
         return this._stacks;
       })
