@@ -1,7 +1,35 @@
 <header class="d-flex flex-wrap align-items-center justify-content-end">
-  <div class="btn-group" dropdown>
-    <button
-      class="btn btn-primary btn-sm"
+  <!-- <div class="btn-group mr-2" dropdown>
+    <button class="btn btn-primary btn-sm dropdown-toggle"
+      title="Filter environments"
+      (click)="createDialog.show()">
+      <i [acIcon]="'filter list'"></i>
+    </button>
+    <ul class="dropdown-menu-right" dropdownMenu role="menu">
+      <li class="dropdown-header">Provision from configuration</li>
+      <li *ngFor="let config of provisionConfigNames; trackBy: config">
+        <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config}}</a>
+      </li>
+    </ul>
+  </div> -->
+
+  <div class="btn-group mr-auto" dropdown>
+    <button class="btn btn-primary btn-sm dropdown-toggle"
+      dropdownToggle
+      title="Sort environments">
+      <i [acIcon]="'sort'"></i>
+    </button>
+    <ul class="dropdown-menu-right" dropdownMenu role="menu">
+      <li><a class="dropdown-item" href="#"
+        (click)="applySorting('name')">
+        Environment name
+        <i [acIcon]="'arrow drop down'"></i>
+      </a></li>
+    </ul>
+  </div>
+
+  <div class="btn-group ml-2" dropdown>
+    <button class="btn btn-primary btn-sm"
       title="Provision new environment"
       (click)="createDialog.show()">
       <i [acIcon]="'add'"></i>
@@ -20,8 +48,7 @@
     </ul>
   </div>
 
-  <button
-    class="btn btn-primary btn-sm"
+  <button class="btn btn-primary btn-sm ml-2"
     title="Reload environments list"
     (click)="reloadEnvironments()"
     [disabled]="loading">

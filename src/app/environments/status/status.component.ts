@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ac-status',
-  template: `<span class="badge badge-pill" [ngClass]="badgeClass" tooltip="{{title}}" placement="bottom">&nbsp;</span>`,
+  template: `<span class="badge badge-pill" [ngClass]="badgeClass" [tooltip]="title" placement="bottom">&nbsp;</span>`,
   styles: [`:host {
     font-size: 8px;
     vertical-align: super;

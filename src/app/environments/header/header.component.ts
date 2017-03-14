@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ModalComponent} from '../../shared/modal/modal.component';
 import { CreateFormComponent } from '../create-form/create-form.component';
 import { User } from '../../types';
-import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
+import { ConfigurationService, EnvironmentsService, NotificationsService, SessionService, SortDirection } from '../../services';
 
 @Component({
   selector: 'ac-header',
@@ -21,9 +21,9 @@ export class HeaderComponent {
 
   constructor(
     private confService: ConfigurationService,
+    private session: SessionService,
     private envService: EnvironmentsService,
     private alerts: NotificationsService) {
-
     this.createFormData = {};
   }
 
@@ -101,6 +101,15 @@ export class HeaderComponent {
     if (this.createErrorId) {
       this.alerts.dismiss(this.createErrorId);
       this.createErrorId = null;
+    }
+  }
+
+  private applySorting(fieldName: string) {
+    if(this.session.sortField !== fieldName) {
+      this.session.sortField = fieldName;
+      this.session.sortDirection = SortDirection.ASC;
+    } else {
+      this.session.sortDirection = this.session.sortDirection === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
     }
   }
 }

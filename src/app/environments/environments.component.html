@@ -19,7 +19,7 @@
                 <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
               </div>
               <div class="col col-sm-5">
-                <span tooltip="{{environment.expire_at | date: 'MMM d, HH:MM:ss'}}" placement="bottom">{{environment.expire_at | expires }}</span>
+                <span [tooltip]="environment.expire_at | date: 'MMM d, HH:MM:ss'" placement="bottom">{{environment.expire_at | expires }}</span>
                 <div>
                   <span class="badge badge-primary badge-pill" [title]="environment.stack">{{environment.stack}}</span>
                   <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
