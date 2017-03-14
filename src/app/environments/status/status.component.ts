@@ -16,6 +16,8 @@ export class StatusComponent {
       case 5:
         return 'badge-success';
       case 2:
+        return `badge-warning`;
+      case -1:
         return `badge-danger`;
       default:
         return 'badge-default';
@@ -29,6 +31,9 @@ export class StatusComponent {
         text = `OK`;
         break;
       case 2:
+        text = `Provisioning`;
+        break;
+      case -1:
         text = `Deleted`;
         break;
       default:
