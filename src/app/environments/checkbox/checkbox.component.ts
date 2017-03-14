@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Input, ViewChild, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -26,8 +26,6 @@ export class CheckboxComponent implements AfterViewInit, ControlValueAccessor {
 
   @Input() disabled: boolean;
   @ViewChild('checkbox') checkbox;
-
-  constructor() { }
 
   ngAfterViewInit() {
     this.elem = this.checkbox.nativeElement;

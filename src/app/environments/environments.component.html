@@ -12,7 +12,10 @@
           <div class="col-md-9 col-sm-9">
             <div class="row">
               <div class="col col-sm-7">
-                <h5 class="env-name" [title]="environment.name">{{environment.name}}</h5>
+                <h5 class="env-name" [title]="environment.name">
+                  {{environment.name}}
+                  <ac-status [status]="environment.status"></ac-status>
+                </h5>
                 <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
               </div>
               <div class="col col-sm-5">

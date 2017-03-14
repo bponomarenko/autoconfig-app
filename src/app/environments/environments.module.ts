@@ -8,6 +8,7 @@ import { EnvironmentsComponent } from './environments.component';
 import { HeaderComponent } from './header/header.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { StatusComponent } from './status/status.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
     EnvironmentsComponent,
     HeaderComponent,
     CreateFormComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    StatusComponent
   ],
   imports: [TooltipModule.forRoot(), SharedModule, RouterModule],
 })

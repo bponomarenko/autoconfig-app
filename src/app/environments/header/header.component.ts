@@ -39,8 +39,6 @@ export class HeaderComponent {
       this.dismissCreateError();
       this.environmentConfiguration = this.configurationName = null;
     });
-
-    setTimeout(() => this.createDialog.show(), 1000);
   }
 
   get loading(): boolean {
