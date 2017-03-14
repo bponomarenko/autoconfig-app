@@ -6,7 +6,7 @@
   tabindex="-1"
   role="dialog">
 
-  <div class="modal-dialog">
+  <div class="modal-dialog" [ngClass]="{ 'modal-lg': large }">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title pull-left">{{header}}</h4>

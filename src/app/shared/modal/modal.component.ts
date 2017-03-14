@@ -8,6 +8,7 @@ import { ModalDirective } from 'ng2-bootstrap';
 export class ModalComponent implements AfterViewInit, OnChanges {
   @Input() header: string;
   @Input() disableCancel: boolean = false;
+  @Input() large: boolean = false;
   @Input('in-progress') inProgress: boolean = false;
   @Input('action-text') actionBtnText: string;
   @Input('action-disabled') actionBtnDisabled: boolean = false;
