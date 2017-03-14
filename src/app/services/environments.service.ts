@@ -195,7 +195,8 @@ export class EnvironmentsService {
       }
     }
 
-    return new Error(`[${error.statusText}] ${message || DEFAULT_ERROR_MESSAGE}`);
+    const statusText = error.statusText ? `[${error.statusText}] ` : '';
+    return new Error(`${statusText}${message || DEFAULT_ERROR_MESSAGE}`);
   }
 
   private throwParsedError(error: Response) {
