@@ -38,12 +38,14 @@ export class EnvironmentsService {
   loadingStacks: boolean = false;
   loadingEnvironments: boolean = false;
   creatingEnvironment: boolean = false;
-  onLoad: EventEmitter<null>;
+  onChange: EventEmitter<Environment[]>;
+  onLoading: EventEmitter<null>;
   onLoadError: EventEmitter<Error>;
   onValidationError: EventEmitter<string[]>;
 
   constructor(private http: Http, private confService: ConfigurationService) {
-    this.onLoad = new EventEmitter<null>();
+    this.onChange = new EventEmitter<Environment[]>();
+    this.onLoading = new EventEmitter<null>();
     this.onLoadError = new EventEmitter<Error>();
     this.onValidationError = new EventEmitter<string[]>();
     this._validator = new Validator();
@@ -89,7 +91,7 @@ export class EnvironmentsService {
       return null;
     }
 
-    this.onLoad.emit();
+    this.onLoading.emit();
     this.loadingEnvironments = true;
 
     return this.http.get(`${this.baseUrl}environments/`)
@@ -98,6 +100,7 @@ export class EnvironmentsService {
       .then(environments => {
         this._environments = environments;
         this.loadingEnvironments = false;
+        this.onChange.emit(this._environments);
         return this._environments;
       })
       .then(this.validateResponse(schemas.EnvironmentsSchema))
@@ -118,6 +121,7 @@ export class EnvironmentsService {
         } else {
           this._environments[index] = environment;
         }
+        this.onChange.emit(this._environments);
         return environment;
       })
       .then(this.validateResponse(schemas.EnvironmentSchema))
@@ -133,6 +137,7 @@ export class EnvironmentsService {
       .then(response => {
         // Remove environment from the local collection
         this._environments = this._environments.filter((env: Environment) => env.name !== params.environmentName);
+        this.onChange.emit(this._environments);
         return response;
       })
       .catch(error => {

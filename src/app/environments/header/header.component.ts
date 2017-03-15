@@ -4,6 +4,7 @@ import { ModalComponent} from '../../shared/modal/modal.component';
 import { CreateFormComponent } from '../create-form/create-form.component';
 import { User } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
+import { FilteringService } from '../filtering.service';
 
 @Component({
   selector: 'ac-header',
@@ -22,7 +23,8 @@ export class HeaderComponent {
   constructor(
     private confService: ConfigurationService,
     private envService: EnvironmentsService,
-    private alerts: NotificationsService) {
+    private alerts: NotificationsService,
+    private filtering: FilteringService) {
     this.createFormData = {};
   }
 
@@ -40,6 +42,10 @@ export class HeaderComponent {
     });
   }
 
+  private get filterActive(): boolean {
+    return this.filtering.active;
+  }
+
   get loading(): boolean {
     return this.envService.loadingEnvironments;
   }
@@ -50,6 +56,10 @@ export class HeaderComponent {
 
   get provisionConfigNames(): string[] {
     return Object.keys(this.confService.provisionConfigurations);
+  }
+
+  get userEmail(): string {
+    return this.confService.user.email;
   }
 
   reloadEnvironments() {
@@ -103,5 +113,11 @@ export class HeaderComponent {
     }
   }
 
-  private applySorting(fieldName: string) {}
+  private clearFilters() {
+    this.filtering.clear();
+  }
+
+  private addEmailFilter() {
+    this.filtering.addFilter('owner.email', this.userEmail);
+  }
 }

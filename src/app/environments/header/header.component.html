@@ -1,17 +1,19 @@
 <header class="d-flex flex-wrap align-items-center justify-content-end">
-  <!-- <div class="btn-group mr-2" dropdown>
+  <div class="btn-group mr-auto" dropdown>
     <button class="btn btn-primary btn-sm dropdown-toggle"
       title="Filter environments"
-      (click)="createDialog.show()">
+      dropdownToggle
+      [ngClass]="{ 'active': filterActive }">
       <i [acIcon]="'filter list'"></i>
     </button>
-    <ul class="dropdown-menu-right" dropdownMenu role="menu">
-      <li class="dropdown-header">Provision from configuration</li>
-      <li *ngFor="let config of provisionConfigNames; trackBy: config">
-        <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config}}</a>
+    <ul class="dropdown-menu" dropdownMenu role="menu">
+      <li *ngIf="userEmail">
+        <a class="dropdown-item" (click)="addEmailFilter()">Show my environments</a>
       </li>
+      <li class="dropdown-divider"></li>
+      <li><a class="dropdown-item" (click)="clearFilters()">Clear all filters</a></li>
     </ul>
-  </div> -->
+  </div>
 
   <!-- <div class="btn-group mr-auto" dropdown>
     <button class="btn btn-primary btn-sm dropdown-toggle"

@@ -1,6 +1,8 @@
 import { Component, ViewChild, AfterContentInit } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
 import { EnvironmentsService, NotificationsService, ConfigurationService } from '../services';
+import { FilteringService } from './filtering.service';
 import { User, Environment } from '../types';
 
 @Component({
@@ -9,23 +11,43 @@ import { User, Environment } from '../types';
   styleUrls: ['./environments.component.scss']
 })
 export class EnvironmentsComponent implements AfterContentInit {
+  private _environments: Environment[];
   private environmentNameToDelete: string;
   private deleteErrorId: number;
   private deleting: boolean = false;
+  private changeEnvSubscription: Subscription;
+  private changeFilterSubscription: Subscription;
 
   @ViewChild('deleteDialog') deleteDialog;
 
   constructor(
     private envService: EnvironmentsService,
     private alerts: NotificationsService,
-    private configuration: ConfigurationService) {}
+    private configuration: ConfigurationService,
+    private filtering: FilteringService) {
+    this.changeEnvSubscription = this.envService.onChange.subscribe(() => this.processEnvironments());
+    this.changeFilterSubscription = this.filtering.onChange.subscribe(() => this.processEnvironments());
+    this.processEnvironments();
+  }
 
   ngAfterContentInit() {
     this.deleteDialog.onHidden.subscribe(() => this.dismissDeleteError());
   }
 
+  ngOnDestroy() {
+    if(this.changeEnvSubscription) {
+      this.changeEnvSubscription.unsubscribe();
+      this.changeEnvSubscription = null;
+    }
+
+    if(this.changeFilterSubscription) {
+      this.changeFilterSubscription.unsubscribe();
+      this.changeFilterSubscription = null;
+    }
+  }
+
   private get environments(): Environment[] {
-    return this.envService.environments;
+    return this._environments;
   }
 
   private get loading(): boolean {
@@ -68,5 +90,15 @@ export class EnvironmentsComponent implements AfterContentInit {
       this.alerts.dismiss(this.deleteErrorId);
       this.deleteErrorId = null;
     }
+  }
+
+  private processEnvironments() {
+    let envs = this.envService.environments;
+
+    if(this.filtering.active) {
+      envs = this.filtering.process(envs);
+    }
+
+    this._environments = envs;
   }
 }

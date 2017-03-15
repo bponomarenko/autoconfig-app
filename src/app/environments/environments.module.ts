@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { CreateFormComponent } from './create-form/create-form.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { StatusComponent } from './status/status.component';
+import { FilteringService } from './filtering.service';
 
 @NgModule({
   declarations: [
@@ -20,5 +21,6 @@ import { StatusComponent } from './status/status.component';
     StatusComponent
   ],
   imports: [TooltipModule.forRoot(), SharedModule, RouterModule],
+  providers: [FilteringService]
 })
 export class EnvironmentsModule {}

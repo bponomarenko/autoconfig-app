@@ -2,6 +2,8 @@
 
 <ac-loader class="align-self-center mt-5" *ngIf="loading"></ac-loader>
 
+<span class="text-muted mr-auto ml-auto mt-5" *ngIf="(!environments || !environments.length) && !loading">No environments</span>
+
 <div class="list-wrapper">
   <ul class="list-group" *ngIf="!loading">
     <li class="list-group-item"

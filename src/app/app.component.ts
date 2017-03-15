@@ -11,7 +11,7 @@ import { AppSettings } from './app.settings';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
-  private loadSubscription: Subscription;
+  private loadingSubscription: Subscription;
   private loadErrorSubscription: Subscription;
   private validationErrorSubscription: Subscription;
   private loadErrorId: number;
@@ -31,9 +31,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    if(this.loadSubscription) {
-      this.loadSubscription.unsubscribe();
-      this.loadSubscription = null;
+    if(this.loadingSubscription) {
+      this.loadingSubscription.unsubscribe();
+      this.loadingSubscription = null;
     }
 
     if(this.loadErrorSubscription) {
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private subscribeOnEvents() {
-    this.loadSubscription = this.envService.onLoad.subscribe(() => {
+    this.loadingSubscription = this.envService.onLoading.subscribe(() => {
       if(this.loadErrorId) {
         this.alerts.dismiss(this.loadErrorId);
         this.loadErrorId = null;
