@@ -1,10 +1,15 @@
-<header class="d-flex flex-wrap align-items-center justify-content-end">
+<header class="d-flex flex-wrap align-items-start justify-content-end">
   <div class="btn-group mr-auto" dropdown>
-    <button class="btn btn-primary btn-sm dropdown-toggle"
+    <button class="btn btn-primary btn-sm"
+      title="Filter environments"
+      [ngClass]="{ 'active': filterActive }"
+      (click)="filters.toggle()">
+      <i [acIcon]="'filter list'"></i>
+    </button>
+    <button class="btn btn-primary btn-sm dropdown-toggle-split"
       title="Filter environments"
       dropdownToggle
       [ngClass]="{ 'active': filterActive }">
-      <i [acIcon]="'filter list'"></i>
     </button>
     <ul class="dropdown-menu" dropdownMenu role="menu">
       <li *ngIf="userEmail">
@@ -56,6 +61,8 @@
     [disabled]="loading">
     <i [acIcon]="'refresh'"></i>
   </button>
+
+  <ac-filters-bar class="w-100" #filters="bs-collapse" [collapse]="false"></ac-filters-bar>
 </header>
 
 <ac-credentials-modal #createDialog

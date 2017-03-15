@@ -35,6 +35,7 @@ export class EnvironmentsService {
   private _environments: Environment[];
   private _stacks: string[];
   private _validator: Validator;
+
   loadingStacks: boolean = false;
   loadingEnvironments: boolean = false;
   creatingEnvironment: boolean = false;

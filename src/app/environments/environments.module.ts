@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TooltipModule } from 'ng2-bootstrap';
+import { TooltipModule, CollapseModule } from 'ng2-bootstrap';
 
 import { SharedModule } from '../shared/shared.module';
 import { ExpiresPipe } from './pipes/expires.pipe';
@@ -10,6 +10,8 @@ import { CreateFormComponent } from './create-form/create-form.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { StatusComponent } from './status/status.component';
 import { FilteringService } from './filtering.service';
+import { FiltersBarComponent } from './filters-bar/filters-bar.component';
+import { StatusPipe } from './pipes/status.pipe';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,16 @@ import { FilteringService } from './filtering.service';
     HeaderComponent,
     CreateFormComponent,
     CheckboxComponent,
-    StatusComponent
+    StatusComponent,
+    FiltersBarComponent,
+    StatusPipe
   ],
-  imports: [TooltipModule.forRoot(), SharedModule, RouterModule],
-  providers: [FilteringService]
+  imports: [
+    TooltipModule.forRoot(),
+    CollapseModule.forRoot(),
+    SharedModule,
+    RouterModule
+  ],
+  providers: [FilteringService, StatusPipe]
 })
 export class EnvironmentsModule {}

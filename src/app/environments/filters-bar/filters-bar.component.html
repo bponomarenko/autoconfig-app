@@ -1,0 +1,29 @@
+<div class="d-flex align-items-start btn-toolbar flex-wrap">
+  <div class="input-group mt-3"
+    *ngFor="let filter of filters; let last = last; trackBy: filter?.field"
+    [ngClass]="{ 'mr-3': !last }">
+    <span class="input-group-btn">
+      <div class="btn-group h-100" dropdown>
+        <button class="btn btn-primary btn-sm dropdown-toggle" dropdownToggle>
+          {{filter.name}}
+        </button>
+        <ul class="dropdown-menu" dropdownMenu>
+          <li><a class="dropdown-item" (click)="clearFieldFilters(filter.field)">All</a></li>
+          <li class="dropdown-divider" *ngIf="filter.values.length"></li>
+          <li *ngFor="let filterValue of filter.values; trackBy: filterValue">
+            <a class="dropdown-item"
+              (click)="addFilter(filter.field, filterValue)"
+              [ngClass]="{ 'disabled selected': getFilterValues(filter.field).includes(filterValue) }">
+              {{filter.label(filterValue)}}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </span>
+    <span class="input-group-addon" [ngPlural]="getFilterValuesCount(filter.field)">
+      <template ngPluralCase="=0">All</template>
+      <template ngPluralCase="=1">1 rule</template>
+      <template ngPluralCase="other">{{getFilterValuesCount(filter.field)}} rules</template>
+    </span>
+  </div>
+</div>
