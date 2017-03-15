@@ -12,6 +12,7 @@ import { StatusComponent } from './status/status.component';
 import { FilteringService } from './filtering.service';
 import { FiltersBarComponent } from './filters-bar/filters-bar.component';
 import { StatusPipe } from './pipes/status.pipe';
+import { VersionedPropertyPipe } from './pipes/versioned-property.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { StatusPipe } from './pipes/status.pipe';
     CheckboxComponent,
     StatusComponent,
     FiltersBarComponent,
-    StatusPipe
+    StatusPipe,
+    VersionedPropertyPipe
   ],
   imports: [
     TooltipModule.forRoot(),

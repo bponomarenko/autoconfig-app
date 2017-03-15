@@ -16,7 +16,10 @@ export class FilteringService {
     this.availableFilters = [
       { field: 'owner.email', name: 'Owner', label: value => value.split('@')[0] },
       { field: 'stack', name: 'Stack', label: value => value },
-      { field: 'status', name: 'Status', label: this.statusPipe.transform }
+      { field: 'config.version', name: 'Version', label: value => value },
+      { field: 'status', name: 'Status', label: this.statusPipe.transform },
+      { field: 'config.server', name: 'Server', label: value => value },
+      { field: 'config.db', name: 'DB', label: value => value }
     ];
   }
 
