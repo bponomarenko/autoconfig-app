@@ -13,23 +13,23 @@
         <div class="row">
           <div class="col-sm-9 col-lg-10">
             <div class="row">
-              <div class="col col-sm-7 col-lg-5">
+              <div class="col col-sm-7 col-lg-5 col-xl-4">
                 <h5 class="env-name" [title]="environment.name">
                   {{environment.name}}
                   <ac-status [status]="environment.status"></ac-status>
                 </h5>
                 <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
               </div>
-              <div class="col col-sm-5 col-lg-4">
+              <div class="col col-sm-5 col-lg-3 col-xl-4">
                 <span [tooltip]="environment.expire_at | date: 'MMM d, HH:MM:ss'" placement="bottom">{{environment.expire_at | expires }}</span>
                 <div>
                   <span class="badge badge-primary badge-pill">{{environment.stack}}</span>
-                  <span class="badge badge-warning badge-pill">{{environment.config.version}}</span>
                   <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
                   <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
                 </div>
               </div>
-              <div class="col col-lg-3 hidden-md-down">
+              <div class="col col-lg-4 col-xl-4 hidden-md-down">
+                <span class="badge badge-pill badge-info">cxp | {{environment.config.version}}</span>
                 <span class="badge badge-pill badge-info">server | {{environment.config|versionedProperty:'server'}}</span>
                 <span class="badge badge-pill badge-info">db | {{environment.config|versionedProperty:'db'}}</span>
                 <span class="badge badge-pill badge-info">java | {{environment.config.java}}</span>

@@ -10,7 +10,7 @@ import { Environment } from '../../types';
   templateUrl: './filters-bar.component.html',
   styles: [`
     .dropdown-item.selected {
-      background-color: #fafafa;
+      background-color: #dedede;
       text-decoration: none;
     }
   `]
