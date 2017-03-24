@@ -11,6 +11,7 @@ export class ModalComponent implements AfterViewInit, OnChanges {
   @Input() large: boolean = false;
   @Input('in-progress') inProgress: boolean = false;
   @Input('action-text') actionBtnText: string;
+  @Input('action-style') actionStyle: string;
   @Input('action-disabled') actionBtnDisabled: boolean = false;
   @Input('cancel-text') cancelBtnText: string;
   @Output('action') onAction: EventEmitter<any>;
@@ -34,6 +35,10 @@ export class ModalComponent implements AfterViewInit, OnChanges {
       // Disable dialog dismissal by keyboard while dialog in progress, re-enable afterwards
       this.modal.config.keyboard = !progressChange.currentValue;
     }
+  }
+
+  private get actionBtnClass(): string {
+    return `btn-${this.actionStyle || 'primary'}`;
   }
 
   get onHidden(): EventEmitter<ModalDirective> {

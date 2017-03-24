@@ -28,7 +28,8 @@
           {{cancelBtnText || 'Cancel'}}
         </button>
         <button type="button"
-          class="btn btn-primary"
+          class="btn"
+          [ngClass]="actionBtnClass"
           [disabled]="actionBtnDisabled || inProgress"
           (click)="onActionBtnClick()">
           {{actionBtnText}}
