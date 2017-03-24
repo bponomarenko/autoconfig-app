@@ -14,6 +14,12 @@ interface DeleteEnvironmentParams {
   environmentName: string;
 }
 
+interface UpdateEnvironmentParams {
+  user: User;
+  environmentName: string;
+  ttl: string;
+}
+
 interface CreateEnvironmentParams {
   user: User;
   stack: string;
@@ -134,13 +140,24 @@ export class EnvironmentsService {
 
     return this.http.delete(`${this.baseUrl}environments/${params.environmentName}`, options)
       .toPromise()
-      .then()
       .then(response => {
         // Remove environment from the local collection
         this._environments = this._environments.filter((env: Environment) => env.name !== params.environmentName);
         this.onChange.emit(this._environments);
         return response;
       })
+      .catch(error => {
+        this.throwParsedError(error);
+      });
+  }
+
+  updateEnvironment(params: UpdateEnvironmentParams): Promise<null> {
+    const options = this.getRequestOptionsWithCredentials(params.user);
+    options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+    return this.http.put(`${this.baseUrl}environments/${params.environmentName}`, this.encodeBody({ ttl: params.ttl }), options)
+      .toPromise()
+      .then(this.transformResponse)
       .catch(error => {
         this.throwParsedError(error);
       });

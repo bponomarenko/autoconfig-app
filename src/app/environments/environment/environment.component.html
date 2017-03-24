@@ -36,6 +36,7 @@
       </button>
 
       <ul class="dropdown-menu-right" dropdownMenu>
+        <li class="dropdown-header" *ngIf="urls.length">Navigate to</li>
         <li *ngFor="let url of urls; trackBy: url?.name">
           <a [href]="url.value.replace('{environmentName}', environment.name)"
           target="__blank"
@@ -43,6 +44,8 @@
         </li>
         <div class="dropdown-divider" *ngIf="urls.length"></div>
         <li><a class="dropdown-item" [routerLink]="['logs', environment.name]">View Logs</a></li>
+        <div class="dropdown-divider"></div>
+        <li><a class="dropdown-item" (click)="onChangeTTLClick()">Change TTL</a></li>
         <div class="dropdown-divider"></div>
         <li><a class="dropdown-item text-danger" (click)="onDeleteClick()">Delete environment</a></li>
       </ul>

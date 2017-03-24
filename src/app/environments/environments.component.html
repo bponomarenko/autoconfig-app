@@ -8,68 +8,9 @@
   <ul class="list-group" *ngIf="!loading">
     <li class="list-group-item"
       *ngFor="let environment of environments; trackBy: environment?.name">
-      <!-- Environment row -->
-      <div class="container-fluid px-0 environment-container">
-        <div class="row">
-          <div class="col-sm-9 col-lg-10">
-            <div class="row">
-              <div class="col col-sm-7 col-lg-5 col-xl-4">
-                <h5 class="env-name" [title]="environment.name">
-                  {{environment.name}}
-                  <ac-status [status]="environment.status"></ac-status>
-                </h5>
-                <small class="text-muted">{{environment.owner.name}} <{{environment.owner.email}}></small>
-              </div>
-              <div class="col col-sm-5 col-lg-3 col-xl-4">
-                <span [tooltip]="environment.expire_at | date: 'MMM d, HH:MM:ss'" placement="bottom">{{environment.expire_at | expires }}</span>
-                <div>
-                  <span class="badge badge-primary badge-pill">{{environment.stack}}</span>
-                  <span class="badge badge-success badge-pill" *ngIf="environment.public">public</span>
-                  <span class="badge badge-info badge-pill" *ngIf="environment.config.keep==='yes'">keep</span>
-                </div>
-              </div>
-              <div class="col col-lg-4 col-xl-4 hidden-md-down">
-                <span class="badge badge-pill badge-info">cxp | {{environment.config.version}}</span>
-                <span class="badge badge-pill badge-info">server | {{environment.config|versionedProperty:'server'}}</span>
-                <span class="badge badge-pill badge-info">db | {{environment.config|versionedProperty:'db'}}</span>
-                <span class="badge badge-pill badge-info">java | {{environment.config.java}}</span>
-                <span class="badge badge-pill badge-info">ttl | {{environment.config.ttl}}</span>
-                <span class="badge badge-pill badge-warning" *ngIf="environment.config.proxy === 'yes'">proxy</span>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-3 col-lg-2 row-buttons">
-            <div class="btn-group" dropdown>
-              <a class="btn btn-outline-info btn-sm"
-                title="Navigate to environment"
-                role="button"
-                href="about:blank"
-                dropdownToggle>
-                <i [acIcon]="'open in browser'"></i>
-              </a>
-
-              <ul dropdownMenu class="dropdown-menu-right">
-                <li class="dropdown-header">Navigate to</li>
-                <li *ngFor="let url of urls; trackBy: url?.name">
-                  <a target="__blank"
-                    class="dropdown-item"
-                    [href]="url.value.replace('{environmentName}', environment.name)">
-                  {{url.name}}
-                </a>
-                </li>
-                <div class="dropdown-divider" *ngIf="urls.length"></div>
-                <li><a class="dropdown-item" [routerLink]="['logs', environment.name]">View Logs</a></li>
-              </ul>
-            </div>
-
-            <button class="btn btn-outline-danger btn-sm"
-              title="Delete"
-              (click)="showDeleteConfirmation(environment.name)">
-              <i [acIcon]="'delete forever'"></i>
-            </button>
-          </div>
-        </div>
-      </div>
+      <ac-environment [environment]="environment"
+        (delete)="showDeleteConfirmation($event)"
+        (changeTTL)="showTTLDialog($event)"></ac-environment>
     </li>
   </ul>
 </div>
@@ -77,8 +18,18 @@
 <ac-credentials-modal #deleteDialog
   header="Delete environment"
   action-text="Delete"
+  action-style="danger"
   (action)="deleteEnvironment($event)"
   (cancel)="deleteDialog.hide()"
-  [in-progress]="deleting">
-  Are you sure you want to delete environment <i>{{environmentNameToDelete}}</i>?
+  [in-progress]="inProgress">
+  Are you sure you want to delete environment <i>{{selectedEnvironment}}</i>?
+</ac-credentials-modal>
+
+<ac-credentials-modal #ttlDialog
+  header="Update environment TTL"
+  action-text="Update"
+  (action)="updateEnvironment($event)"
+  (cancel)="ttlDialog.hide()"
+  [in-progress]="inProgress">
+  {{selectedEnvironment}}
 </ac-credentials-modal>

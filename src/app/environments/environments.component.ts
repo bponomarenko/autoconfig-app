@@ -1,7 +1,7 @@
 import { Component, ViewChild, AfterContentInit } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
-import { EnvironmentsService, NotificationsService, ConfigurationService } from '../services';
+import { EnvironmentsService, NotificationsService } from '../services';
 import { FilteringService } from './filtering.service';
 import { User, Environment } from '../types';
 
@@ -12,18 +12,19 @@ import { User, Environment } from '../types';
 })
 export class EnvironmentsComponent implements AfterContentInit {
   private _environments: Environment[];
-  private environmentNameToDelete: string;
+  private selectedEnvironment: string;
   private deleteErrorId: number;
-  private deleting: boolean = false;
+  private updateErrorId: number;
+  private inProgress: boolean = false;
   private changeEnvSubscription: Subscription;
   private changeFilterSubscription: Subscription;
 
   @ViewChild('deleteDialog') deleteDialog;
+  @ViewChild('ttlDialog') ttlDialog;
 
   constructor(
     private envService: EnvironmentsService,
     private alerts: NotificationsService,
-    private configuration: ConfigurationService,
     private filtering: FilteringService) {
     this.changeEnvSubscription = this.envService.onChange.subscribe(() => this.processEnvironments());
     this.changeFilterSubscription = this.filtering.onChange.subscribe(() => this.processEnvironments());
@@ -31,7 +32,15 @@ export class EnvironmentsComponent implements AfterContentInit {
   }
 
   ngAfterContentInit() {
-    this.deleteDialog.onHidden.subscribe(() => this.dismissDeleteError());
+    this.deleteDialog.onHidden.subscribe(() => {
+      this.dismissDeleteError();
+      this.selectedEnvironment = null;
+    });
+
+    this.ttlDialog.onHidden.subscribe(() => {
+      this.dismissUpdateError();
+      this.selectedEnvironment = null;
+    });
   }
 
   ngOnDestroy() {
@@ -54,41 +63,74 @@ export class EnvironmentsComponent implements AfterContentInit {
     return this.envService.loadingEnvironments;
   }
 
-  private get urls() {
-    return this.configuration.navigationUrls;
+  private showTTLDialog(name: string) {
+    this.selectedEnvironment = name;
+    this.ttlDialog.show();
   }
 
-  showDeleteConfirmation(name: string) {
-    this.environmentNameToDelete = name;
+  private showDeleteConfirmation(name: string) {
+    this.selectedEnvironment = name;
     this.deleteDialog.show();
   }
 
-  deleteEnvironment(user: User): Promise<null> {
-    if(this.deleting) {
+  private deleteEnvironment(user: User): Promise<null> {
+    if(this.inProgress) {
       return null;
     }
 
     this.dismissDeleteError();
 
-    const environmentName = this.environmentNameToDelete;
-    this.deleting = true;
+    const environmentName = this.selectedEnvironment;
+    this.inProgress = true;
 
     return this.envService.deleteEnvironment({ user, environmentName })
       .then(() => {
         this.alerts.addSuccess(`Environment ${environmentName} have been successfuly deleted.`);
         this.deleteDialog.hide();
-        this.deleting = false;
+        this.inProgress = false;
       })
       .catch(error => {
         this.deleteErrorId = this.alerts.addError(`Unable to delete environment ${environmentName}. ${error.message || error}`);
-        this.deleting = false;
+        this.inProgress = false;
       });
+  }
+
+  private updateEnvironment(user: User): Promise<null> {
+    if(this.inProgress) {
+      return null;
+    }
+
+    this.dismissUpdateError();
+
+    const ttl = '2d';
+    const environmentName = this.selectedEnvironment;
+    this.inProgress = true;
+
+    return this.envService.updateEnvironment({ user, environmentName, ttl })
+      .then(() => {
+        this.alerts.addSuccess(`TTL for environment ${environmentName} have been successfuly changed to ${ttl}.`);
+        this.ttlDialog.hide();
+        this.inProgress = false;
+      })
+      .catch(error => {
+        this.updateErrorId = this.alerts.addError(`Unable to change TTL for environment ${environmentName}. ${error.message || error}`);
+        this.inProgress = false;
+        return Promise.reject(error);
+      })
+      .then(() => this.envService.loadEnvironment(environmentName));
   }
 
   private dismissDeleteError() {
     if (this.deleteErrorId) {
       this.alerts.dismiss(this.deleteErrorId);
       this.deleteErrorId = null;
+    }
+  }
+
+  private dismissUpdateError() {
+    if (this.updateErrorId) {
+      this.alerts.dismiss(this.updateErrorId);
+      this.updateErrorId = null;
     }
   }
 

@@ -1,7 +1,3 @@
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins/breakpoints';
-@import '../app.variables';
-
 :host {
   width: 100%;
   height: 100%;
@@ -23,29 +19,4 @@ ac-header {
 
 .list-group-item {
   border-radius: 0;
-}
-
-.environment-container {
-  width: 100%;
-}
-
-.env-name {
-  white-space: normal;
-}
-
-.row-buttons > .btn {
-  margin-left: $spacing;
-}
-
-@include media-breakpoint-up(sm) {
-  .row-buttons {
-    text-align: end;
-    padding-left: 0;
-  }
-}
-
-@include media-breakpoint-down(xs) {
-  .col {
-    margin-bottom: $list-group-item-padding-y;
-  }
 }

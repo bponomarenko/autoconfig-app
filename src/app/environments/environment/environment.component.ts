@@ -14,9 +14,11 @@ import { ConfigurationService } from "app/services";
 export class EnvironmentComponent {
   @Input() environment: Environment;
   @Output() delete: EventEmitter<string>;
+  @Output() changeTTL: EventEmitter<string>;
 
   constructor(private configuration: ConfigurationService) {
     this.delete = new EventEmitter<string>();
+    this.changeTTL = new EventEmitter<string>();
   }
 
   private get urls() {
@@ -25,5 +27,9 @@ export class EnvironmentComponent {
 
   private onDeleteClick() {
     this.delete.emit(this.environment.name);
+  }
+
+  private onChangeTTLClick() {
+    this.changeTTL.emit(this.environment.name);
   }
 }
