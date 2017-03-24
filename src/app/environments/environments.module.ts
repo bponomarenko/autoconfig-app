@@ -13,6 +13,7 @@ import { FilteringService } from './filtering.service';
 import { FiltersBarComponent } from './filters-bar/filters-bar.component';
 import { StatusPipe } from './pipes/status.pipe';
 import { VersionedPropertyPipe } from './pipes/versioned-property.pipe';
+import { EnvironmentComponent } from './environment/environment.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { VersionedPropertyPipe } from './pipes/versioned-property.pipe';
     StatusComponent,
     FiltersBarComponent,
     StatusPipe,
-    VersionedPropertyPipe
+    VersionedPropertyPipe,
+    EnvironmentComponent
   ],
   imports: [
     TooltipModule.forRoot(),

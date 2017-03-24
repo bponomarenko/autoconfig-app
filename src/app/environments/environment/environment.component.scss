@@ -1,0 +1,12 @@
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.env-name {
+  white-space: normal;
+}
+
+@include media-breakpoint-down(xs) {
+  .col {
+    margin-bottom: $list-group-item-padding-y;
+  }
+}
