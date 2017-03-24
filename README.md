@@ -9,17 +9,9 @@ This is UI for Autoconfig REST API. Written in Angular. Available as web site or
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-beta.31.
 
-## Installation instructions (for OSX)
+## Installation instructions 
 
-1. Go to [Releases page](https://github.com/bponomarenko/autoconfig-app/releases)
-2. Select release version, preferably _latest_, and download _autoconfig-app-[VERSION].dmg_ from the Downloads section.
-3. Open dmg image. Installation screen will be open.
-4. Drag-n-drop App to Applications folder.
-5. Navigate to Applications folder in Finder.
-6. Find _Autoconfig API_ application. Right click on application and select Open.
-7. Confirmation dialog will be shown. Click Open button again on configuration dialog.
-
-Steps 5-7 should be done just once, when application is opened for the first time. Check [Additional Information](#additional-information) section for more details.
+You can find installation instructions on [this page][install-link].
 
 ## Development server
 
@@ -56,3 +48,4 @@ To start project with mocked data, run the following command in terminal `npm ru
 [build-link]: https://travis-ci.org/bponomarenko/autoconfig-app
 [issues-img]: https://img.shields.io/github/issues/bponomarenko/autoconfig-app.svg
 [issues-link]: https://github.com/bponomarenko/autoconfig-app/issues
+[install-link]: https://github.com/bponomarenko/autoconfig-app/wiki/Installation-Instructions
