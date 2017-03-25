@@ -28,8 +28,29 @@
 <ac-credentials-modal #ttlDialog
   header="Update environment TTL"
   action-text="Update"
-  (action)="updateEnvironment($event)"
+  (action)="updateEnvironment($event, ttl.value)"
   (cancel)="ttlDialog.hide()"
-  [in-progress]="inProgress">
-  {{selectedEnvironment}}
+  [in-progress]="inProgress"
+  [action-disabled]="ttlForm.pristine || !ttlForm.valid">
+  <p class="mb-3">Select new TTL for environment <i>{{selectedEnvironment}}</i>:</p>
+  <form #ttlForm="ngForm">
+    <div class="form-group row"
+      [ngClass]="{ 'has-success': ttlForm.valid && ttlForm.touched, 'has-danger': !ttlForm.valid && ttlForm.touched }">
+      <label class="col-sm-3 col-form-label">TTL:</label>
+      <div class="col-sm-9">
+        <input type="text"
+          class="form-control"
+          name="ttl"
+          pattern="^[0-9]+(d|h){1}$"
+          required
+          [ngModel]="selectedEnvironmentTTL"
+          #ttl="ngModel"
+          [ngClass]="{ 'form-control-success': ttlForm.valid && ttlForm.touched, 'form-control-danger': !ttlForm.valid && ttlForm.touched }">
+        <div class="form-control-feedback"
+          [hidden]="ttlForm.valid || !ttlForm.touched || !ttl.errors.required">Value is required</div>
+        <div class="form-control-feedback"
+          [hidden]="ttlForm.valid || !ttlForm.touched || !ttl.errors.pattern">TTL format is incorrect</div>
+      </div>
+    </div>
+  </form>
 </ac-credentials-modal>

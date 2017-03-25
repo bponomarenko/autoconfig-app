@@ -1,8 +1,10 @@
 import { Component, ViewChild, AfterContentInit } from '@angular/core';
+import { NgForm } from "@angular/forms";
 import { Subscription } from 'rxjs/Rx';
 
-import { EnvironmentsService, NotificationsService } from '../services';
-import { FilteringService } from './filtering.service';
+import { CredentialsModalComponent } from "app/shared/credentials-modal/credentials-modal.component";
+import { EnvironmentsService, NotificationsService } from "app/services";
+import { FilteringService } from "./filtering.service";
 import { User, Environment } from '../types';
 
 @Component({
@@ -13,14 +15,16 @@ import { User, Environment } from '../types';
 export class EnvironmentsComponent implements AfterContentInit {
   private _environments: Environment[];
   private selectedEnvironment: string;
+  private selectedEnvironmentTTL: string;
   private deleteErrorId: number;
   private updateErrorId: number;
   private inProgress: boolean = false;
   private changeEnvSubscription: Subscription;
   private changeFilterSubscription: Subscription;
 
-  @ViewChild('deleteDialog') deleteDialog;
-  @ViewChild('ttlDialog') ttlDialog;
+  @ViewChild('deleteDialog') deleteDialog: CredentialsModalComponent;
+  @ViewChild('ttlDialog') ttlDialog: CredentialsModalComponent;
+  @ViewChild('ttlForm') ttlForm: NgForm;
 
   constructor(
     private envService: EnvironmentsService,
@@ -39,7 +43,9 @@ export class EnvironmentsComponent implements AfterContentInit {
 
     this.ttlDialog.onHidden.subscribe(() => {
       this.dismissUpdateError();
-      this.selectedEnvironment = null;
+      this.selectedEnvironment = this.selectedEnvironmentTTL = null;
+
+      this.ttlForm.reset();
     });
   }
 
@@ -65,6 +71,7 @@ export class EnvironmentsComponent implements AfterContentInit {
 
   private showTTLDialog(name: string) {
     this.selectedEnvironment = name;
+    this.selectedEnvironmentTTL = this._environments.find(env => env.name === name).config.ttl;
     this.ttlDialog.show();
   }
 
@@ -95,14 +102,13 @@ export class EnvironmentsComponent implements AfterContentInit {
       });
   }
 
-  private updateEnvironment(user: User): Promise<null> {
+  private updateEnvironment(user: User, ttl: string): Promise<null> {
     if(this.inProgress) {
       return null;
     }
 
     this.dismissUpdateError();
 
-    const ttl = '2d';
     const environmentName = this.selectedEnvironment;
     this.inProgress = true;
 
