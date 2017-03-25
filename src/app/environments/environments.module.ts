@@ -14,6 +14,7 @@ import { FiltersBarComponent } from './filters-bar/filters-bar.component';
 import { StatusPipe } from './pipes/status.pipe';
 import { VersionedPropertyPipe } from './pipes/versioned-property.pipe';
 import { EnvironmentComponent } from './environment/environment.component';
+import { SortingService } from "app/environments/sorting.service";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,6 @@ import { EnvironmentComponent } from './environment/environment.component';
     SharedModule,
     RouterModule
   ],
-  providers: [FilteringService, StatusPipe]
+  providers: [FilteringService, SortingService, StatusPipe]
 })
 export class EnvironmentsModule {}

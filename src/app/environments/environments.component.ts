@@ -6,6 +6,7 @@ import { CredentialsModalComponent } from "app/shared/credentials-modal/credenti
 import { EnvironmentsService, NotificationsService } from "app/services";
 import { FilteringService } from "./filtering.service";
 import { User, Environment } from '../types';
+import { SortingService } from "./sorting.service";
 
 @Component({
   selector: 'ac-environments',
@@ -21,6 +22,7 @@ export class EnvironmentsComponent implements AfterContentInit {
   private inProgress: boolean = false;
   private changeEnvSubscription: Subscription;
   private changeFilterSubscription: Subscription;
+  private changeSortingSubscription: Subscription;
 
   @ViewChild('deleteDialog') deleteDialog: CredentialsModalComponent;
   @ViewChild('ttlDialog') ttlDialog: CredentialsModalComponent;
@@ -29,9 +31,11 @@ export class EnvironmentsComponent implements AfterContentInit {
   constructor(
     private envService: EnvironmentsService,
     private alerts: NotificationsService,
-    private filtering: FilteringService) {
+    private filtering: FilteringService,
+    private sorting: SortingService) {
     this.changeEnvSubscription = this.envService.onChange.subscribe(() => this.processEnvironments());
     this.changeFilterSubscription = this.filtering.onChange.subscribe(() => this.processEnvironments());
+    this.changeSortingSubscription = this.sorting.onChange.subscribe(() => this.sortEnvironments());
     this.processEnvironments();
   }
 
@@ -58,6 +62,11 @@ export class EnvironmentsComponent implements AfterContentInit {
     if(this.changeFilterSubscription) {
       this.changeFilterSubscription.unsubscribe();
       this.changeFilterSubscription = null;
+    }
+
+    if(this.changeSortingSubscription) {
+      this.changeSortingSubscription.unsubscribe();
+      this.changeSortingSubscription = null;
     }
   }
 
@@ -146,7 +155,14 @@ export class EnvironmentsComponent implements AfterContentInit {
     if(this.filtering.active) {
       envs = this.filtering.process(envs);
     }
-
     this._environments = envs;
+
+    this.sortEnvironments();
+  }
+
+  private sortEnvironments() {
+    if(this.sorting.active) {
+      this._environments = this.sorting.process(this._environments);
+    }
   }
 }

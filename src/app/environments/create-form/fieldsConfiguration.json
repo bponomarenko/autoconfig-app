@@ -10,7 +10,7 @@
     "name": "version",
     "label": "Version",
     "description": "Choose CXP version",
-    "value": "",
+    "value": "latest",
     "text": true,
     "dependencies": ["stack"],
     "values": [

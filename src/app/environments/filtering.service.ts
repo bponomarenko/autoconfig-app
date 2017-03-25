@@ -8,7 +8,6 @@ export class FilteringService {
   private filters: Array<{ field: string, values: string[] }> = [];
 
   availableFilters: Array<any> = [];
-
   onChange: EventEmitter<void>;
 
   constructor(private statusPipe: StatusPipe) {

@@ -2,9 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 
 import { ModalComponent} from '../../shared/modal/modal.component';
 import { CreateFormComponent } from '../create-form/create-form.component';
-import { User } from '../../types';
 import { ConfigurationService, EnvironmentsService, NotificationsService } from '../../services';
 import { FilteringService } from '../filtering.service';
+import { SortingService } from "app/environments/sorting.service";
+import { User } from "app/types";
 
 @Component({
   selector: 'ac-header',
@@ -24,7 +25,8 @@ export class HeaderComponent {
     private confService: ConfigurationService,
     private envService: EnvironmentsService,
     private alerts: NotificationsService,
-    private filtering: FilteringService) {
+    private filtering: FilteringService,
+    private sorting: SortingService) {
     this.createFormData = {};
   }
 
@@ -60,6 +62,18 @@ export class HeaderComponent {
 
   get userEmail(): string {
     return this.confService.user.email;
+  }
+
+  get sortConfigs() {
+    return this.sorting.availableSortConfigs;
+  }
+
+  get activeSortField(): string {
+    return this.sorting.sortField;
+  }
+
+  get ascendingSorting(): boolean {
+    return this.sorting.ascending;
   }
 
   reloadEnvironments() {
@@ -119,5 +133,13 @@ export class HeaderComponent {
 
   private addEmailFilter() {
     this.filtering.addFilter('owner.email', this.userEmail);
+  }
+
+  private sortEnvironments(field: string) {
+    if(this.activeSortField === field) {
+      this.sorting.ascending = !this.sorting.ascending;
+    } else {
+      this.sorting.sortField = field;
+    }
   }
 }

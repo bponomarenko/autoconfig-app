@@ -1,5 +1,5 @@
 <header class="d-flex flex-wrap align-items-start justify-content-end">
-  <div class="btn-group mr-auto" dropdown>
+  <div class="btn-group mr-2" dropdown>
     <button class="btn btn-primary btn-sm"
       title="Filter environments"
       [ngClass]="{ 'active': filterActive }"
@@ -20,20 +20,23 @@
     </ul>
   </div>
 
-  <!-- <div class="btn-group mr-auto" dropdown>
+   <div class="btn-group mr-auto" dropdown>
     <button class="btn btn-primary btn-sm dropdown-toggle"
       dropdownToggle
       title="Sort environments">
       <i [acIcon]="'sort'"></i>
     </button>
-    <ul class="dropdown-menu-right" dropdownMenu role="menu">
-      <li><a class="dropdown-item" href="#"
-        (click)="applySorting('name')">
-        Environment name
-        <i [acIcon]="'arrow drop down'"></i>
-      </a></li>
+    <ul class="dropdown-menu" dropdownMenu role="menu">
+      <li class="dropdown-header">Sort by</li>
+      <li *ngFor="let conf of sortConfigs; trackBy: conf?.field">
+        <a class="dropdown-item" (click)="sortEnvironments(conf.field)">
+          {{conf.name}}
+          <i *ngIf="conf.field === activeSortField"
+            [acIcon]="ascendingSorting ? 'arrow drop down' : 'arrow drop up'"></i>
+        </a>
+      </li>
     </ul>
-  </div> -->
+  </div> 
 
   <div class="btn-group ml-2" dropdown>
     <button class="btn btn-primary btn-sm"
