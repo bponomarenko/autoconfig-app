@@ -11,6 +11,7 @@
     "label": "Version",
     "description": "Choose CXP version",
     "value": "",
+    "text": true,
     "dependencies": ["stack"],
     "values": [
       { "value": "5.5.0.6", "condition": "{stack}.includes('5.5')" },
