@@ -4,257 +4,183 @@ export class InMemoryEnvironmentsService implements InMemoryDbService {
   createDb() {
     let stacks = ['gembucket-74', 'overhold-98', 'asoka-13', 'zaam-dox-29', 'it-52', 'zathin-5', 'daltfresh-44', 'veribet-73', 'vagram-64', 'regrant-90', 'tres-zap-85', 'holdlamis-81', 'viva-36', 'stronghold-52', 'alpha-37'];
     let environments = [{
-  "name": "viva-85",
+  "name": "treeflex-67",
   "owner": {
-    "name": "ejames0",
-    "email": "cwarren0@php.net"
+    "name": "sscott0",
+    "email": "jmorris0@techcrunch.com"
   },
   "public": false,
-  "expire_at": "2017-03-14T17:18:45Z",
-  "stack": "it-52-16",
+  "expire_at": "2017-03-17T18:29:53Z",
+  "stack": "alpha-37-27",
+  "status": 4,
   "config": {
-    "keep": "no"
-  },
-  "status": 4
+    "keep": "no",
+    "version": "8.8",
+    "server": "rutrum",
+    "db": "morbi",
+    "java": 9,
+    "ttl": "4h"
+  }
 }, {
-  "name": "zamit-60",
+  "name": "regrant-49",
   "owner": {
-    "name": "jallen1",
-    "email": "jmartin1@walmart.com"
-  },
-  "expire_at": "2017-03-04T00:36:29Z",
-  "stack": "holdlamis-81-54",
-  "config": {
-    "keep": "no"
-  },
-  "status": 2
-}, {
-  "name": "tampflex-30",
-  "owner": {
-    "name": "pgriffin2",
-    "email": "mortiz2@homestead.com"
-  },
-  "expire_at": "2017-02-28T13:36:07Z",
-  "stack": "alpha-37-26",
-  "config": {
-    "keep": "no"
-  },
-  "status": 3
-}, {
-  "name": "lotlux-92",
-  "owner": {
-    "name": "emendoza3",
-    "email": "fstevens3@usatoday.com"
-  },
-  "public": false,
-  "expire_at": "2017-03-13T16:50:58Z",
-  "stack": "regrant-90-28",
-  "config": {
-    "keep": "no"
-  },
-  "status": -1
-}, {
-  "name": "sonair-28",
-  "owner": {
-    "name": "areed4",
-    "email": "lhill4@rambler.ru"
-  },
-  "public": false,
-  "expire_at": "2017-03-21T14:00:26Z",
-  "stack": "gembucket-74-76",
-  "config": {
-    "keep": "yes"
-  },
-  "status": 2
-}, {
-  "name": "hatity-70",
-  "owner": {
-    "name": "sfisher5",
-    "email": "adiaz5@jalbum.net"
-  },
-  "public": false,
-  "expire_at": "2017-03-19T14:43:28Z",
-  "stack": "vagram-64-69",
-  "config": {
-    "keep": "no"
-  },
-  "status": -1
-}, {
-  "name": "viva-34",
-  "owner": {
-    "name": "kpalmer6",
-    "email": "pmatthews6@businesswire.com"
-  },
-  "expire_at": "2017-03-01T22:41:42Z",
-  "stack": "daltfresh-44-80",
-  "config": {
-    "keep": "yes"
-  },
-  "status": 2
-}, {
-  "name": "matsoft-39",
-  "owner": {
-    "name": "jferguson7",
-    "email": "adean7@chron.com"
-  },
-  "expire_at": "2017-02-27T14:25:18Z",
-  "stack": "daltfresh-44-67",
-  "config": {
-    "keep": "no"
-  },
-  "status": 0
-}, {
-  "name": "bigtax-23",
-  "owner": {
-    "name": "lphillips8",
-    "email": "wcole8@elpais.com"
-  },
-  "public": false,
-  "expire_at": "2017-02-27T22:03:26Z",
-  "stack": "daltfresh-44-23",
-  "config": {
-    "keep": "no"
-  },
-  "status": -1
-}, {
-  "name": "temp-83",
-  "owner": {
-    "name": "pwatson9",
-    "email": "lhenry9@people.com.cn"
+    "name": "rmyers1",
+    "email": "jowens1@bloomberg.com"
   },
   "public": true,
-  "expire_at": "2017-03-08T10:24:53Z",
-  "stack": "veribet-73-53",
+  "expire_at": "2017-02-25T06:08:59Z",
+  "stack": "zathin-5-52",
+  "status": 3,
   "config": {
-    "keep": "yes"
-  },
-  "status": 2
+    "keep": "yes",
+    "version": "0.9.6",
+    "server": "ultrices",
+    "db": "in",
+    "java": 4,
+    "ttl": "0h"
+  }
 }, {
-  "name": "otcom-78",
+  "name": "alphazap-42",
   "owner": {
-    "name": "laustina",
-    "email": "rhudsona@webmd.com"
-  },
-  "expire_at": "2017-03-25T19:14:14Z",
-  "stack": "holdlamis-81-80",
-  "config": {
-    "keep": "yes"
-  },
-  "status": 5
-}, {
-  "name": "mat lam tam-59",
-  "owner": {
-    "name": "nchavezb",
-    "email": "hdanielsb@dailymotion.com"
-  },
-  "public": true,
-  "expire_at": "2017-03-09T02:20:03Z",
-  "stack": "veribet-73-95",
-  "config": {
-    "keep": "yes"
-  },
-  "status": -1
-}, {
-  "name": "tresom-1",
-  "owner": {
-    "name": "dpaynec",
-    "email": "tsanchezc@bloglines.com"
-  },
-  "public": true,
-  "expire_at": "2017-02-27T04:38:24Z",
-  "stack": "stronghold-52-30",
-  "config": {
-    "keep": "yes"
-  },
-  "status": 4
-}, {
-  "name": "zamit-67",
-  "owner": {
-    "name": "vstoned",
-    "email": "jstanleyd@home.pl"
+    "name": "bpatterson2",
+    "email": "aray2@simplemachines.org"
   },
   "public": false,
-  "expire_at": "2017-03-27T05:41:41Z",
-  "stack": "zaam-dox-29-15",
+  "expire_at": "2017-03-13T17:21:41Z",
+  "stack": "holdlamis-81-35",
+  "status": -1,
   "config": {
-    "keep": "yes"
-  },
-  "status": 5
+    "keep": "no",
+    "version": "1.3",
+    "server": "posuere",
+    "db": "maecenas",
+    "java": 10,
+    "ttl": "2h"
+  }
 }, {
-  "name": "toughjoyfax-26",
+  "name": "y-solowarm-58",
   "owner": {
-    "name": "jgilberte",
-    "email": "rpetersone@nih.gov"
-  },
-  "expire_at": "2017-03-03T07:26:57Z",
-  "stack": "zathin-5-100",
-  "config": {
-    "keep": "yes"
-  },
-  "status": 2
-}, {
-  "name": "lotstring-91",
-  "owner": {
-    "name": "bfrazierf",
-    "email": "cmorrisonf@ca.gov"
+    "name": "jcarter3",
+    "email": "dturner3@furl.net"
   },
   "public": false,
-  "expire_at": "2017-03-19T19:39:09Z",
-  "stack": "viva-36-52",
+  "expire_at": "2017-03-09T12:22:02Z",
+  "stack": "viva-36-13",
+  "status": 5,
   "config": {
-    "keep": "no"
-  },
-  "status": 3
+    "keep": "no",
+    "version": "0.8.8",
+    "server": "accumsan",
+    "db": "arcu",
+    "java": 6,
+    "ttl": "5h"
+  }
 }, {
-  "name": "stim-22",
+  "name": "redhold-18",
   "owner": {
-    "name": "bgilbertg",
-    "email": "rberryg@guardian.co.uk"
+    "name": "rjohnson4",
+    "email": "hwest4@technorati.com"
+  },
+  "expire_at": "2017-03-13T21:56:06Z",
+  "stack": "zathin-5-82",
+  "status": 3,
+  "config": {
+    "keep": "yes",
+    "version": "0.7.4",
+    "server": "interdum",
+    "db": "id",
+    "java": 7,
+    "ttl": "50d"
+  }
+}, {
+  "name": "vagram-81",
+  "owner": {
+    "name": "rsims5",
+    "email": "jwoods5@loc.gov"
   },
   "public": true,
-  "expire_at": "2017-03-07T20:06:51Z",
-  "stack": "zathin-5-97",
+  "expire_at": "2017-03-26T19:50:06Z",
+  "stack": "veribet-73-47",
+  "status": 2,
   "config": {
-    "keep": "no"
-  },
-  "status": -1
+    "keep": "no",
+    "version": "0.14",
+    "server": "dictumst",
+    "db": "semper",
+    "java": 5,
+    "ttl": "00d"
+  }
 }, {
-  "name": "cardguard-23",
+  "name": "opela-65",
   "owner": {
-    "name": "rbishoph",
-    "email": "bfranklinh@biblegateway.com"
+    "name": "rford6",
+    "email": "fcruz6@tiny.cc"
   },
-  "expire_at": "2017-03-17T09:23:00Z",
-  "stack": "stronghold-52-79",
+  "expire_at": "2017-03-15T10:46:15Z",
+  "stack": "viva-36-16",
+  "status": 2,
   "config": {
-    "keep": "no"
-  },
-  "status": -1
+    "keep": "no",
+    "version": "0.2.3",
+    "server": "consequat",
+    "db": "etiam",
+    "java": 4,
+    "ttl": "45d"
+  }
 }, {
-  "name": "konklux-60",
+  "name": "ventosanzap-60",
   "owner": {
-    "name": "tcooki",
-    "email": "pwagneri@java.com"
+    "name": "wmartin7",
+    "email": "sbishop7@macromedia.com"
   },
   "public": true,
-  "expire_at": "2017-02-22T06:49:05Z",
-  "stack": "gembucket-74-17",
+  "expire_at": "2017-02-22T04:36:40Z",
+  "stack": "vagram-64-56",
+  "status": 1,
   "config": {
-    "keep": "no"
-  },
-  "status": -1
+    "keep": "no",
+    "version": "0.2.6",
+    "server": "id",
+    "db": "vehicula",
+    "java": 7,
+    "ttl": "65h"
+  }
 }, {
-  "name": "bytecard-22",
+  "name": "it-90",
   "owner": {
-    "name": "gmedinaj",
-    "email": "ehartj@kickstarter.com"
+    "name": "avasquez8",
+    "email": "ihall8@sphinn.com"
   },
-  "expire_at": "2017-03-24T04:32:57Z",
-  "stack": "viva-36-1",
+  "public": true,
+  "expire_at": "2017-03-16T12:51:55Z",
+  "stack": "daltfresh-44-89",
+  "status": 3,
   "config": {
-    "keep": "no"
+    "keep": "no",
+    "version": "9.7",
+    "server": "cursus",
+    "db": "tempus",
+    "java": 4,
+    "ttl": "8d"
+  }
+}, {
+  "name": "wrapsafe-71",
+  "owner": {
+    "name": "pmartinez9",
+    "email": "bkennedy9@guardian.co.uk"
   },
-  "status": 1
+  "public": true,
+  "expire_at": "2017-03-02T05:52:26Z",
+  "stack": "asoka-13-42",
+  "status": 2,
+  "config": {
+    "keep": "no",
+    "version": "8.02",
+    "server": "quam",
+    "db": "quis",
+    "java": 4,
+    "ttl": "74h"
+  }
 }];
 
     return { stacks, environments };
