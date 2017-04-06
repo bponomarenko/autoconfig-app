@@ -319,5 +319,14 @@
       { "value": "yes" },
       { "value": "no" }
     ]
+  },
+  {
+    "name": "capabilities",
+    "label": "Capabilities",
+    "description": "You need to specify all capabilities to be deployed separated by comma. The capabilities are case-sensitive.",
+    "value": "",
+    "dependencies": ["stack"],
+    "text": true,
+    "condition": "{stack} === 'dbs-microservices'"
   }
 ]
