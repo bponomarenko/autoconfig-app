@@ -1,11 +1,12 @@
 import 'rxjs/add/operator/toPromise';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Headers, Response } from '@angular/http';
+import { RequestOptionsArgs, Headers, Response } from '@angular/http';
 import { Validator } from 'jsonschema';
-import { Environment, User } from '../types';
-import { environment as env } from '../../environments/environment';
-import { ConfigurationService } from '.';
-import schemas from '../schemas';
+
+import { Environment, User } from 'app/types';
+import { environment as env } from 'environments/environment';
+import { ConfigurationService, HttpService } from '.';
+import schemas from 'app/schemas';
 
 const DEFAULT_ERROR_MESSAGE = 'Unexpected server error. Please report an issue to https://github.com/bponomarenko/autoconfig-app/issues.'
 
@@ -50,7 +51,7 @@ export class EnvironmentsService {
   onLoadError: EventEmitter<Error>;
   onValidationError: EventEmitter<string[]>;
 
-  constructor(private http: Http, private confService: ConfigurationService) {
+  constructor(private http: HttpService, private confService: ConfigurationService) {
     this.onChange = new EventEmitter<Environment[]>();
     this.onLoading = new EventEmitter<null>();
     this.onLoadError = new EventEmitter<Error>();
@@ -80,6 +81,13 @@ export class EnvironmentsService {
 
     return this.http.get(`${this.baseUrl}stacks/`)
       .toPromise()
+      .then(response => {
+        console.log(response);
+        return response;
+      }, error => {
+        console.log(123);
+        return Promise.reject(error);
+      })
       .then(this.transformResponse)
       .then(stacks => {
         this._stacks = stacks.sort();
@@ -155,7 +163,7 @@ export class EnvironmentsService {
     const options = this.getRequestOptionsWithCredentials(params.user);
     options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.put(`${this.baseUrl}environments/${params.environmentName}`, this.encodeBody({ ttl: params.ttl }), options)
+    return this.http.put(`${this.baseUrl}environments/${params.environmentName}`, { ttl: params.ttl }, options)
       .toPromise()
       .then(this.transformResponse)
       .catch(error => {
@@ -172,7 +180,7 @@ export class EnvironmentsService {
     const options = this.getRequestOptionsWithCredentials(params.user);
     options.headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post(`${this.baseUrl}stacks/${params.stack}`, this.encodeBody(params.data), options)
+    return this.http.post(`${this.baseUrl}stacks/${params.stack}`, params.data, options)
       .toPromise()
       .then(this.transformResponse)
       .then(response => {
@@ -234,15 +242,6 @@ export class EnvironmentsService {
       }),
       withCredentials: true
     };
-  }
-
-  private encodeBody(data: any) {
-    return Object.keys(data)
-      .reduce((res, key) => {
-        res.push(`${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`);
-        return res;
-      }, [])
-      .join('&');
   }
 
   private transformResponse(response: any) {

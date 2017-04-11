@@ -8,7 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { EnvironmentsModule } from './environments/environments.module';
 import { AppComponent } from './app.component';
 import { ConfigurationService, EnvironmentsService, NotificationsService, SessionService,
-  InMemoryEnvironmentsService } from './services';
+  InMemoryEnvironmentsService, HttpService } from './services';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { RoutingModule } from './app.routing';
 import { environment as env} from '../environments/environment';
@@ -23,7 +23,13 @@ const CONFIGURATION = {
     AlertModule.forRoot(),
     RoutingModule
   ],
-  providers: [ConfigurationService, EnvironmentsService, NotificationsService, SessionService],
+  providers: [
+    HttpService,
+    ConfigurationService, 
+    EnvironmentsService, 
+    NotificationsService, 
+    SessionService, 
+  ],
   bootstrap: [AppComponent]
 };
 
