@@ -17,8 +17,9 @@
     "proxy": "node proxy",
     "build:web": "rm -rf dist/web && ng build -prod -e prod --aot false -op dist/web",
     "build:web4app": "rm -rf dist/web4app && ng build -prod -e prod --aot false -bh . -op dist/web4app",
-    "build:app": "rm -rf dist/app && build -m --x64",
-    "build:all": "npm run build:web4app && npm run build:app"
+    "build:mac": "rm -rf dist/app && build -m",
+    "build:win": "rm -rf dist/app && build -w",
+    "build:all": "npm run build:web4app && npm run build:win"
   },
   "private": true,
   "dependencies": {
