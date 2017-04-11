@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ModalModule, DropdownModule } from 'ng2-bootstrap';
+import { ModalModule, BsDropdownModule } from 'ng2-bootstrap';
 
 import { IconDirective } from './icon/icon.directive';
 import { UserFormComponent } from './user-form/user-form.component';
@@ -21,12 +21,12 @@ import { LoaderComponent } from './loader/loader.component';
     CommonModule,
     FormsModule,
     ModalModule.forRoot(),
-    DropdownModule.forRoot()
+    BsDropdownModule.forRoot()
   ],
   exports: [
     CommonModule,
     FormsModule,
-    DropdownModule,
+    BsDropdownModule,
 
     IconDirective,
     UserFormComponent,

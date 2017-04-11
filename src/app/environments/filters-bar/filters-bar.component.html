@@ -7,7 +7,7 @@
         <button class="btn btn-primary btn-sm dropdown-toggle" dropdownToggle>
           {{filter.name}}
         </button>
-        <ul class="dropdown-menu" dropdownMenu>
+        <ul class="dropdown-menu" *dropdownMenu>
           <li><a class="dropdown-item" (click)="clearFieldFilters(filter.field)">All</a></li>
           <li class="dropdown-divider" *ngIf="filter.values.length"></li>
           <li *ngFor="let filterValue of filter.values; trackBy: filterValue">

@@ -6,12 +6,12 @@
       (click)="filters.toggle()">
       <i [acIcon]="'filter list'"></i>
     </button>
-    <button class="btn btn-primary btn-sm dropdown-toggle-split"
+    <button class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split"
       title="Filter environments"
       dropdownToggle
       [ngClass]="{ 'active': filterActive }">
     </button>
-    <ul class="dropdown-menu" dropdownMenu role="menu">
+    <ul class="dropdown-menu" *dropdownMenu role="menu">
       <li *ngIf="userEmail">
         <a class="dropdown-item" (click)="addEmailFilter()">Show my environments</a>
       </li>
@@ -26,7 +26,7 @@
       title="Sort environments">
       <i [acIcon]="'sort'"></i>
     </button>
-    <ul class="dropdown-menu" dropdownMenu role="menu">
+    <ul class="dropdown-menu" *dropdownMenu role="menu">
       <li class="dropdown-header">Sort by</li>
       <li *ngFor="let conf of sortConfigs; trackBy: conf?.field">
         <a class="dropdown-item" (click)="sortEnvironments(conf.field)">
@@ -38,19 +38,19 @@
     </ul>
   </div> 
 
-  <div class="btn-group ml-2" dropdown>
+  <div class="btn-group ml-2" dropdown placement="bottom right">
     <button class="btn btn-primary btn-sm"
       title="Provision new environment"
       (click)="createDialog.show()">
       <i [acIcon]="'add'"></i>
     </button>
     <button type="button"
-      class="btn btn-primary btn-sm dropdown-toggle-split"
+      class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split"
       dropdownToggle
       *ngIf="provisionConfigNames.length">
       <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu-right" dropdownMenu role="menu" *ngIf="provisionConfigNames.length">
+    <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu role="menu">
       <li class="dropdown-header">Provision from configuration</li>
       <li *ngFor="let config of provisionConfigNames; trackBy: config">
         <a class="dropdown-item" href="#" (click)="configurationName = config; createConfiguredEnvironment()">{{config}}</a>

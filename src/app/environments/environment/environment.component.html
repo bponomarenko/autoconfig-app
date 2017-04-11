@@ -27,15 +27,15 @@
     </div>
   </div>
   <div class="col-3 col-sm-2 col-md-1">
-    <div class="btn-group float-sm-right" dropdown>
-      <button class="btn btn-outline-info btn-sm"
+    <div class="btn-group float-sm-right" dropdown placement="bottom right">
+      <button class="btn btn-outline-info btn-sm dropdown-toggle"
         title="Environment settings"
         role="button"
         dropdownToggle>
         <i [acIcon]="'settings'"></i>
       </button>
 
-      <ul class="dropdown-menu-right" dropdownMenu>
+      <ul class="dropdown-menu dropdown-menu-right" *dropdownMenu>
         <li class="dropdown-header" *ngIf="urls.length">Navigate to</li>
         <li *ngFor="let url of urls; trackBy: url?.name">
           <a [href]="url.value.replace('{environmentName}', environment.name)"
