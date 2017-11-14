@@ -313,7 +313,7 @@
   {
     "name": "proxy",
     "label": "Proxy",
-    "description": "Choose if you want nginx to be installed and you environment will be reacheable from port 80",
+    "description": "Choose if you want nginx to be installed and you environment will be reachable from port 80",
     "value": "no",
     "values": [
       { "value": "yes" },
@@ -327,6 +327,23 @@
     "value": "",
     "dependencies": ["stack"],
     "text": true,
-    "condition": "{stack} === 'dbs-microservices'"
+    "multiple": true,
+    "condition": "{stack} === 'dbs-microservices' || {stack} === 'dbs'",
+    "values": [
+      { "value": "ProductSummary" },
+      { "value": "ContactManager" },
+      { "value": "Transactions" },
+      { "value": "Entitlements" },
+      { "value": "MessageCenter" },
+      { "value": "Notifications" },
+      { "value": "Actions" },
+      { "value": "Limits" },
+      { "value": "Payments" },
+      { "value": "Audit" },
+      { "value": "AccountStatements" },
+      { "value": "PortfolioSummary" }
+
+    ]
+
   }
 ]

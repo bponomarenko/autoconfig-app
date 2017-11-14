@@ -15,7 +15,7 @@
         {{field.label}}:
       </label>
       <div class="col-sm-7">
-        <select class="form-control"
+        <select class="form-control" [multiple]="field.multiple"
           *ngIf="!field.isText"
           [name]="field.name"
           [(ngModel)]="field.value"

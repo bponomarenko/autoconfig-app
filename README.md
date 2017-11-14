@@ -33,7 +33,7 @@ Run `npm run build:web` to build the project for web. The build artifacts will b
 
 Run `npm run build:web4app` to build the project for the Electron wrapper app. The build artifacts will be stored in the `dist/web4app` directory. Usually used before `npm run build:app` command.
 
-Run `npm run build:app` to build the Electron aplication with prebuilt web application inside.
+Run `npm run build:app` to build the Electron application with prebuilt web application inside.
 
 ## Mocks
 
