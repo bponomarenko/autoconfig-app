@@ -326,7 +326,6 @@
     "description": "You need to specify all capabilities to be deployed separated by comma. The capabilities are case-sensitive.",
     "value": "",
     "dependencies": ["stack"],
-    "text": true,
     "multiple": true,
     "condition": "{stack} === 'dbs-microservices' || {stack} === 'dbs'",
     "values": [
