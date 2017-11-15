@@ -32,7 +32,7 @@
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/platform-server": "^2.4.7",
     "@angular/router": "^3.4.0",
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootstrap": "4.0.0-alpha.6",
     "core-js": "^2.4.1",
     "jsonschema": "^1.1.1",
     "material-design-icons": "^3.0.1",
