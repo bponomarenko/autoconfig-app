@@ -75,6 +75,10 @@ export class FieldConfiguration {
     return this.isText ? true: this.values.length > 1;
   }
 
+  get isMultiple(): boolean {
+    return !!this._config.multiple;
+  }
+
   private isValueAvailable(fieldsConfig: FieldsConfiguration, condition: string) {
     return condition ? eval(condition) : true;
   }
